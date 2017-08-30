@@ -52,7 +52,7 @@ public class APIMgtAdminServiceImpl implements APIMgtAdminService {
     private ApiDAO apiDAO;
     private LabelDAO labelDAO;
     private ApplicationDAO applicationDAO;
-    private APIMConfigurations apimConfiguration;
+    private APIMConfigurations gg;
     private APIGateway apiGateway;
     private WorkflowDAO workflowDAO;
 
