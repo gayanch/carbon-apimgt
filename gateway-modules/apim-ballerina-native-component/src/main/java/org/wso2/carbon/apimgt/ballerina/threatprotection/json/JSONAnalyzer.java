@@ -20,44 +20,46 @@ import java.io.IOException;
  * Created by gayan on 8/30/17.
  */
 public class JSONAnalyzer implements APIMThreatAnalyzer {
-    private static final String JSON_SCHEMA_TEMPLATE = "{\n" +
-            "    \"type\": \"object\",\n" +
-            "    \"maxProperties\": #_maxProperties,\n" +
-            "    \"patternProperties\": {\n" +
-            "        \"^.{0,#_maxKeyLength}$\": {\n" +
-            "            \"anyOf\": [\n" +
-            "                { \"$ref\": \"#/definitions/boundedNumber\" },\n" +
-            "                { \"$ref\": \"#/definitions/boundedString\" },\n" +
-            "                { \"$ref\": \"#/definitions/boundedArray\" },\n" +
-            "                { \"$ref\": \"#/definitions/boundedObject\"}]\n" +
-            "        }\n" +
-            "    },\n" +
-            "    \"definitions\": {\n" +
-            "        \"boundedString\": {\n" +
-            "            \"type\": \"string\",\n" +
-            "            \"maxLength\": #_maxStringLength,\n" +
-            "            \"minLength\": 0\n" +
-            "        },\n" +
-            "        \"boundedNumber\": {\n" +
-            "            \"type\": \"number\",\n" +
-            "        },\n" +
-            "        \"boundedArray\": {\n" +
-            "            \"type\": \"array\",\n" +
-            "            \"minItems\": 0,\n" +
-            "            \"maxItems\": #_maxArrayElements\n" +
-            "        },\n" +
-            "        \"boundedObject\": {\n" +
-            "            \"type\": \"object\"\n" +
-            "            \"maxProperties\": #_maxProperties\n" +
-            "        },\n" +
-            "        \"booleanValues\": {\n" +
-            "            \"type\": \"boolean\" \n" +
-            "        },\n" +
-            "        \"nullValues\": {\n" +
-            "            \"type\": \"null\"\n" +
-            "        }\n" +
-            "    },\n" +
-            "    \"additionalProperties\": false\n" +
+    private static final String JSON_SCHEMA_TEMPLATE = "{" +
+            "    \"type\": \"object\"," +
+            "    \"maxProperties\": #_maxProperties," +
+            "    \"patternProperties\": {" +
+            "        \"^.{0,#_maxKeyLength}$\": {" +
+            "            \"anyOf\": [" +
+            "                { \"$ref\": \"#/definitions/boundedNumber\" }," +
+            "                { \"$ref\": \"#/definitions/boundedString\" }," +
+            "                { \"$ref\": \"#/definitions/boundedArray\" }," +
+            "                { \"$ref\": \"#/definitions/boundedObject\"}," +
+            "                { \"$ref\": \"#/definitions/booleanValues\"}," +
+            "                { \"$ref\": \"#/definitions/nullValues\"}]" +
+            "        }" +
+            "    }," +
+            "    \"definitions\": {" +
+            "        \"boundedString\": {" +
+            "            \"type\": \"string\"," +
+            "            \"maxLength\": #_maxStringLength," +
+            "            \"minLength\": 0" +
+            "        }," +
+            "        \"boundedNumber\": {" +
+            "            \"type\": \"number\"" +
+            "        }," +
+            "        \"boundedArray\": {" +
+            "            \"type\": \"array\"," +
+            "            \"minItems\": 0," +
+            "            \"maxItems\": #_maxArrayElements" +
+            "        }," +
+            "        \"boundedObject\": {" +
+            "            \"type\": \"object\"," +
+            "            \"maxProperties\": #_maxProperties" +
+            "        }," +
+            "        \"booleanValues\": {" +
+            "            \"type\": \"boolean\" " +
+            "        }," +
+            "        \"nullValues\": {" +
+            "            \"type\": \"null\"" +
+            "        }" +
+            "    }," +
+            "    \"additionalProperties\": false" +
             "}";
 
     private JsonNode schemaNode;
@@ -76,11 +78,11 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
         int keyLength = jsonThreatProtectionConfigurations.getKeyLength();
 
         String schemaString = JSON_SCHEMA_TEMPLATE.replace("^#_minProperties$", String.valueOf(0))
-                .replace("#_maxProperties", String.valueOf(propertyCount))
+                .replaceAll("#_maxProperties", String.valueOf(propertyCount))
                 .replace("#_maxKeyLength", String.valueOf(keyLength))
                 .replace("#_maxStringLength", String.valueOf(stringLength))
                 .replace("#_maxArrayElements", String.valueOf(arrayElementCount));
-
+        logger.info(schemaString);
         factory = JsonSchemaFactory.byDefault();
         try {
             schemaNode = JsonLoader.fromString(schemaString);
