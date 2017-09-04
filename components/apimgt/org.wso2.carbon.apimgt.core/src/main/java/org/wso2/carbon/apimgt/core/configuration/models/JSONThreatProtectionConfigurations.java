@@ -21,6 +21,9 @@ public class JSONThreatProtectionConfigurations {
     @Element(description = "Maximum length(in chars) of json keys")
     private int keyLength = 10000;
 
+    @Element(description = "Maximum depth of a json document")
+    private int maxDepth = 10000;
+
     public int getPropertyCount() {
         return propertyCount;
     }
@@ -51,5 +54,11 @@ public class JSONThreatProtectionConfigurations {
 
     public void setKeyLength(int keyLength) {
         this.keyLength = keyLength;
+    }
+
+    public int getMaxDepth() { return maxDepth; }
+
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = maxDepth;
     }
 }

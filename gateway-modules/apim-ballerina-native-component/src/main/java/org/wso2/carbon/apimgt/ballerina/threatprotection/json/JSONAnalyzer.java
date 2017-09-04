@@ -66,6 +66,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
     private JsonSchemaFactory factory;
     private JsonSchema schema;
     private Logger logger = LoggerFactory.getLogger(JSONAnalyzer.class);
+    private int maxJsonDepth = 0;
 
     public JSONAnalyzer() {
         APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
@@ -76,6 +77,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
         int stringLength = jsonThreatProtectionConfigurations.getStringLength();
         int arrayElementCount = jsonThreatProtectionConfigurations.getArrayElementCount();
         int keyLength = jsonThreatProtectionConfigurations.getKeyLength();
+        maxJsonDepth = jsonThreatProtectionConfigurations.getMaxDepth();
 
         String schemaString = JSON_SCHEMA_TEMPLATE.replace("^#_minProperties$", String.valueOf(0))
                 .replaceAll("#_maxProperties", String.valueOf(propertyCount))
@@ -97,6 +99,13 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
     @Override
     public void analyze(String payload) throws APIMThreatAnalyzerException {
+        //check depth
+        if (!checkDepth(payload, maxJsonDepth)) {
+            logger.error("Threat Protection: Maximum depth of json document exceeded the configured limit");
+            throw new APIMThreatAnalyzerException(
+                    "Threat Protection: Maximum depth of json document exceeded the configured limit");
+        }
+
         JsonNode payloadNode = null;
         ProcessingReport report = null;
         try {
@@ -116,5 +125,26 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
             throw new APIMThreatAnalyzerException("Threat Protection: JSON validation failed");
         }
 
+    }
+
+    //check whether depth of json doc exceeds the maximum depth
+    private boolean checkDepth(String json, int maxDepth) {
+        if (maxDepth <= 0) {
+            return true;
+        }
+
+        int currentMax = 0;
+        for (char ch: json.toCharArray()) {
+            if (ch == '{') {
+                currentMax += 1;
+            } else if (ch == '}') {
+                currentMax -= 1;
+            }
+
+            if (currentMax > maxDepth) {
+                return false;
+            }
+        }
+        return true;
     }
 }
