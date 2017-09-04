@@ -1,4 +1,4 @@
-gitpackage org.wso2.carbon.apimgt.gateway.throttle;
+package org.wso2.carbon.apimgt.gateway.throttle;
 
 import ballerina.lang.messages;
 
