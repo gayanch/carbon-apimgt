@@ -1,7 +1,7 @@
 package org.wso2.carbon.apimgt.ballerina.threatprotection;
 
 /**
- * Created by gayan on 8/31/17.
+ * Exception thrown by {@link APIMThreatAnalyzer} method
  */
 public class APIMThreatAnalyzerException extends Exception {
     public APIMThreatAnalyzerException(String s) {

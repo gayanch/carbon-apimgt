@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package org.wso2.carbon.apimgt.ballerina.threatprotection.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,7 +35,7 @@ import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
 import java.io.IOException;
 
 /**
- * Created by gayan on 8/30/17.
+ * Implementation of APIMThreatAnalyzer for JSON Payloads
  */
 public class JSONAnalyzer implements APIMThreatAnalyzer {
     private static final String JSON_SCHEMA_TEMPLATE = "{" +
@@ -62,12 +80,13 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
             "    \"additionalProperties\": false" +
             "}";
 
-    private JsonNode schemaNode;
-    private JsonSchemaFactory factory;
     private JsonSchema schema;
     private Logger logger = LoggerFactory.getLogger(JSONAnalyzer.class);
     private int maxJsonDepth = 0;
 
+    /**
+     * Create a JSONAnalyzer using API-Specific configuration values
+     */
     public JSONAnalyzer() {
         APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
         JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations =
@@ -79,15 +98,15 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
         int keyLength = jsonThreatProtectionConfigurations.getKeyLength();
         maxJsonDepth = jsonThreatProtectionConfigurations.getMaxDepth();
 
-        String schemaString = JSON_SCHEMA_TEMPLATE.replace("^#_minProperties$", String.valueOf(0))
-                .replaceAll("#_maxProperties", String.valueOf(propertyCount))
+        String schemaString = JSON_SCHEMA_TEMPLATE.replaceAll("#_maxProperties", String.valueOf(propertyCount))
                 .replace("#_maxKeyLength", String.valueOf(keyLength))
                 .replace("#_maxStringLength", String.valueOf(stringLength))
                 .replace("#_maxArrayElements", String.valueOf(arrayElementCount));
         logger.info(schemaString);
-        factory = JsonSchemaFactory.byDefault();
+
+        JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
         try {
-            schemaNode = JsonLoader.fromString(schemaString);
+            JsonNode schemaNode = JsonLoader.fromString(schemaString);
             schema = factory.getJsonSchema(schemaNode);
             logger.info("Threat Protection: Schema Loaded");
         } catch (IOException e) {
@@ -95,6 +114,15 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
         } catch (ProcessingException e) {
             logger.error("Threat Protection: JSON schema processing error", e);
         }
+    }
+
+    /**
+     * Create a JSON using API-Specific configuration values
+     *
+     * @param apiId Unique id of an API
+     */
+    public JSONAnalyzer(String apiId) {
+        //to-do: load api specific configurations for Analyzers
     }
 
     @Override
@@ -127,7 +155,13 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
     }
 
-    //check whether depth of json doc exceeds the maximum depth
+    /**
+     * Checks whether depth of json payload exceeds the maximum specified depth
+     *
+     * @param json json payload
+     * @param maxDepth maximum desired depth of json payload
+     * @return true if depth is below maxDepth, false otherwise
+     */
     private boolean checkDepth(String json, int maxDepth) {
         if (maxDepth <= 0) {
             return true;
