@@ -33,11 +33,11 @@ public class AnalyzerFactory {
     public static final String T_TEXT_XML = "text/xml";
     public static final String T_APPLICATION_XML = "application/xml";
 
-    private static Map<String, APIMThreatAnalyzer> xmlAnlyzers;
+    private static Map<String, APIMThreatAnalyzer> xmlAnalyzers;
     private static Map<String, APIMThreatAnalyzer> jsonAnalyzers;
 
     static {
-        xmlAnlyzers = new HashMap<>();
+        xmlAnalyzers = new HashMap<>();
         jsonAnalyzers = new HashMap<>();
     }
 
@@ -51,7 +51,7 @@ public class AnalyzerFactory {
     public static APIMThreatAnalyzer getAnalyzer(String type, String id) {
         APIMThreatAnalyzer analyzer = null;
         if (T_TEXT_XML.equalsIgnoreCase(type) || T_APPLICATION_XML.equalsIgnoreCase(type)) {
-            analyzer = xmlAnlyzers.computeIfAbsent(id, k -> new XMLAnalyzer());
+            analyzer = xmlAnalyzers.computeIfAbsent(id, k -> new XMLAnalyzer());
         } else if (T_APPLICATION_JSON.equalsIgnoreCase(type) || T_TEXT_JSON.equalsIgnoreCase(type)) {
             analyzer = jsonAnalyzers.computeIfAbsent(id, k -> new JSONAnalyzer());
         }

@@ -38,7 +38,7 @@ import java.io.StringReader;
  */
 public class XMLAnalyzer implements APIMThreatAnalyzer {
     private XMLInputFactory factory;
-    private XMLEventReader reader;
+    //private XMLEventReader reader;
     private Logger logger = LoggerFactory.getLogger(XMLAnalyzer.class);
 
     /**
@@ -83,7 +83,7 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
     @Override
     public void analyze(String payload) throws APIMThreatAnalyzerException {
         try {
-            reader = factory.createXMLEventReader(new StringReader(payload));
+            XMLEventReader reader = factory.createXMLEventReader(new StringReader(payload));
             while (reader.hasNext()) {
                 reader.nextEvent();
             }
