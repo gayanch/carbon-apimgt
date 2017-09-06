@@ -40,7 +40,7 @@ public class AnalyzerTest {
 
     @Test
     public void testXmlAnalyzer() {
-        String payloadType = "xml";
+        String payloadType = "application/xml";
         String payload = "<a></a>";
 
         BValue[] args = {new BString(payloadType), new BString(payload)};
@@ -52,7 +52,7 @@ public class AnalyzerTest {
 
     @Test
     public void testJsonAnalyzer() {
-        String payloadType = "json";
+        String payloadType = "application/json";
         String payload = "{\"a\": 1}";
 
         BValue[] args = {new BString(payloadType), new BString(payload)};
