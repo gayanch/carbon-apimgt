@@ -61,6 +61,10 @@ public class APIMConfigurations {
     @Element(description = "Broker Configurations")
     private BrokerConfigurations brokerConfigurations = new BrokerConfigurations();
 
+    @Element(description = "Notificaton Configurations")
+    private NotificationConfigurations notificationConfigurations = new NotificationConfigurations();
+
+
     @Element(description = "JWT Configurations")
     private JWTConfigurations jwtConfigurations = new JWTConfigurations();
 
@@ -148,6 +152,14 @@ public class APIMConfigurations {
         this.gatewayPackageNamePath = gatewayPackageNamePath;
     }
 
+    public NotificationConfigurations getNotificationConfigurations() {
+        return notificationConfigurations;
+    }
+
+    public void setNotificationConfigurations(NotificationConfigurations notificationConfigurations) {
+        this.notificationConfigurations = notificationConfigurations;
+    }
+
     public String getLabelExtractorImplClass() {
         return labelExtractorImplClass;
     }
@@ -229,6 +241,7 @@ public class APIMConfigurations {
     public void setCommentModeratorRole(String commentModeratorRole) {
         this.commentModeratorRole = commentModeratorRole;
     }
+
 
     public int getCommentMaxLength() {
         return commentMaxLength;
