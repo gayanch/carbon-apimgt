@@ -29,6 +29,7 @@ import org.ballerinalang.natives.annotations.Attribute;
 import org.ballerinalang.natives.annotations.BallerinaAnnotation;
 import org.ballerinalang.natives.annotations.BallerinaFunction;
 import org.ballerinalang.natives.annotations.ReturnType;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.XMLAnalyzerFactory;
 
 /**
  * Native Function org.wso2.carbon.apimgt.ballerina.threatprotection:analyze
@@ -61,7 +62,7 @@ public class Analyze extends AbstractNativeFunction {
         String payloadType = getStringArgument(context, 0);
         String payload = getStringArgument(context, 1);
 
-        APIMThreatAnalyzer analyzer = AnalyzerFactory.getAnalyzer(payloadType, "GLOBAL");
+        APIMThreatAnalyzer analyzer = AnalyzerHolder.getAnalyzer(payloadType);
         if (analyzer == null) {
             return getBValues(new BBoolean(false), new BString("Unknown Payload Type"));
         }
@@ -75,7 +76,8 @@ public class Analyze extends AbstractNativeFunction {
             ok = false;
             errMessage = e.getMessage();
         }
-
+        //return analyzer to the pool
+        AnalyzerHolder.returnObject(payloadType, analyzer);
         return getBValues(new BBoolean(ok), new BString(errMessage));
     }
 }
