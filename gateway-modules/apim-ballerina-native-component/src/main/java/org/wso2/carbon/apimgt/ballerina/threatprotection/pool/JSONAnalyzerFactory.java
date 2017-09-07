@@ -21,7 +21,7 @@ package org.wso2.carbon.apimgt.ballerina.threatprotection.pool;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
-import org.wso2.carbon.apimgt.ballerina.threatprotection.json.JSONAnalyzer;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.JSONAnalyzer;
 
 /**
  * JSONThreatAnalyzer Factory Class for used in {@link AnalyzerPool}
@@ -36,4 +36,6 @@ public class JSONAnalyzerFactory extends BasePooledObjectFactory<JSONAnalyzer> {
     public PooledObject<JSONAnalyzer> wrap(JSONAnalyzer jsonAnalyzer) {
         return new DefaultPooledObject<>(jsonAnalyzer);
     }
+
+
 }

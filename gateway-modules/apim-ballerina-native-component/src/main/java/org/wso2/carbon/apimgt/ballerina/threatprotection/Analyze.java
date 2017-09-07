@@ -29,7 +29,7 @@ import org.ballerinalang.natives.annotations.Attribute;
 import org.ballerinalang.natives.annotations.BallerinaAnnotation;
 import org.ballerinalang.natives.annotations.BallerinaFunction;
 import org.ballerinalang.natives.annotations.ReturnType;
-import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.XMLAnalyzerFactory;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.APIMThreatAnalyzer;
 
 /**
  * Native Function org.wso2.carbon.apimgt.ballerina.threatprotection:analyze
@@ -77,7 +77,7 @@ public class Analyze extends AbstractNativeFunction {
             errMessage = e.getMessage();
         }
         //return analyzer to the pool
-        AnalyzerHolder.returnObject(payloadType, analyzer);
+        AnalyzerHolder.returnObject(analyzer);
         return getBValues(new BBoolean(ok), new BString(errMessage));
     }
 }

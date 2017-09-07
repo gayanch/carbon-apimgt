@@ -16,13 +16,12 @@
  * under the License.
  */
 
-package org.wso2.carbon.apimgt.ballerina.threatprotection.xml;
+package org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer;
 
 import com.ctc.wstx.api.WstxInputProperties;
 import com.ctc.wstx.stax.WstxInputFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzer;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
 import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
 import org.wso2.carbon.apimgt.core.configuration.models.XMLThreatProtectionConfigurations;

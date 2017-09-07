@@ -1,4 +1,6 @@
-package org.wso2.carbon.apimgt.ballerina.threatprotection;
+package org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer;
+
+import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
 
 /**
  * Interface for json/xml analyzers
