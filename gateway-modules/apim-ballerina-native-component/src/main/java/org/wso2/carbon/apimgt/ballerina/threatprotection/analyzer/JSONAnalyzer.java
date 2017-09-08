@@ -87,6 +87,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      * Create a JSONAnalyzer using API-Specific configuration values
      */
     public JSONAnalyzer() {
+
         APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
         JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations =
                 apimConfigurations.getJsonThreatProtectionConfigurations();
@@ -132,7 +133,6 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
             throw new APIMThreatAnalyzerException(
                     "Threat Protection: Maximum depth of json document exceeded the configured limit");
         }
-
         JsonNode payloadNode = null;
         ProcessingReport report = null;
         try {
