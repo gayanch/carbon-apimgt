@@ -37,8 +37,9 @@ import java.io.StringReader;
  */
 public class XMLAnalyzer implements APIMThreatAnalyzer {
     private XMLInputFactory factory;
-    //private XMLEventReader reader;
     private Logger logger = LoggerFactory.getLogger(XMLAnalyzer.class);
+
+    //private static XMLAnalyzer instance;
 
     /**
      * Create a XMLAnalyzer using default configuration values
@@ -75,7 +76,7 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
      *
      * @param apiId Unique id of an API
      */
-    public XMLAnalyzer(String apiId) {
+    private XMLAnalyzer(String apiId) {
         //to-do: load api specific configurations for Analyzers
     }
 
@@ -90,6 +91,13 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
             logger.error("Threat Protection: XML Validation Failed", e);
             throw new APIMThreatAnalyzerException("XML Validation Failed: " + e.getMessage());
         }
-
     }
+
+//    public static XMLAnalyzer getInstance() {
+//        if (instance == null) {
+//            instance = new XMLAnalyzer();
+//        }
+//
+//        return instance;
+//    }
 }

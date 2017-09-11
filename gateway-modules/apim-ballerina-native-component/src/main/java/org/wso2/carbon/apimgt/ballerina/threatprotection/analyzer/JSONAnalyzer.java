@@ -18,12 +18,9 @@
 
 package org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonLoader;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
@@ -32,88 +29,36 @@ import org.wso2.carbon.apimgt.core.configuration.models.JSONThreatProtectionConf
 import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
 
 import java.io.IOException;
+import java.io.StringReader;
 
 /**
  * Implementation of APIMThreatAnalyzer for JSON Payloads
  */
 public class JSONAnalyzer implements APIMThreatAnalyzer {
-    private static final String JSON_SCHEMA_TEMPLATE = "{" +
-            "    \"type\": \"object\"," +
-            "    \"maxProperties\": #_maxProperties," +
-            "    \"patternProperties\": {" +
-            "        \"^.{0,#_maxKeyLength}$\": {" +
-            "            \"anyOf\": [" +
-            "                { \"$ref\": \"#/definitions/boundedNumber\" }," +
-            "                { \"$ref\": \"#/definitions/boundedString\" }," +
-            "                { \"$ref\": \"#/definitions/boundedArray\" }," +
-            "                { \"$ref\": \"#/definitions/boundedObject\"}," +
-            "                { \"$ref\": \"#/definitions/booleanValues\"}," +
-            "                { \"$ref\": \"#/definitions/nullValues\"}]" +
-            "        }" +
-            "    }," +
-            "    \"definitions\": {" +
-            "        \"boundedString\": {" +
-            "            \"type\": \"string\"," +
-            "            \"maxLength\": #_maxStringLength," +
-            "            \"minLength\": 0" +
-            "        }," +
-            "        \"boundedNumber\": {" +
-            "            \"type\": \"number\"" +
-            "        }," +
-            "        \"boundedArray\": {" +
-            "            \"type\": \"array\"," +
-            "            \"minItems\": 0," +
-            "            \"maxItems\": #_maxArrayElements" +
-            "        }," +
-            "        \"boundedObject\": {" +
-            "            \"type\": \"object\"," +
-            "            \"maxProperties\": #_maxProperties" +
-            "        }," +
-            "        \"booleanValues\": {" +
-            "            \"type\": \"boolean\" " +
-            "        }," +
-            "        \"nullValues\": {" +
-            "            \"type\": \"null\"" +
-            "        }" +
-            "    }," +
-            "    \"additionalProperties\": false" +
-            "}";
+    private static final String THREAT_PROTECTION_MSG_PREFIX = "Threat Protection-JSON: ";
 
-    private JsonSchema schema;
+    private static JSONAnalyzer instance;
     private Logger logger = LoggerFactory.getLogger(JSONAnalyzer.class);
+
+    private int maxPropertyCount = 0;
+    private int maxStringLength = 0;
+    private int maxArrayElementCount = 0;
+    private int maxKeyLength = 0;
     private int maxJsonDepth = 0;
 
     /**
      * Create a JSONAnalyzer using API-Specific configuration values
      */
     public JSONAnalyzer() {
-
         APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
         JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations =
                 apimConfigurations.getJsonThreatProtectionConfigurations();
         //configure analyzer
-        int propertyCount = jsonThreatProtectionConfigurations.getPropertyCount();
-        int stringLength = jsonThreatProtectionConfigurations.getStringLength();
-        int arrayElementCount = jsonThreatProtectionConfigurations.getArrayElementCount();
-        int keyLength = jsonThreatProtectionConfigurations.getKeyLength();
+        maxPropertyCount = jsonThreatProtectionConfigurations.getPropertyCount();
+        maxStringLength = jsonThreatProtectionConfigurations.getStringLength();
+        maxArrayElementCount = jsonThreatProtectionConfigurations.getArrayElementCount();
+        maxKeyLength = jsonThreatProtectionConfigurations.getKeyLength();
         maxJsonDepth = jsonThreatProtectionConfigurations.getMaxDepth();
-
-        String schemaString = JSON_SCHEMA_TEMPLATE.replaceAll("#_maxProperties", String.valueOf(propertyCount))
-                .replace("#_maxKeyLength", String.valueOf(keyLength))
-                .replace("#_maxStringLength", String.valueOf(stringLength))
-                .replace("#_maxArrayElements", String.valueOf(arrayElementCount));
-        logger.info(schemaString);
-
-        JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-        try {
-            JsonNode schemaNode = JsonLoader.fromString(schemaString);
-            schema = factory.getJsonSchema(schemaNode);
-            logger.info("Threat Protection: Schema Loaded");
-        } catch (IOException e) {
-            logger.error("Threat Protection: JSON Schema loading failed", e);
-        } catch (ProcessingException e) {
-            logger.error("Threat Protection: JSON schema processing error", e);
-        }
     }
 
     /**
@@ -121,37 +66,77 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      *
      * @param apiId Unique id of an API
      */
-    public JSONAnalyzer(String apiId) {
+    private JSONAnalyzer(String apiId) {
         //to-do: load api specific configurations for Analyzers
     }
 
     @Override
     public void analyze(String payload) throws APIMThreatAnalyzerException {
-        //check depth
-        if (!checkDepth(payload, maxJsonDepth)) {
-            logger.error("Threat Protection: Maximum depth of json document exceeded the configured limit");
-            throw new APIMThreatAnalyzerException(
-                    "Threat Protection: Maximum depth of json document exceeded the configured limit");
-        }
-        JsonNode payloadNode = null;
-        ProcessingReport report = null;
+        JsonFactory factory = new JsonFactory();
         try {
-            payloadNode = JsonLoader.fromString(payload);
-            report = schema.validate(payloadNode);
+            JsonParser parser = factory.createParser(new StringReader(payload));
+
+            int currentDepth = 0;
+            int currentFieldCount = 0;
+
+            JsonToken token;
+            while ( (token = parser.nextToken()) != null) {
+                switch (token) {
+                    case START_OBJECT:
+                        currentDepth += 1;
+
+                        if (currentDepth > maxJsonDepth) {
+                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Depth Limit Reached");
+                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + "Depth Limit Reached");
+                        }
+                        break;
+
+                    case END_OBJECT:
+                        currentDepth -= 1;
+                        break;
+
+                    case FIELD_NAME:
+                        currentFieldCount += 1;
+                        if (currentFieldCount > maxPropertyCount) {
+                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max Property Count Reached");
+                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
+                                    + "Max Property Count Reached");
+                        }
+
+                        String name = parser.getCurrentName();
+                        if (name.length() > maxKeyLength) {
+                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max Key Length Reached");
+                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
+                                    + "Max Key Length Reached");
+                        }
+                        break;
+
+                    case VALUE_STRING:
+                        String value = parser.getText();
+                        if (value.length() > maxStringLength) {
+                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max String Length Reached");
+                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
+                                    + "Max String Length Reached");
+                        }
+                        break;
+
+                    case START_ARRAY:
+                        int arrayElementCount = 0;
+                        while ( parser.nextToken() != JsonToken.END_ARRAY) {
+                            arrayElementCount += 1;
+
+                            if (arrayElementCount > maxArrayElementCount) {
+                                logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max Array Length Reached");
+                                throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
+                                        + "Max Array Length Reached");
+                            }
+                        }
+                }
+            }
         } catch (IOException e) {
-           logger.error("Threat Protection: Payload json loading failed", e);
-           throw new APIMThreatAnalyzerException("Threat Protection: Payload json loading failed: " + e.getMessage());
-        } catch (ProcessingException e) {
-            logger.error("Threat Protection: Payload json processing failed", e);
-            throw new APIMThreatAnalyzerException("Threat Protection: Payload json processing failed: "
-                    + e.getMessage());
+            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
+            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + e);
         }
-
-        if (!report.isSuccess()) {
-            logger.warn("Threat Protection: JSON validation failed");
-            throw new APIMThreatAnalyzerException("Threat Protection: JSON validation failed");
-        }
-
     }
 
     /**
@@ -180,4 +165,12 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
         }
         return true;
     }
+
+//    public static JSONAnalyzer getInstance() {
+//        if (instance == null) {
+//            instance = new JSONAnalyzer();
+//        }
+//
+//        return instance;
+//    }
 }
