@@ -27,8 +27,10 @@ public class AnalyzerHolder {
 
     static {
         poolConfig = new GenericObjectPoolConfig();
-        poolConfig.setMaxTotal(100);
-        poolConfig.setMinIdle(20);
+        poolConfig.setMaxTotal(400);
+        poolConfig.setBlockWhenExhausted(false);
+        poolConfig.setMaxWaitMillis(0);
+
         xmlAnalyzerAnalyzerPool = new AnalyzerPool<>(new XMLAnalyzerFactory(), poolConfig);
         jsonAnalyzerAnalyzerPool = new AnalyzerPool<>(new JSONAnalyzerFactory(), poolConfig);
     }
@@ -40,6 +42,11 @@ public class AnalyzerHolder {
         if (T_TEXT_XML.equalsIgnoreCase(contentType) || T_APPLICATION_XML.equalsIgnoreCase(contentType)) {
             try {
                 analyzer = xmlAnalyzerAnalyzerPool.borrowObject();
+                System.out.println("XML: Created: " + xmlAnalyzerAnalyzerPool.getCreatedCount());
+                System.out.println("XML Borrowed: " + xmlAnalyzerAnalyzerPool.getBorrowedCount());
+                System.out.println("XML Returned: " + xmlAnalyzerAnalyzerPool.getReturnedCount());
+                System.out.println("XML Destroyed: " + xmlAnalyzerAnalyzerPool.getDestroyedCount());
+                System.out.println("XML Mean wait: " + xmlAnalyzerAnalyzerPool.getMeanBorrowWaitTimeMillis());
             } catch (Exception e) {
                 logger.error("Threat Protection: Failed to create XMLAnalyzer, " + e.getMessage());
             }

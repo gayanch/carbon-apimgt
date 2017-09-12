@@ -23,13 +23,13 @@ import com.ctc.wstx.stax.WstxInputFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
-import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.XMLThreatProtectionConfigurations;
-import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 
 /**
@@ -39,27 +39,40 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
     private XMLInputFactory factory;
     private Logger logger = LoggerFactory.getLogger(XMLAnalyzer.class);
 
-    //private static XMLAnalyzer instance;
-
     /**
      * Create a XMLAnalyzer using default configuration values
      */
     public XMLAnalyzer() {
+        long start, end, diff;
+        start = System.currentTimeMillis();
         factory = WstxInputFactory.newInstance();
 
+        end = System.currentTimeMillis();
+        diff =end - start;
+        System.out.println("===XML:Factory creation: " + diff);
         //configure
-        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-        XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations =
-                apimConfigurations.getXmlThreatProtectionConfigurations();
+//        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
+//        XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations =
+//                apimConfigurations.getXmlThreatProtectionConfigurations();
+//
+//        boolean dtdEnabled = xmlThreatProtectionConfigurations.isDtdEnabled();
+//        boolean externalEntitiesEnabled = xmlThreatProtectionConfigurations.isExternalEntitiesEnabled();
+//        int maxDepth = xmlThreatProtectionConfigurations.getMaxDepth();
+//        int maxElementCount = xmlThreatProtectionConfigurations.getElementCount();
+//        int maxAttributeCount = xmlThreatProtectionConfigurations.getAttributeCount();
+//        int maxAttributeLength = xmlThreatProtectionConfigurations.getAttributeLength();
+//        int entityExpansionLimit = xmlThreatProtectionConfigurations.getEntityExpansionLimit();
+//        int maxChildrenPerElement = xmlThreatProtectionConfigurations.getChildrenPerElement();
+        XMLConfig config = XMLConfig.getInstance();
 
-        boolean dtdEnabled = xmlThreatProtectionConfigurations.isDtdEnabled();
-        boolean externalEntitiesEnabled = xmlThreatProtectionConfigurations.isExternalEntitiesEnabled();
-        int maxDepth = xmlThreatProtectionConfigurations.getMaxDepth();
-        int maxElementCount = xmlThreatProtectionConfigurations.getElementCount();
-        int maxAttributeCount = xmlThreatProtectionConfigurations.getAttributeCount();
-        int maxAttributeLength = xmlThreatProtectionConfigurations.getAttributeLength();
-        int entityExpansionLimit = xmlThreatProtectionConfigurations.getEntityExpansionLimit();
-        int maxChildrenPerElement = xmlThreatProtectionConfigurations.getChildrenPerElement();
+        boolean dtdEnabled = config.isDtdEnabled();
+        boolean externalEntitiesEnabled = config.isExternalEntitiesEnabled();
+        int maxDepth = config.getMaxDepth();
+        int maxElementCount = config.getMaxElementCount();
+        int maxAttributeCount = config.getMaxAttributeCount();
+        int maxAttributeLength = config.getMaxAttributeLength();
+        int entityExpansionLimit = config.getEntityExpansionLimit();
+        int maxChildrenPerElement = config.getMaxChildrenPerElement();
 
         factory.setProperty(XMLInputFactory.SUPPORT_DTD, dtdEnabled);
         factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, externalEntitiesEnabled);
@@ -69,6 +82,9 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
         factory.setProperty(WstxInputProperties.P_MAX_CHILDREN_PER_ELEMENT, maxChildrenPerElement);
         factory.setProperty(WstxInputProperties.P_MAX_ENTITY_COUNT, entityExpansionLimit);
         factory.setProperty(WstxInputProperties.P_MAX_ELEMENT_COUNT, maxElementCount);
+        end = System.currentTimeMillis();
+        diff = end - start;
+        System.out.println("===XML-Analyzer init: " + diff);
     }
 
     /**
@@ -80,24 +96,34 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
         //to-do: load api specific configurations for Analyzers
     }
 
+    /**
+     *
+     * @param payload xml payload
+     * @throws APIMThreatAnalyzerException
+     */
     @Override
     public void analyze(String payload) throws APIMThreatAnalyzerException {
         try {
-            XMLEventReader reader = factory.createXMLEventReader(new StringReader(payload));
+            long start = System.currentTimeMillis();
+            Reader payloadReader = new StringReader(payload);
+            XMLEventReader reader = factory.createXMLEventReader(payloadReader);
             while (reader.hasNext()) {
                 reader.nextEvent();
             }
+            reader.close();
+            payloadReader.close();
+            long end = System.currentTimeMillis();
+            long diff = end - start;
+            System.out.println("===XML-Parse time: " + diff);
         } catch (XMLStreamException e) {
             logger.error("Threat Protection: XML Validation Failed", e);
+            System.out.println(e.getMessage() + e);
             throw new APIMThreatAnalyzerException("XML Validation Failed: " + e.getMessage());
+
+        } catch (IOException e) {
+            logger.error("Threat Protection: XML Stream Reader error", e);
+            System.out.println(e.getMessage() + e);
+            throw new APIMThreatAnalyzerException("XML Stream Reader error: " + e.getMessage());
         }
     }
-
-//    public static XMLAnalyzer getInstance() {
-//        if (instance == null) {
-//            instance = new XMLAnalyzer();
-//        }
-//
-//        return instance;
-//    }
 }

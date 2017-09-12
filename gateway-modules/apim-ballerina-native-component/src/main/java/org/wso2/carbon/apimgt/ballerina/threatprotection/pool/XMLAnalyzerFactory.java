@@ -22,16 +22,14 @@ import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.XMLAnalyzer;
+import sun.misc.GC;
 
 /**
  * XMLThreatAnalyzer factory class for used in {@link AnalyzerPool}
  */
 public class XMLAnalyzerFactory extends BasePooledObjectFactory<XMLAnalyzer> {
-    private static int objcount = 0;
     @Override
     public XMLAnalyzer create() throws Exception {
-        objcount += 1;
-        System.out.println("===XMLAnalyzerFactory-Object Count: " + objcount);
         return new XMLAnalyzer();
     }
 

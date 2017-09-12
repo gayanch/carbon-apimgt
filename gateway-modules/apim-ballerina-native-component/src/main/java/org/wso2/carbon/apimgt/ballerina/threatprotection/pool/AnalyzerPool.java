@@ -23,7 +23,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 /**
- * Pool Class for APIMThreatAnalyzer
+ * Pool Class for APIMThreatAnalyzer instances
  */
 public class AnalyzerPool<T> extends GenericObjectPool<T> {
     public AnalyzerPool(PooledObjectFactory<T> factory) {

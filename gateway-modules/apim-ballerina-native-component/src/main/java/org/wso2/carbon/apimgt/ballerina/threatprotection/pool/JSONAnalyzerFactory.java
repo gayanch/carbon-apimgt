@@ -29,13 +29,8 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.JSONAnalyzer;
  * JSONThreatAnalyzer Factory Class for used in {@link AnalyzerPool}
  */
 public class JSONAnalyzerFactory extends BasePooledObjectFactory<JSONAnalyzer> {
-    private static int objcount = 0;
-    //private Logger logger = LoggerFactory.getLogger(JSONAnalyzerFactory.class);
-
     @Override
     public JSONAnalyzer create() throws Exception {
-        objcount += 1;
-        System.out.println("===JSONAnalyzerFactory-Object Count:" + objcount);
         return new JSONAnalyzer();
     }
 
