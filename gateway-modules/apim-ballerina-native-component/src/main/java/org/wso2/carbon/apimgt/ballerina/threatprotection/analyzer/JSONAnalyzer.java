@@ -50,27 +50,13 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      * Create a JSONAnalyzer using API-Specific configuration values
      */
     public JSONAnalyzer() {
-        long start, end, diff;
-        start = System.currentTimeMillis();
-//        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-//        JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations =
-//                apimConfigurations.getJsonThreatProtectionConfigurations();
         //configure analyzer
-//        maxPropertyCount = jsonThreatProtectionConfigurations.getPropertyCount();
-//        maxStringLength = jsonThreatProtectionConfigurations.getStringLength();
-//        maxArrayElementCount = jsonThreatProtectionConfigurations.getArrayElementCount();
-//        maxKeyLength = jsonThreatProtectionConfigurations.getKeyLength();
-//        maxJsonDepth = jsonThreatProtectionConfigurations.getMaxDepth();
-
         JSONConfig config = JSONConfig.getInstance();
         maxPropertyCount = config.getMaxPropertyCount();
         maxStringLength = config.getMaxStringLength();
         maxArrayElementCount = config.getMaxArrayElementCount();
         maxKeyLength = config.getMaxKeyLength();
         maxJsonDepth = config.getMaxJsonDepth();
-        end = System.currentTimeMillis();
-        diff = end -start;
-        System.out.println("===JSON-Analyzer init: " + diff);
     }
 
     /**
@@ -89,14 +75,8 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      */
     @Override
     public void analyze(String payload) throws APIMThreatAnalyzerException {
-        long start,end, diff;
-        start = System.currentTimeMillis();
         JsonFactory factory = new JsonFactory();
-        end = System.currentTimeMillis();
-        diff = end - start;
-        System.out.println("===JSON-Factory creation: " + diff);
         try {
-            //start = System.currentTimeMillis();
             JsonParser parser = factory.createParser(new StringReader(payload));
 
             int currentDepth = 0;
@@ -162,9 +142,6 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                 }
             }
             parser.close();
-            end = System.currentTimeMillis();
-            diff = end - start;
-            System.out.println("===JSON-Parse time: " + diff);
         } catch (IOException e) {
             logger.error(THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
             throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + e);

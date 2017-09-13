@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package org.wso2.carbon.apimgt.ballerina.threatprotection;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -28,6 +46,7 @@ public class AnalyzerHolder {
     static {
         poolConfig = new GenericObjectPoolConfig();
         poolConfig.setMaxTotal(400);
+        
         poolConfig.setBlockWhenExhausted(false);
         poolConfig.setMaxWaitMillis(0);
 
@@ -37,16 +56,16 @@ public class AnalyzerHolder {
 
     private AnalyzerHolder() {}
 
+    /**
+     * Borrows an object from pools (xml or json) for threat analysis
+     * @param contentType Content-Type of the payload
+     * @return Instance of APIMThreatAnalyzer based on content type
+     */
     public static APIMThreatAnalyzer getAnalyzer(String contentType) {
         APIMThreatAnalyzer analyzer = null;
         if (T_TEXT_XML.equalsIgnoreCase(contentType) || T_APPLICATION_XML.equalsIgnoreCase(contentType)) {
             try {
                 analyzer = xmlAnalyzerAnalyzerPool.borrowObject();
-                System.out.println("XML: Created: " + xmlAnalyzerAnalyzerPool.getCreatedCount());
-                System.out.println("XML Borrowed: " + xmlAnalyzerAnalyzerPool.getBorrowedCount());
-                System.out.println("XML Returned: " + xmlAnalyzerAnalyzerPool.getReturnedCount());
-                System.out.println("XML Destroyed: " + xmlAnalyzerAnalyzerPool.getDestroyedCount());
-                System.out.println("XML Mean wait: " + xmlAnalyzerAnalyzerPool.getMeanBorrowWaitTimeMillis());
             } catch (Exception e) {
                 logger.error("Threat Protection: Failed to create XMLAnalyzer, " + e.getMessage());
             }
@@ -57,20 +76,13 @@ public class AnalyzerHolder {
                 logger.error("Threat Protection: Failed to create JSONAnalyzer, " + e.getMessage());
             }
         }
-//        switch (contentType) {
-//            case T_APPLICATION_JSON:
-//            case T_TEXT_JSON:
-//                analyzer = new JSONAnalyzer();
-//                break;
-//
-//            case T_APPLICATION_XML:
-//            case T_TEXT_XML:
-//                analyzer = new XMLAnalyzer();
-//                break;
-//        }
         return analyzer;
     }
 
+    /**
+     * Returns objects back to the pool
+     * @param analyzer borrowed instance of {@link APIMThreatAnalyzer} via {@link AnalyzerHolder#getAnalyzer(String)}
+     */
     public static void returnObject(APIMThreatAnalyzer analyzer) {
         if (analyzer instanceof JSONAnalyzer) {
             jsonAnalyzerAnalyzerPool.returnObject((JSONAnalyzer) analyzer);

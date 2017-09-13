@@ -43,26 +43,8 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
      * Create a XMLAnalyzer using default configuration values
      */
     public XMLAnalyzer() {
-        long start, end, diff;
-        start = System.currentTimeMillis();
         factory = WstxInputFactory.newInstance();
-
-        end = System.currentTimeMillis();
-        diff =end - start;
-        System.out.println("===XML:Factory creation: " + diff);
         //configure
-//        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-//        XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations =
-//                apimConfigurations.getXmlThreatProtectionConfigurations();
-//
-//        boolean dtdEnabled = xmlThreatProtectionConfigurations.isDtdEnabled();
-//        boolean externalEntitiesEnabled = xmlThreatProtectionConfigurations.isExternalEntitiesEnabled();
-//        int maxDepth = xmlThreatProtectionConfigurations.getMaxDepth();
-//        int maxElementCount = xmlThreatProtectionConfigurations.getElementCount();
-//        int maxAttributeCount = xmlThreatProtectionConfigurations.getAttributeCount();
-//        int maxAttributeLength = xmlThreatProtectionConfigurations.getAttributeLength();
-//        int entityExpansionLimit = xmlThreatProtectionConfigurations.getEntityExpansionLimit();
-//        int maxChildrenPerElement = xmlThreatProtectionConfigurations.getChildrenPerElement();
         XMLConfig config = XMLConfig.getInstance();
 
         boolean dtdEnabled = config.isDtdEnabled();
@@ -82,9 +64,6 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
         factory.setProperty(WstxInputProperties.P_MAX_CHILDREN_PER_ELEMENT, maxChildrenPerElement);
         factory.setProperty(WstxInputProperties.P_MAX_ENTITY_COUNT, entityExpansionLimit);
         factory.setProperty(WstxInputProperties.P_MAX_ELEMENT_COUNT, maxElementCount);
-        end = System.currentTimeMillis();
-        diff = end - start;
-        System.out.println("===XML-Analyzer init: " + diff);
     }
 
     /**
@@ -104,7 +83,7 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
     @Override
     public void analyze(String payload) throws APIMThreatAnalyzerException {
         try {
-            long start = System.currentTimeMillis();
+
             Reader payloadReader = new StringReader(payload);
             XMLEventReader reader = factory.createXMLEventReader(payloadReader);
             while (reader.hasNext()) {
@@ -112,9 +91,6 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
             }
             reader.close();
             payloadReader.close();
-            long end = System.currentTimeMillis();
-            long diff = end - start;
-            System.out.println("===XML-Parse time: " + diff);
         } catch (XMLStreamException e) {
             logger.error("Threat Protection: XML Validation Failed", e);
             System.out.println(e.getMessage() + e);
