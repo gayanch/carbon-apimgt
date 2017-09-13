@@ -25,12 +25,13 @@ import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+
 
 /**
  * Implementation of APIMThreatAnalyzer for XML Payloads
@@ -93,12 +94,10 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
             payloadReader.close();
         } catch (XMLStreamException e) {
             logger.error("Threat Protection: XML Validation Failed", e);
-            System.out.println(e.getMessage() + e);
             throw new APIMThreatAnalyzerException("XML Validation Failed: " + e.getMessage());
 
         } catch (IOException e) {
             logger.error("Threat Protection: XML Stream Reader error", e);
-            System.out.println(e.getMessage() + e);
             throw new APIMThreatAnalyzerException("XML Stream Reader error: " + e.getMessage());
         }
     }

@@ -23,7 +23,9 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 /**
- * Pool Class for APIMThreatAnalyzer instances
+ * Pool class for threat analyzer objects
+ *
+ * @param <T> Type of the pooled object
  */
 public class AnalyzerPool<T> extends GenericObjectPool<T> {
     public AnalyzerPool(PooledObjectFactory<T> factory) {

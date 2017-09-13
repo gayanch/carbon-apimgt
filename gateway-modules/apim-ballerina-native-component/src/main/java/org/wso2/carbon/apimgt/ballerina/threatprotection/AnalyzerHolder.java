@@ -23,10 +23,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.APIMThreatAnalyzer;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.JSONAnalyzer;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.XMLAnalyzer;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.AnalyzerPool;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.JSONAnalyzerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.XMLAnalyzerFactory;
-import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.XMLAnalyzer;
 
 /**
  * Holds the object pools for XML and JSON Analyzers

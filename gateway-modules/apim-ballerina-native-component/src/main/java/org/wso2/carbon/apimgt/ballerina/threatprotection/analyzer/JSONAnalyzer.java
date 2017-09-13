@@ -25,9 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.JSONConfig;
-import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.JSONThreatProtectionConfigurations;
-import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -83,7 +80,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
             int currentFieldCount = 0;
 
             JsonToken token;
-            while ( (token = parser.nextToken()) != null) {
+            while ((token = parser.nextToken()) != null) {
                 switch (token) {
                     case START_OBJECT:
                         currentDepth += 1;
@@ -129,7 +126,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
                     case START_ARRAY:
                         int arrayElementCount = 0;
-                        while ( parser.nextToken() != JsonToken.END_ARRAY) {
+                        while (parser.nextToken() != JsonToken.END_ARRAY) {
                             arrayElementCount += 1;
 
                             if (arrayElementCount > maxArrayElementCount) {
