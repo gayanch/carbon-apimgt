@@ -123,7 +123,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <!--threat protection-->
                     <execution>
                         <id>threatprotection</id>
                         <phase>package</phase>
