@@ -18,11 +18,40 @@
 
 package org.wso2.carbon.apimgt.ballerina.threatprotection;
 
+import org.wso2.carbon.apimgt.core.exception.APIManagementException;
+import org.wso2.carbon.apimgt.core.exception.ErrorHandler;
+
 /**
  * Exception thrown by APIMThreatAnalyzer method
  */
-public class APIMThreatAnalyzerException extends Exception {
+
+public class APIMThreatAnalyzerException extends APIManagementException {
+    @Override
+    public ErrorHandler getErrorHandler() {
+        return super.getErrorHandler();
+    }
+
+    public APIMThreatAnalyzerException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public APIMThreatAnalyzerException(Throwable cause) {
+        super(cause);
+    }
+
+    protected APIMThreatAnalyzerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
     public APIMThreatAnalyzerException(String s) {
         super(s);
+    }
+
+    public APIMThreatAnalyzerException(String message, ErrorHandler code) {
+        super(message, code);
+    }
+
+    public APIMThreatAnalyzerException(String message, Throwable cause, ErrorHandler code) {
+        super(message, cause, code);
     }
 }

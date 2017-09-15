@@ -31,7 +31,7 @@ public class JSONThreatProtectionConfigurations {
     private int propertyCount = 10000;
 
     @Element(description = "Maximum length of string values")
-    private int stringLength = 10000;
+    private int stringLength = 100;
 
     @Element(description = "Maximum element count for arrays")
     private int arrayElementCount = 10000;

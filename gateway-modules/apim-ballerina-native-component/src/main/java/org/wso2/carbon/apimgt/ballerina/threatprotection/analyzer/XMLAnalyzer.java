@@ -83,22 +83,26 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
      */
     @Override
     public void analyze(String payload) throws APIMThreatAnalyzerException {
+        Reader reader = null;
+        XMLEventReader xmlEventReaderReader = null;
         try {
-
-            Reader payloadReader = new StringReader(payload);
-            XMLEventReader reader = factory.createXMLEventReader(payloadReader);
-            while (reader.hasNext()) {
-                reader.nextEvent();
+            reader = new StringReader(payload);
+            xmlEventReaderReader = factory.createXMLEventReader(reader);
+            while (xmlEventReaderReader.hasNext()) {
+                xmlEventReaderReader.nextEvent();
             }
-            reader.close();
-            payloadReader.close();
         } catch (XMLStreamException e) {
             logger.error("Threat Protection: XML Validation Failed", e);
             throw new APIMThreatAnalyzerException("XML Validation Failed: " + e.getMessage());
-
-        } catch (IOException e) {
-            logger.error("Threat Protection: XML Stream Reader error", e);
-            throw new APIMThreatAnalyzerException("XML Stream Reader error: " + e.getMessage());
+        } finally {
+            try {
+                xmlEventReaderReader.close();
+                reader.close();
+            } catch (XMLStreamException e) {
+                logger.warn("Threat Protection: Failed to close XMLEventReader", e);
+            } catch (IOException e) {
+                logger.warn("Threat Protection: Failed to close payload StringReader", e);
+            }
         }
     }
 }
