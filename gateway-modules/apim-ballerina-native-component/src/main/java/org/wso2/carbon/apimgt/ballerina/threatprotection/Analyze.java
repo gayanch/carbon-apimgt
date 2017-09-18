@@ -69,7 +69,6 @@ public class Analyze extends AbstractNativeFunction {
 
         boolean ok = true;
         String errMessage = null;
-
         try {
             analyzer.analyze(payload);
         } catch (APIMThreatAnalyzerException e) {

@@ -19,6 +19,7 @@
 package org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import org.slf4j.Logger;
@@ -102,6 +103,9 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                         }
 
                         String name = parser.getCurrentName();
+                        if (name == null) {
+                            continue;
+                        }
                         if (name.length() > maxKeyLength) {
                             logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max Key Length Reached");
                             throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
@@ -111,6 +115,9 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
                     case VALUE_STRING:
                         String value = parser.getText();
+                        if (value == null) {
+                            continue;
+                        }
                         if (value.length() > maxStringLength) {
                             logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max String Length Reached");
                             throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
@@ -131,6 +138,9 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                         }
                 }
             }
+        } catch (JsonParseException e) {
+            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Payload parsing failed", e);
+            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + e);
         } catch (IOException e) {
             logger.error(THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
             throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + e);

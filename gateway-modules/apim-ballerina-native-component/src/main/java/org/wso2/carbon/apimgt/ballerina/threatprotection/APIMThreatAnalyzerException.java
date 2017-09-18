@@ -25,10 +25,9 @@ import org.wso2.carbon.apimgt.core.exception.ErrorHandler;
  * Exception thrown by APIMThreatAnalyzer method
  */
 
-public class APIMThreatAnalyzerException extends APIManagementException {
-    @Override
-    public ErrorHandler getErrorHandler() {
-        return super.getErrorHandler();
+public class APIMThreatAnalyzerException extends Exception {
+    public APIMThreatAnalyzerException(String s) {
+        super(s);
     }
 
     public APIMThreatAnalyzerException(String message, Throwable cause) {
@@ -37,21 +36,5 @@ public class APIMThreatAnalyzerException extends APIManagementException {
 
     public APIMThreatAnalyzerException(Throwable cause) {
         super(cause);
-    }
-
-    protected APIMThreatAnalyzerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    public APIMThreatAnalyzerException(String s) {
-        super(s);
-    }
-
-    public APIMThreatAnalyzerException(String message, ErrorHandler code) {
-        super(message, code);
-    }
-
-    public APIMThreatAnalyzerException(String message, Throwable cause, ErrorHandler code) {
-        super(message, cause, code);
     }
 }
