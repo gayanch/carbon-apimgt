@@ -16,13 +16,7 @@
 
 package org.wso2.carbon.apimgt.core.models;
 
-import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.AnalyticsConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.CredentialConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.DataPublisherConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.JWTConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.KeyMgtConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.ThrottlingConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.*;
 
 /**
  * This class holds the Gateway Registration Summary required by gateway
@@ -33,6 +27,8 @@ public class RegistrationSummary {
     private AnalyticsInfo analyticsInfo;
     private JWTInfo jwtInfo;
     private ThrottlingInfo throttlingInfo;
+    private JSONThreatProtectionInfo jsonThreatProtectionInfo;
+    private XMLThreatProtectionInfo xmlThreatProtectionInfo;
 
     public AnalyticsInfo getAnalyticsInfo() {
         return analyticsInfo;
@@ -51,11 +47,19 @@ public class RegistrationSummary {
         this.analyticsInfo = new AnalyticsInfo(apimConfigurations.getAnalyticsConfigurations());
         this.jwtInfo = new JWTInfo(apimConfigurations.getJwtConfigurations());
         this.throttlingInfo = new ThrottlingInfo(apimConfigurations.getThrottlingConfigurations());
+        this.jsonThreatProtectionInfo =
+                new JSONThreatProtectionInfo(apimConfigurations.getJsonThreatProtectionConfigurations());
+        this.xmlThreatProtectionInfo =
+                new XMLThreatProtectionInfo(apimConfigurations.getXmlThreatProtectionConfigurations());
     }
 
     public KeyManagerInfo getKeyManagerInfo() {
         return keyManagerInfo;
     }
+
+    public XMLThreatProtectionInfo getXmlThreatProtectionInfo() { return xmlThreatProtectionInfo; }
+
+    public JSONThreatProtectionInfo getJsonThreatProtectionInfo() { return jsonThreatProtectionInfo; }
 
     /**
      * This class holds KeyManager information required by gateway
@@ -198,6 +202,102 @@ public class RegistrationSummary {
 
         public String getPassword() {
             return password;
+        }
+    }
+
+    /**
+     * This class holds the JSON Threat Protection info required by gateway
+     */
+    public static class JSONThreatProtectionInfo {
+        private int propertyCount;
+        private int stringLength;
+        private int arrayElementCount;
+        private int keyLength;
+        private int maxDepth;
+
+        public JSONThreatProtectionInfo(JSONThreatProtectionConfigurations configurations) {
+            this.propertyCount = configurations.getPropertyCount();
+            this.stringLength = configurations.getStringLength();
+            this.arrayElementCount = configurations.getArrayElementCount();
+            this.keyLength = configurations.getKeyLength();
+            this.maxDepth = configurations.getMaxDepth();
+        }
+
+        public int getPropertyCount() {
+            return propertyCount;
+        }
+
+        public int getStringLength() {
+            return stringLength;
+        }
+
+        public int getArrayElementCount() {
+            return arrayElementCount;
+        }
+
+        public int getKeyLength() {
+            return keyLength;
+        }
+
+        public int getMaxDepth() {
+            return maxDepth;
+        }
+    }
+
+    /**
+     * This class holds the XML Threat Protection info required by gateway
+     */
+    public static class XMLThreatProtectionInfo {
+        private boolean dtdEnabled;
+        private boolean externalEntitiesEnabled;
+        private int maxDepth;
+        private int elementCount;
+        private int attributeCount;
+        private int attributeLength;
+        private int entityExpansionLimit;
+        private int childrenPerElement;
+
+        public XMLThreatProtectionInfo(XMLThreatProtectionConfigurations configurations) {
+            this.dtdEnabled = configurations.isDtdEnabled();
+            this.externalEntitiesEnabled = configurations.isExternalEntitiesEnabled();
+            this.maxDepth = configurations.getMaxDepth();
+            this.elementCount = configurations.getElementCount();
+            this.attributeCount = configurations.getAttributeCount();
+            this.attributeLength = configurations.getAttributeLength();
+            this.entityExpansionLimit = configurations.getEntityExpansionLimit();
+            this.childrenPerElement = configurations.getChildrenPerElement();
+        }
+
+        public boolean isDtdEnabled() {
+            return dtdEnabled;
+        }
+
+        public boolean isExternalEntitiesEnabled() {
+            return externalEntitiesEnabled;
+        }
+
+        public int getMaxDepth() {
+            return maxDepth;
+        }
+
+        public int getElementCount() {
+            return elementCount;
+        }
+
+        public int getAttributeCount() {
+            return attributeCount;
+        }
+
+        public int getAttributeLength() {
+            return attributeLength;
+        }
+
+        public int getEntityExpansionLimit() {
+            return entityExpansionLimit;
+        }
+
+        public int getChildrenPerElement() {
+            return childrenPerElement;
         }
     }
 

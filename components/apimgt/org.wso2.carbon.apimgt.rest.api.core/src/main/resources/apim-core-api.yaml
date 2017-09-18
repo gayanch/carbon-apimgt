@@ -906,6 +906,8 @@ definitions:
         $ref: '#/definitions/AnalyticsInfo'
       ThrottlingInfo:
         $ref: '#/definitions/ThrottlingInfo'
+      JSONThreatProtectionInfo:
+        $ref: '#/definitions/JSONThreatProtectionInfo'
 
 #-----------------------------------------------------
 # The API List resource
@@ -1114,6 +1116,31 @@ definitions:
         example: tcp://localhost:7612
       credentials:
         $ref: '#/definitions/Credentials'
+
+#-----------------------------------------------------
+# JSON Threat Protection information
+#-----------------------------------------------------
+  JSONThreatProtectionInfo:
+    title: JSON Threat Protection information
+    properties:
+      propertyCount:
+        type: integer
+        format: int64
+      stringLength:
+        type: integer
+        format: int64
+      arrayElementCount:
+        type: integer
+        format: int64
+      keyLength:
+        type: integer
+        format: int64
+      maxDepth:
+        type: integer
+        format: int64
+      credentials:
+        $ref: '#/definitions/Credentials'
+
 #-----------------------------------------------------
 # Throttling information
 #-----------------------------------------------------
