@@ -1142,6 +1142,39 @@ definitions:
         $ref: '#/definitions/Credentials'
 
 #-----------------------------------------------------
+# XML Threat Protection information
+#-----------------------------------------------------
+  XMLThreatProtectionInfo:
+    title: XML Threat Protection information
+    properties:
+      dtdEnabled:
+        type: boolean
+        example: false
+      externalEntitiesEanbled:
+        type: boolean
+        example: false
+      maxDepth:
+        type: integer
+        format: int64
+      elementCount:
+        type: integer
+        format: int64
+      attributeCount:
+        type: integer
+        format: int64
+      attributeLength:
+        type: integer
+        format: int64
+      entityExpansionLimit:
+        type: integer
+        format: int64
+      childrenPerElement:
+        type: integer
+        format: int64
+      credentials:
+        $ref: '#/definitions/Credentials'
+
+#-----------------------------------------------------
 # Throttling information
 #-----------------------------------------------------
   ThrottlingInfo:

@@ -5,6 +5,8 @@ struct GatewayConfDTO {
     JWTInfoDTO jwtInfo;
     AnalyticsInfoDTO analyticsInfo;
     ThrottlingInfoDTO throttlingInfo;
+    JSONThreatProtectionInfoDTO jsonThreatProtectionInfo;
+    XMLThreatProtectionInfoDTO xmlThreatProtectionInfo;
 }
 
 struct KeyManagerInfoDTO {
@@ -39,4 +41,23 @@ struct ThrottlingInfoDTO {
 struct CredentialsDTO {
     string username;
     string password;
+}
+
+struct XMLThreatProtectionInfoDTO {
+    boolean dtdEnabled;
+    boolean externalEntitiesEnabled;
+    int maxDepth;
+    int elementCount;
+    int attributeCount;
+    int attributeLength;
+    int entityExpansionLimit;
+    int childrenPerElement;
+}
+
+struct JSONThreatProtectionInfoDTO {
+    int propertyCount;
+    int stringLength;
+    int arrayElementCount;
+    int keyLength;
+    int maxDepth;
 }

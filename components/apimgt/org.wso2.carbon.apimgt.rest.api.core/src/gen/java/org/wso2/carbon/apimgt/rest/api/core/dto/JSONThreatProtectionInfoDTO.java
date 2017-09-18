@@ -21,6 +21,26 @@ public class JSONThreatProtectionInfoDTO {
     @JsonProperty("maxDepth")
     private int maxDepth;
 
+    public void setPropertyCount(int propertyCount) {
+        this.propertyCount = propertyCount;
+    }
+
+    public void setStringLength(int stringLength) {
+        this.stringLength = stringLength;
+    }
+
+    public void setArrayElementCount(int arrayElementCount) {
+        this.arrayElementCount = arrayElementCount;
+    }
+
+    public void setKeyLength(int keyLength) {
+        this.keyLength = keyLength;
+    }
+
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = maxDepth;
+    }
+
     public int getPropertyCount() {
         return propertyCount;
     }

@@ -258,6 +258,28 @@ function fromJsonToGatewayConfDTO (json conf) (dto:GatewayConfDTO) {
     throttlingInfoDTO.credentials = throttlingServerCredentialsDTO;
     gatewayConf.throttlingInfo = throttlingInfoDTO;
 
+    //Extract Threat Protection Information
+    json jsonThreatProtectionInfo = conf.jsonThreatProtectionInfo;
+    dto:JSONThreatProtectionInfoDTO jsonThreatProtectionInfoDTO = {};
+    jsonThreatProtectionInfoDTO.propertyCount, err = (int)jsonThreatProtectionInfo.propertyCount;
+    jsonThreatProtectionInfoDTO.stringLength, err = (int)jsonThreatProtectionInfo.stringLength;
+    jsonThreatProtectionInfoDTO.arrayElementCount, err = (int)jsonThreatProtectionInfo.arrayElementCount;
+    jsonThreatProtectionInfoDTO.keyLength, err = (int)jsonThreatProtectionInfo.keyLength;
+    jsonThreatProtectionInfoDTO.maxDepth, err = (int)jsonThreatProtectionInfo.maxDepth;
+    gatewayConf.jsonThreatProtectionInfo = jsonThreatProtectionInfoDTO;
+
+    json xmlThreatProtectionInfo = conf.xmlThreatProtectionInfo;
+    dto:XMLThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = {};
+    xmlThreatProtectionInfoDTO.dtdEnabled, err = (boolean)xmlThreatProtectionInfo.dtdEnabled;
+    xmlThreatProtectionInfoDTO.externalEntitiesEnabled, err = (boolean)xmlThreatProtectionInfo.externalEntitiesEnabled;
+    xmlThreatProtectionInfoDTO.maxDepth, err = (int)xmlThreatProtectionInfo.maxDepth;
+    xmlThreatProtectionInfoDTO.elementCount, err = (int)xmlThreatProtectionInfo.elementCount;
+    xmlThreatProtectionInfoDTO.attributeCount, err = (int)xmlThreatProtectionInfo.attributeCount;
+    xmlThreatProtectionInfoDTO.attributeLength, err = (int)xmlThreatProtectionInfo.attributeLength;
+    xmlThreatProtectionInfoDTO.entityExpansionLimit, err = (int)xmlThreatProtectionInfo.entityExpansionLimit;
+    xmlThreatProtectionInfoDTO.childrenPerElement, err = (int)xmlThreatProtectionInfo.childrenPerElement;
+    gatewayConf.xmlThreatProtectionInfo = xmlThreatProtectionInfoDTO;
+
     return gatewayConf;
 }
 

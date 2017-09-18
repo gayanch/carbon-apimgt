@@ -27,6 +27,12 @@ public class RegistrationSummaryDTO   {
   @JsonProperty("ThrottlingInfo")
   private ThrottlingInfoDTO throttlingInfo = null;
 
+  @JsonProperty("JSONThreatProtectionInfo")
+  private JSONThreatProtectionInfoDTO jsonThreatProtectionInfo = null;
+
+  @JsonProperty("XMLThreatProtectionInfo")
+  private XMLThreatProtectionInfoDTO xmlThreatProtectionInfo = null;
+
   public RegistrationSummaryDTO keyManagerInfo(KeyManagerInfoDTO keyManagerInfo) {
     this.keyManagerInfo = keyManagerInfo;
     return this;
@@ -99,6 +105,41 @@ public class RegistrationSummaryDTO   {
     this.throttlingInfo = throttlingInfo;
   }
 
+  /**
+   * Get JSON threat protection infp
+   * @return jsonthreatprotectioninfo
+   **/
+  @ApiModelProperty(value = "")
+  public JSONThreatProtectionInfoDTO getJSONThreatProtectionInfo() {
+    return jsonThreatProtectionInfo;
+  }
+
+  public void setJSONThreatProtectionInfo(JSONThreatProtectionInfoDTO jsonThreatProtectionInfo) {
+    this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
+  }
+
+  public RegistrationSummaryDTO JSONThreatProtectionInfo(JSONThreatProtectionInfoDTO jsonThreatProtectionInfo) {
+    this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
+    return this;
+  }
+
+  /**
+   * Get JSON threat protection infp
+   * @return jsonthreatprotectioninfo
+   **/
+  @ApiModelProperty(value = "")
+  public XMLThreatProtectionInfoDTO getXMLThreatProtectionInfo() {
+    return xmlThreatProtectionInfo;
+  }
+
+  public void setXMLThreatProtectionInfo(XMLThreatProtectionInfoDTO xmlThreatProtectionInfo) {
+    this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
+  }
+
+  public RegistrationSummaryDTO XMLThreatProtectionInfo(XMLThreatProtectionInfoDTO xmlThreatProtectionInfo) {
+    this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
+    return this;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
