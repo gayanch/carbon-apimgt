@@ -84,6 +84,38 @@ public class XMLConfig {
         return maxChildrenPerElement;
     }
 
+    public void setDtdEnabled(boolean dtdEnabled) {
+        this.dtdEnabled = dtdEnabled;
+    }
+
+    public void setExternalEntitiesEnabled(boolean externalEntitiesEnabled) {
+        this.externalEntitiesEnabled = externalEntitiesEnabled;
+    }
+
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = maxDepth;
+    }
+
+    public void setMaxElementCount(int maxElementCount) {
+        this.maxElementCount = maxElementCount;
+    }
+
+    public void setMaxAttributeCount(int maxAttributeCount) {
+        this.maxAttributeCount = maxAttributeCount;
+    }
+
+    public void setMaxAttributeLength(int maxAttributeLength) {
+        this.maxAttributeLength = maxAttributeLength;
+    }
+
+    public void setEntityExpansionLimit(int entityExpansionLimit) {
+        this.entityExpansionLimit = entityExpansionLimit;
+    }
+
+    public void setMaxChildrenPerElement(int maxChildrenPerElement) {
+        this.maxChildrenPerElement = maxChildrenPerElement;
+    }
+
     public static XMLConfig getInstance() {
         return instance;
     }

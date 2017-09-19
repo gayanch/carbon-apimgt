@@ -125,6 +125,16 @@ function getThrottleConf () (dto:ThrottlingInfoDTO) {
     return gatewayConf.throttlingInfo;
 }
 
+function getJSONThreatProtectionConf() (dto:JSONThreatProtectionInfoDTO) {
+    getGatewayConf();
+    return gatewayConf.jsonThreatProtectionInfo;
+}
+
+function getXMLThreatProtectionConf() (dto:XMLThreatProtectionInfoDTO) {
+    getGatewayConf();
+    return gatewayConf.xmlThreatProtectionInfo;
+}
+
 function putIntoApplicationCache (dto:ApplicationDto applicationDto) {
     caching:putCacheEntry(constants:APPLICATION_CACHE, applicationDto.applicationId, applicationDto);
 }

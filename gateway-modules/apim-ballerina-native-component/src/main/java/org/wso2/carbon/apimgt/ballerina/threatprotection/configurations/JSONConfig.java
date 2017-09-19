@@ -66,6 +66,26 @@ public class JSONConfig {
         return maxJsonDepth;
     }
 
+    public void setMaxPropertyCount(int maxPropertyCount) {
+        this.maxPropertyCount = maxPropertyCount;
+    }
+
+    public void setMaxStringLength(int maxStringLength) {
+        this.maxStringLength = maxStringLength;
+    }
+
+    public void setMaxArrayElementCount(int maxArrayElementCount) {
+        this.maxArrayElementCount = maxArrayElementCount;
+    }
+
+    public void setMaxKeyLength(int maxKeyLength) {
+        this.maxKeyLength = maxKeyLength;
+    }
+
+    public void setMaxJsonDepth(int maxJsonDepth) {
+        this.maxJsonDepth = maxJsonDepth;
+    }
+
     public static JSONConfig getInstance() {
         return instance;
     }
