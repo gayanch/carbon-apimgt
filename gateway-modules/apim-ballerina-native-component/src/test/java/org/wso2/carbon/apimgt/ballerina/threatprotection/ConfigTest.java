@@ -30,14 +30,6 @@ import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
 public class ConfigTest {
     @Test
     public void testConfigRead() {
-        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-        XMLThreatProtectionConfigurations conf =  apimConfigurations.getXmlThreatProtectionConfigurations();
-        Assert.assertFalse(conf.isDtdEnabled());
-        Assert.assertFalse(conf.isExternalEntitiesEnabled());
-        Assert.assertEquals(1000, conf.getMaxDepth());
-        Assert.assertEquals(10000, conf.getElementCount());
-        Assert.assertEquals(1000, conf.getAttributeCount());
-        Assert.assertEquals(1000, conf.getAttributeLength());
-        Assert.assertEquals(10000, conf.getEntityExpansionLimit());
+
     }
 }

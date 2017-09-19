@@ -4,9 +4,9 @@ import org.wso2.carbon.apimgt.gateway.holders as holder;
 import org.wso2.carbon.apimgt.gateway.dto as dto;
 import org.wso2.carbon.apimgt.ballerina.threatprotection;
 
-function init() (boolean) {
-    dto:JSONThreatProtectionInfo jsonThreatProtectionConf = holder:getJSONThreatProtectionConf();
-    dto:XMLThreatProtectionInfo xmlThreatProtectionConf = holder:getXMLThreatProtectionConf();
+function initThreatProtection() (boolean) {
+    dto:JSONThreatProtectionInfoDTO jsonThreatProtectionConf = holder:getJSONThreatProtectionConf();
+    dto:XMLThreatProtectionInfoDTO xmlThreatProtectionConf = holder:getXMLThreatProtectionConf();
 
     return threatprotection:configure(jsonThreatProtectionConf, xmlThreatProtectionConf);
 }

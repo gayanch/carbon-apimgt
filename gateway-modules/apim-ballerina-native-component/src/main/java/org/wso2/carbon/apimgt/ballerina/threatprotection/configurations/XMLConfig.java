@@ -18,10 +18,6 @@
 
 package org.wso2.carbon.apimgt.ballerina.threatprotection.configurations;
 
-import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.XMLThreatProtectionConfigurations;
-import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
-
 /**
  * Configuration holding class for {@link org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.XMLAnalyzer}
  */
@@ -38,18 +34,18 @@ public class XMLConfig {
     private static XMLConfig instance = new XMLConfig();
 
     private XMLConfig() {
-        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-        XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations =
-                apimConfigurations.getXmlThreatProtectionConfigurations();
-
-        this.dtdEnabled = xmlThreatProtectionConfigurations.isDtdEnabled();
-        this.externalEntitiesEnabled = xmlThreatProtectionConfigurations.isExternalEntitiesEnabled();
-        this.maxDepth = xmlThreatProtectionConfigurations.getMaxDepth();
-        this.maxElementCount = xmlThreatProtectionConfigurations.getElementCount();
-        this.maxAttributeCount = xmlThreatProtectionConfigurations.getAttributeCount();
-        this.maxAttributeLength = xmlThreatProtectionConfigurations.getAttributeLength();
-        this.entityExpansionLimit = xmlThreatProtectionConfigurations.getEntityExpansionLimit();
-        this.maxChildrenPerElement = xmlThreatProtectionConfigurations.getChildrenPerElement();
+//        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
+//        XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations =
+//                apimConfigurations.getXmlThreatProtectionConfigurations();
+//
+//        this.dtdEnabled = xmlThreatProtectionConfigurations.isDtdEnabled();
+//        this.externalEntitiesEnabled = xmlThreatProtectionConfigurations.isExternalEntitiesEnabled();
+//        this.maxDepth = xmlThreatProtectionConfigurations.getMaxDepth();
+//        this.maxElementCount = xmlThreatProtectionConfigurations.getElementCount();
+//        this.maxAttributeCount = xmlThreatProtectionConfigurations.getAttributeCount();
+//        this.maxAttributeLength = xmlThreatProtectionConfigurations.getAttributeLength();
+//        this.entityExpansionLimit = xmlThreatProtectionConfigurations.getEntityExpansionLimit();
+//        this.maxChildrenPerElement = xmlThreatProtectionConfigurations.getChildrenPerElement();
     }
 
     public boolean isDtdEnabled() {

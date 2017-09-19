@@ -36,9 +36,6 @@ public class Configure extends AbstractNativeFunction {
         BStruct jsonInfo = ((BStruct) getRefArgument(context, 0));
         BStruct xmlInfo = ((BStruct) getRefArgument(context, 1));
 
-        System.out.println("JSON: " + jsonInfo.toString());
-        System.out.println("XML: " + xmlInfo.toString());
-
         //configure json analyzer
         int propertyCount = (int)jsonInfo.getIntField(0);
         int stringLength = (int)jsonInfo.getIntField(1);
@@ -72,7 +69,7 @@ public class Configure extends AbstractNativeFunction {
         xmlConfig.setMaxAttributeLength(attributeLength);
         xmlConfig.setEntityExpansionLimit(entityExpansionLimit);
         xmlConfig.setMaxChildrenPerElement(childrenPerElement);
-
+        System.out.println("XML OK2");
         return getBValues(new BBoolean(true));
     }
 }

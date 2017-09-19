@@ -18,10 +18,6 @@
 
 package org.wso2.carbon.apimgt.ballerina.threatprotection.configurations;
 
-import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.JSONThreatProtectionConfigurations;
-import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
-
 /**
  * Configuration holding class for {@link org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.JSONAnalyzer}
  */
@@ -35,15 +31,15 @@ public class JSONConfig {
     private static JSONConfig instance = new JSONConfig();
 
     private JSONConfig() {
-        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-        JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations =
-                apimConfigurations.getJsonThreatProtectionConfigurations();
-        //configure analyzer
-        maxPropertyCount = jsonThreatProtectionConfigurations.getPropertyCount();
-        maxStringLength = jsonThreatProtectionConfigurations.getStringLength();
-        maxArrayElementCount = jsonThreatProtectionConfigurations.getArrayElementCount();
-        maxKeyLength = jsonThreatProtectionConfigurations.getKeyLength();
-        maxJsonDepth = jsonThreatProtectionConfigurations.getMaxDepth();
+//        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
+//        JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations =
+//                apimConfigurations.getJsonThreatProtectionConfigurations();
+//        //configure analyzer
+//        maxPropertyCount = jsonThreatProtectionConfigurations.getPropertyCount();
+//        maxStringLength = jsonThreatProtectionConfigurations.getStringLength();
+//        maxArrayElementCount = jsonThreatProtectionConfigurations.getArrayElementCount();
+//        maxKeyLength = jsonThreatProtectionConfigurations.getKeyLength();
+//        maxJsonDepth = jsonThreatProtectionConfigurations.getMaxDepth();
     }
 
     public int getMaxPropertyCount() {

@@ -9,6 +9,7 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection;
 
 function requestInterceptor(message m) (boolean, message) {
     system:println("invoking threat protection interceptor");
+    initThreatProtection();
     return analyzePayload(m);
 }
 

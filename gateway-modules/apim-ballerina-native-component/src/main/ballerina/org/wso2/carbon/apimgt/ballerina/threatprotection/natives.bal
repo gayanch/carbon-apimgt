@@ -2,7 +2,7 @@
 package org.wso2.carbon.apimgt.ballerina.threatprotection;
 
 import ballerina.doc;
-import org.wso2.carbon.apimgt.gateway.dto;
+
 
 @doc:Description { value: "Analyzes payload for threats" }
 @doc:Param { value: "payloadType: payload type (json/xml)" }
@@ -11,4 +11,8 @@ import org.wso2.carbon.apimgt.gateway.dto;
 @doc:Return { value: "string: error information" }
 native function analyze(string payloadType, string payload) (boolean, string);
 
-native function configure(dto:JSONThreatProtectionInfoDTO jsonInfo, dto:XMLThreatProtectionInfoDTO xmlInfo) (boolean);
+@doc:Description { value: "Configures the analyzers" }
+@doc:Param { value: "jsonInfo: ballerina struct containing JSONAnalyzer configurations" }
+@doc:Param { value: "xmlInfo: ballerina struct containing XMLAnalyzer configurations" }
+@doc:Return { value: "boolean: true if success, false otherwise" }
+native function configure(any jsonInfo, any xmlInfo) (boolean);

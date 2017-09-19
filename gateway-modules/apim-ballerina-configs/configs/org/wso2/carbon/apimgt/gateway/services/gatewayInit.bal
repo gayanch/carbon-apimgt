@@ -14,7 +14,6 @@ service<http> gatewayInitService {
     boolean subscriptionsInitialized = gatewayUtil:retrieveSubscriptions();
     boolean applicationsInitialized = gatewayUtil:retrieveApplications();
     boolean policiesInitialized = gatewayUtil:retrievePolicies();
-
 }
 
 function initGateway () (boolean) {
@@ -27,9 +26,6 @@ function initGateway () (boolean) {
         gatewayUtil:loadGlobalEndpoints();
         gatewayUtil:loadBlockConditions();
 
-        //configure threat protection
-        //import org.wso2.carbon.apimgt.gateway.threatprotection;
-        //threatprotection:init();
     } catch (errors:Error e) {
         system:println("Error while initilazing API gateway. " + e.msg);
     }
