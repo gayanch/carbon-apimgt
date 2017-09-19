@@ -53,12 +53,12 @@ public class Configure extends AbstractNativeFunction {
         //configure xml analyzer
         boolean dtdEnabled = xmlInfo.getBooleanField(0) != 0;
         boolean externalEntitiesEnabled = xmlInfo.getBooleanField(1) != 0;
-        int maxXMLDepth = (int)xmlInfo.getIntField(2);
-        int elementCount = (int)xmlInfo.getIntField(3);
-        int attributeCount = (int)xmlInfo.getIntField(4);
-        int attributeLength = (int)xmlInfo.getIntField(5);
-        int entityExpansionLimit = (int)xmlInfo.getIntField(6);
-        int childrenPerElement = (int)xmlInfo.getIntField(7);
+        int maxXMLDepth = (int)xmlInfo.getIntField(0);
+        int elementCount = (int)xmlInfo.getIntField(1);
+        int attributeCount = (int)xmlInfo.getIntField(2);
+        int attributeLength = (int)xmlInfo.getIntField(3);
+        int entityExpansionLimit = (int)xmlInfo.getIntField(4);
+        int childrenPerElement = (int)xmlInfo.getIntField(5);
 
         XMLConfig xmlConfig = XMLConfig.getInstance();
         xmlConfig.setDtdEnabled(dtdEnabled);
@@ -69,7 +69,7 @@ public class Configure extends AbstractNativeFunction {
         xmlConfig.setMaxAttributeLength(attributeLength);
         xmlConfig.setEntityExpansionLimit(entityExpansionLimit);
         xmlConfig.setMaxChildrenPerElement(childrenPerElement);
-        System.out.println("XML OK2");
+
         return getBValues(new BBoolean(true));
     }
 }
