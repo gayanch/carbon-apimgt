@@ -30,17 +30,7 @@ public class JSONConfig {
 
     private static JSONConfig instance = new JSONConfig();
 
-    private JSONConfig() {
-//        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-//        JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations =
-//                apimConfigurations.getJsonThreatProtectionConfigurations();
-//        //configure analyzer
-//        maxPropertyCount = jsonThreatProtectionConfigurations.getPropertyCount();
-//        maxStringLength = jsonThreatProtectionConfigurations.getStringLength();
-//        maxArrayElementCount = jsonThreatProtectionConfigurations.getArrayElementCount();
-//        maxKeyLength = jsonThreatProtectionConfigurations.getKeyLength();
-//        maxJsonDepth = jsonThreatProtectionConfigurations.getMaxDepth();
-    }
+    private JSONConfig() {}
 
     public int getMaxPropertyCount() {
         return maxPropertyCount;

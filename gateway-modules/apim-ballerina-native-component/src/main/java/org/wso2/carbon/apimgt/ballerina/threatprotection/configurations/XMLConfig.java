@@ -33,20 +33,7 @@ public class XMLConfig {
 
     private static XMLConfig instance = new XMLConfig();
 
-    private XMLConfig() {
-//        APIMConfigurations apimConfigurations = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
-//        XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations =
-//                apimConfigurations.getXmlThreatProtectionConfigurations();
-//
-//        this.dtdEnabled = xmlThreatProtectionConfigurations.isDtdEnabled();
-//        this.externalEntitiesEnabled = xmlThreatProtectionConfigurations.isExternalEntitiesEnabled();
-//        this.maxDepth = xmlThreatProtectionConfigurations.getMaxDepth();
-//        this.maxElementCount = xmlThreatProtectionConfigurations.getElementCount();
-//        this.maxAttributeCount = xmlThreatProtectionConfigurations.getAttributeCount();
-//        this.maxAttributeLength = xmlThreatProtectionConfigurations.getAttributeLength();
-//        this.entityExpansionLimit = xmlThreatProtectionConfigurations.getEntityExpansionLimit();
-//        this.maxChildrenPerElement = xmlThreatProtectionConfigurations.getChildrenPerElement();
-    }
+    private XMLConfig() {}
 
     public boolean isDtdEnabled() {
         return dtdEnabled;
