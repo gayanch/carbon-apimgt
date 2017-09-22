@@ -5,12 +5,15 @@ import ballerina.lang.messages;
 import ballerina.lang.system;
 import ballerina.net.http;
 
+import org.wso2.carbon.apimgt.gateway.constants;
 import org.wso2.carbon.apimgt.ballerina.threatprotection;
 
 function requestInterceptor(message m) (boolean, message) {
     system:println("invoking threat protection interceptor");
     initThreatProtection();
-    return analyzePayload(m);
+
+    string apiContext = messages:getProperty(m,constants:BASE_PATH);
+    return analyzePayload(m, apiContext);
 }
 
 function responseInterceptor (message m) (boolean, message) {
@@ -18,25 +21,25 @@ function responseInterceptor (message m) (boolean, message) {
     return true, m;
 }
 
-function analyzePayload(message m) (boolean, message) {
+function analyzePayload(message m, string apiContext) (boolean, message) {
     string contentType;
     try {
         contentType = messages:getHeader(m, "Content-Type");
     } catch (errors:Error e) {
-        system:println("Threat Protection: No Content-Type declared");
+        system:println("Threat Protection: No Content-Type declared for " + apiContext);
         return true, m;
     }
 
     string payload = messages:getStringPayload(m);
     boolean ok;
     string errMessage;
-    ok, errMessage = threatprotection:analyze(contentType, payload);
+    ok, errMessage = threatprotection:analyze(contentType, payload, apiContext);
 
     if (ok) {
         return true, m;
     }
 
-    system:println("Threat Protection: " + errMessage);
+    system:println(errMessage);
     message response = {};
     http:setStatusCode(response, 400);
     messages:setStringPayload(response, "Malformed Payload");

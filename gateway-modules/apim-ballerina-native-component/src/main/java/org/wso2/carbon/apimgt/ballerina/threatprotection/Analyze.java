@@ -40,7 +40,8 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.APIMThreatAnal
         packageName = "org.wso2.carbon.apimgt.ballerina.threatprotection",
         functionName = "analyze",
         args = { @Argument(name = "payloadType", type = TypeEnum.STRING),
-                 @Argument(name = "payload", type = TypeEnum.STRING)},
+                 @Argument(name = "payload", type = TypeEnum.STRING),
+                 @Argument(name = "apiContext", type = TypeEnum.STRING)},
         returnType = { @ReturnType(type = TypeEnum.BOOLEAN),
                        @ReturnType(type = TypeEnum.STRING)},
         isPublic = true
@@ -51,6 +52,8 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.APIMThreatAnal
         value = "Type of the payload (xml/json)")})
 @BallerinaAnnotation(annotationName = "Param", attributes = {@Attribute(name = "payload",
         value = "Payload string")})
+@BallerinaAnnotation(annotationName = "Param", attributes = {@Attribute(name = "apiContext",
+        value = "API Context")})
 @BallerinaAnnotation(annotationName = "Return", attributes = {@Attribute(name = "boolean",
         value = "true if no threats detected, false otherwise")})
 @BallerinaAnnotation(annotationName = "Return", attributes = {@Attribute(name = "string",
@@ -61,6 +64,7 @@ public class Analyze extends AbstractNativeFunction {
 
         String payloadType = getStringArgument(context, 0);
         String payload = getStringArgument(context, 1);
+        String apiContext = getStringArgument(context, 2);
 
         APIMThreatAnalyzer analyzer = AnalyzerHolder.getAnalyzer(payloadType);
         if (analyzer == null) {
@@ -70,7 +74,7 @@ public class Analyze extends AbstractNativeFunction {
         boolean ok = true;
         String errMessage = null;
         try {
-            analyzer.analyze(payload);
+            analyzer.analyze(payload, apiContext);
         } catch (APIMThreatAnalyzerException e) {
             ok = false;
             errMessage = e.getMessage();

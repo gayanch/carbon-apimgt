@@ -34,7 +34,7 @@ import java.io.StringReader;
  * Implementation of APIMThreatAnalyzer for JSON Payloads
  */
 public class JSONAnalyzer implements APIMThreatAnalyzer {
-    private static final String THREAT_PROTECTION_MSG_PREFIX = "Threat Protection-JSON: ";
+    private static final String JSON_THREAT_PROTECTION_MSG_PREFIX = "Threat Protection-JSON: ";
 
     private Logger logger = LoggerFactory.getLogger(JSONAnalyzer.class);
 
@@ -72,7 +72,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      * @throws APIMThreatAnalyzerException
      */
     @Override
-    public void analyze(String payload) throws APIMThreatAnalyzerException {
+    public void analyze(String payload, String apiContext) throws APIMThreatAnalyzerException {
         JsonFactory factory = new JsonFactory();
         try (JsonParser parser = factory.createParser(new StringReader(payload))) {
             int currentDepth = 0;
@@ -85,8 +85,9 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                         currentDepth += 1;
 
                         if (currentDepth > maxJsonDepth) {
-                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Depth Limit Reached");
-                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + "Depth Limit Reached");
+                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Depth Limit Reached");
+                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX
+                                    + apiContext + " - Depth Limit Reached");
                         }
                         break;
 
@@ -97,9 +98,10 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                     case FIELD_NAME:
                         currentFieldCount += 1;
                         if (currentFieldCount > maxPropertyCount) {
-                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max Property Count Reached");
-                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
-                                    + "Max Property Count Reached");
+                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX +  apiContext
+                                    + " - Max Property Count Reached");
+                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX
+                                    + apiContext + " - Max Property Count Reached");
                         }
 
                         String name = parser.getCurrentName();
@@ -107,9 +109,9 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                             continue;
                         }
                         if (name.length() > maxKeyLength) {
-                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max Key Length Reached");
-                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
-                                    + "Max Key Length Reached");
+                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Max Key Length Reached");
+                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                                    + " - Max Key Length Reached");
                         }
                         break;
 
@@ -119,9 +121,10 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                             continue;
                         }
                         if (value.length() > maxStringLength) {
-                            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max String Length Reached");
-                            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
-                                    + "Max String Length Reached");
+                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                                    + " - Max String Length Reached");
+                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                                    + " - Max String Length Reached");
                         }
                         break;
 
@@ -131,19 +134,20 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
                             arrayElementCount += 1;
 
                             if (arrayElementCount > maxArrayElementCount) {
-                                logger.error(THREAT_PROTECTION_MSG_PREFIX + "Max Array Length Reached");
-                                throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX
-                                        + "Max Array Length Reached");
+                                logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                                        + " - Max Array Length Reached");
+                                throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                                        + " - Max Array Length Reached");
                             }
                         }
                 }
             }
         } catch (JsonParseException e) {
-            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Payload parsing failed", e);
-            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + e);
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload parsing failed", e);
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload parsing failed", e);
         } catch (IOException e) {
-            logger.error(THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
-            throw new APIMThreatAnalyzerException(THREAT_PROTECTION_MSG_PREFIX + e);
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
         }
     }
 }

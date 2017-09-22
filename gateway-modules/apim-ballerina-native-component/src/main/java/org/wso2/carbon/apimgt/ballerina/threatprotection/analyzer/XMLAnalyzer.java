@@ -37,6 +37,8 @@ import javax.xml.stream.XMLStreamException;
  * Implementation of APIMThreatAnalyzer for XML Payloads
  */
 public class XMLAnalyzer implements APIMThreatAnalyzer {
+    private static final String XML_THREAT_PROTECTION_MSG_PREFIX = "Threat Protection-XML: ";
+
     private XMLInputFactory factory;
     private Logger logger = LoggerFactory.getLogger(XMLAnalyzer.class);
 
@@ -82,7 +84,7 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
      * @throws APIMThreatAnalyzerException
      */
     @Override
-    public void analyze(String payload) throws APIMThreatAnalyzerException {
+    public void analyze(String payload, String apiContext) throws APIMThreatAnalyzerException {
         Reader reader = null;
         XMLEventReader xmlEventReaderReader = null;
         try {
@@ -92,16 +94,20 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
                 xmlEventReaderReader.nextEvent();
             }
         } catch (XMLStreamException e) {
-            logger.error("Threat Protection: XML Validation Failed", e);
-            throw new APIMThreatAnalyzerException("XML Validation Failed: " + e.getMessage());
+            logger.error(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - XML Validation Failed: "
+                    + e.getMessage() , e);
+            throw new APIMThreatAnalyzerException(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - XML Validation Failed: " + e.getMessage(), e);
         } finally {
             try {
                 xmlEventReaderReader.close();
                 reader.close();
             } catch (XMLStreamException e) {
-                logger.warn("Threat Protection: Failed to close XMLEventReader", e);
+                logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                        + " - Threat Protection: Failed to close XMLEventReader", e);
             } catch (IOException e) {
-                logger.warn("Threat Protection: Failed to close payload StringReader", e);
+                logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                        + " - Threat Protection: Failed to close payload StringReader", e);
             }
         }
     }
