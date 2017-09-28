@@ -16,7 +16,15 @@
 
 package org.wso2.carbon.apimgt.core.models;
 
-import org.wso2.carbon.apimgt.core.configuration.models.*;
+import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.AnalyticsConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.CredentialConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.DataPublisherConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.JSONThreatProtectionConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.JWTConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.KeyMgtConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.ThrottlingConfigurations;
+import org.wso2.carbon.apimgt.core.configuration.models.XMLThreatProtectionConfigurations;
 
 /**
  * This class holds the Gateway Registration Summary required by gateway
@@ -57,9 +65,13 @@ public class RegistrationSummary {
         return keyManagerInfo;
     }
 
-    public XMLThreatProtectionInfo getXmlThreatProtectionInfo() { return xmlThreatProtectionInfo; }
+    public XMLThreatProtectionInfo getXmlThreatProtectionInfo() {
+        return xmlThreatProtectionInfo;
+    }
 
-    public JSONThreatProtectionInfo getJsonThreatProtectionInfo() { return jsonThreatProtectionInfo; }
+    public JSONThreatProtectionInfo getJsonThreatProtectionInfo() {
+        return jsonThreatProtectionInfo;
+    }
 
     /**
      * This class holds KeyManager information required by gateway

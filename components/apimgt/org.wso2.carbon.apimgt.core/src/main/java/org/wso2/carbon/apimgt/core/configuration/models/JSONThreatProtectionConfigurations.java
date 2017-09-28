@@ -74,7 +74,9 @@ public class JSONThreatProtectionConfigurations {
         this.keyLength = keyLength;
     }
 
-    public int getMaxDepth() { return maxDepth; }
+    public int getMaxDepth() {
+        return maxDepth;
+    }
 
     public void setMaxDepth(int maxDepth) {
         this.maxDepth = maxDepth;

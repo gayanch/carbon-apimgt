@@ -18,9 +18,6 @@
 
 package org.wso2.carbon.apimgt.ballerina.threatprotection;
 
-import org.wso2.carbon.apimgt.core.exception.APIManagementException;
-import org.wso2.carbon.apimgt.core.exception.ErrorHandler;
-
 /**
  * Exception thrown by APIMThreatAnalyzer method
  */

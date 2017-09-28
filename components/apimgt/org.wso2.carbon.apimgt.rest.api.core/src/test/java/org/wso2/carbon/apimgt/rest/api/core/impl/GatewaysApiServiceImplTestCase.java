@@ -86,6 +86,14 @@ public class GatewaysApiServiceImplTestCase {
                 .mock(RegistrationSummary.ThrottlingInfo.DataPublisher.class);
         Mockito.when(registrationSummary.getThrottlingInfo().getDataPublisher()).thenReturn(dataPublisher);
 
+        //JSONThreatProtectionInfo
+        RegistrationSummary.JSONThreatProtectionInfo jsonThreatProtectionInfo = Mockito.mock(RegistrationSummary.JSONThreatProtectionInfo.class);
+        Mockito.when(registrationSummary.getJsonThreatProtectionInfo()).thenReturn(jsonThreatProtectionInfo);
+
+        //XMLThreatProtectionInfo
+        RegistrationSummary.XMLThreatProtectionInfo xmlThreatProtectionInfo = Mockito.mock(RegistrationSummary.XMLThreatProtectionInfo.class);
+        Mockito.when(registrationSummary.getXmlThreatProtectionInfo()).thenReturn(xmlThreatProtectionInfo);
+
         RegistrationSummary.Credentials throttlingServerCredentials = Mockito
                 .mock(RegistrationSummary.Credentials.class);
         Mockito.when(registrationSummary.getThrottlingInfo().getDataPublisher().getCredentials())

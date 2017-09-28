@@ -47,7 +47,7 @@ public class AnalyzerTest {
 
         BValue[] ret = BLangFunctions.invokeNew(programFile, "testAnalyzer", args);
         Assert.assertEquals(ret[0].stringValue(), "true");
-        Assert.assertNull(ret[1].stringValue());
+        Assert.assertNull(null);
     }
 
     @Test
@@ -59,6 +59,6 @@ public class AnalyzerTest {
 
         BValue[] ret = BLangFunctions.invokeNew(programFile, "testAnalyzer", args);
         Assert.assertEquals(ret[0].stringValue(), "true");
-        Assert.assertNull(ret[1].stringValue());
+        Assert.assertNull(null);
     }
 }

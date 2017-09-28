@@ -24,7 +24,11 @@ import org.ballerinalang.model.values.BBoolean;
 import org.ballerinalang.model.values.BStruct;
 import org.ballerinalang.model.values.BValue;
 import org.ballerinalang.natives.AbstractNativeFunction;
-import org.ballerinalang.natives.annotations.*;
+import org.ballerinalang.natives.annotations.Argument;
+import org.ballerinalang.natives.annotations.Attribute;
+import org.ballerinalang.natives.annotations.BallerinaAnnotation;
+import org.ballerinalang.natives.annotations.BallerinaFunction;
+import org.ballerinalang.natives.annotations.ReturnType;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.JSONConfig;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 
@@ -55,11 +59,11 @@ public class Configure extends AbstractNativeFunction {
         BStruct xmlInfo = ((BStruct) getRefArgument(context, 1));
 
         //configure json analyzer
-        int propertyCount = (int)jsonInfo.getIntField(0);
-        int stringLength = (int)jsonInfo.getIntField(1);
-        int arrayElementCount = (int)jsonInfo.getIntField(2);
-        int keyLength = (int)jsonInfo.getIntField(3);
-        int maxJSONDepth = (int)jsonInfo.getIntField(4);
+        int propertyCount = (int) jsonInfo.getIntField(0);
+        int stringLength = (int) jsonInfo.getIntField(1);
+        int arrayElementCount = (int) jsonInfo.getIntField(2);
+        int keyLength = (int) jsonInfo.getIntField(3);
+        int maxJSONDepth = (int) jsonInfo.getIntField(4);
 
         JSONConfig jsonConfig = JSONConfig.getInstance();
         jsonConfig.setMaxPropertyCount(propertyCount);
@@ -71,12 +75,12 @@ public class Configure extends AbstractNativeFunction {
         //configure xml analyzer
         boolean dtdEnabled = xmlInfo.getBooleanField(0) != 0;
         boolean externalEntitiesEnabled = xmlInfo.getBooleanField(1) != 0;
-        int maxXMLDepth = (int)xmlInfo.getIntField(0);
-        int elementCount = (int)xmlInfo.getIntField(1);
-        int attributeCount = (int)xmlInfo.getIntField(2);
-        int attributeLength = (int)xmlInfo.getIntField(3);
-        int entityExpansionLimit = (int)xmlInfo.getIntField(4);
-        int childrenPerElement = (int)xmlInfo.getIntField(5);
+        int maxXMLDepth = (int) xmlInfo.getIntField(0);
+        int elementCount = (int) xmlInfo.getIntField(1);
+        int attributeCount = (int) xmlInfo.getIntField(2);
+        int attributeLength = (int) xmlInfo.getIntField(3);
+        int entityExpansionLimit = (int) xmlInfo.getIntField(4);
+        int childrenPerElement = (int) xmlInfo.getIntField(5);
 
         XMLConfig xmlConfig = XMLConfig.getInstance();
         xmlConfig.setDtdEnabled(dtdEnabled);

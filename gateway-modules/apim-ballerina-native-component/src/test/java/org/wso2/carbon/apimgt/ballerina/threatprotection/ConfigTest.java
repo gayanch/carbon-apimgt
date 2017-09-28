@@ -18,11 +18,7 @@
 
 package org.wso2.carbon.apimgt.ballerina.threatprotection;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.wso2.carbon.apimgt.core.configuration.models.APIMConfigurations;
-import org.wso2.carbon.apimgt.core.configuration.models.XMLThreatProtectionConfigurations;
-import org.wso2.carbon.apimgt.core.internal.ServiceReferenceHolder;
 
 /**
  * Created by gayan on 8/30/17.

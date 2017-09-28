@@ -107,7 +107,9 @@ public class XMLThreatProtectionConfigurations {
         this.entityExpansionLimit = entityExpansionLimit;
     }
 
-    public int getChildrenPerElement() { return childrenPerElement; }
+    public int getChildrenPerElement() {
+        return childrenPerElement;
+    }
 
     public void setChildrenPerElement(int childrenPerElement) {
         this.childrenPerElement = childrenPerElement;

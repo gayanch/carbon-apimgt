@@ -95,19 +95,26 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
             }
         } catch (XMLStreamException e) {
             logger.error(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - XML Validation Failed: "
-                    + e.getMessage() , e);
+                    + e.getMessage(), e);
             throw new APIMThreatAnalyzerException(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
                     + " - XML Validation Failed: " + e.getMessage(), e);
+        } catch (NullPointerException e) {
+            logger.error(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - " + e.getMessage(), e);
+            throw new APIMThreatAnalyzerException(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - " + e.getMessage(), e);
         } finally {
             try {
                 xmlEventReaderReader.close();
                 reader.close();
             } catch (XMLStreamException e) {
                 logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                        + " - Threat Protection: Failed to close XMLEventReader", e);
+                        + " - Failed to close XMLEventReader", e);
             } catch (IOException e) {
                 logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                        + " - Threat Protection: Failed to close payload StringReader", e);
+                        + " - Failed to close payload StringReader", e);
+            } catch (NullPointerException e) {
+                logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                        + " - NullPointerException", e);
             }
         }
     }
