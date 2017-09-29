@@ -38,10 +38,10 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
     private Logger logger = LoggerFactory.getLogger(JSONAnalyzer.class);
 
-    private int maxPropertyCount = 0;
+    private int maxFieldCount = 0;
     private int maxStringLength = 0;
     private int maxArrayElementCount = 0;
-    private int maxKeyLength = 0;
+    private int maxFieldLength = 0;
     private int maxJsonDepth = 0;
 
     /**
@@ -50,10 +50,10 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
     public JSONAnalyzer() {
         //configure analyzer
         JSONConfig config = JSONConfig.getInstance();
-        maxPropertyCount = config.getMaxPropertyCount();
+        maxFieldCount = config.getMaxPropertyCount();
         maxStringLength = config.getMaxStringLength();
         maxArrayElementCount = config.getMaxArrayElementCount();
-        maxKeyLength = config.getMaxKeyLength();
+        maxFieldLength = config.getMaxKeyLength();
         maxJsonDepth = config.getMaxJsonDepth();
     }
 
@@ -77,17 +77,15 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
         try (JsonParser parser = factory.createParser(new StringReader(payload))) {
             int currentDepth = 0;
             int currentFieldCount = 0;
-
             JsonToken token;
             while ((token = parser.nextToken()) != null) {
                 switch (token) {
                     case START_OBJECT:
                         currentDepth += 1;
-
-                        if (currentDepth > maxJsonDepth) {
-                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Depth Limit Reached");
-                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX
-                                    + apiContext + " - Depth Limit Reached");
+                        try {
+                            analyzeDepth(maxJsonDepth, currentDepth, apiContext);
+                        } catch (APIMThreatAnalyzerException e) {
+                            throw e;
                         }
                         break;
 
@@ -97,57 +95,151 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
                     case FIELD_NAME:
                         currentFieldCount += 1;
-                        if (currentFieldCount > maxPropertyCount) {
-                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX +  apiContext
-                                    + " - Max Property Count Reached");
-                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX
-                                    + apiContext + " - Max Property Count Reached");
-                        }
-
                         String name = parser.getCurrentName();
-                        if (name == null) {
-                            continue;
-                        }
-                        if (name.length() > maxKeyLength) {
-                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Max Key Length Reached");
-                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                                    + " - Max Key Length Reached");
+                        try {
+                            analyzeField(name, maxFieldCount, currentFieldCount, maxFieldLength, apiContext);
+                        } catch (APIMThreatAnalyzerException e) {
+                            throw e;
                         }
                         break;
 
                     case VALUE_STRING:
                         String value = parser.getText();
-                        if (value == null) {
-                            continue;
-                        }
-                        if (value.length() > maxStringLength) {
-                            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                                    + " - Max String Length Reached");
-                            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                                    + " - Max String Length Reached");
+                        try {
+                            analyzeString(value, maxStringLength, apiContext);
+                        } catch (APIMThreatAnalyzerException e) {
+                            throw e;
                         }
                         break;
 
                     case START_ARRAY:
-                        int arrayElementCount = 0;
-                        while (parser.nextToken() != JsonToken.END_ARRAY) {
-                            arrayElementCount += 1;
-
-                            if (arrayElementCount > maxArrayElementCount) {
-                                logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                                        + " - Max Array Length Reached");
-                                throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                                        + " - Max Array Length Reached");
-                            }
+                        try {
+                            analyzeArray(parser, maxArrayElementCount, maxStringLength, apiContext);
+                        } catch (APIMThreatAnalyzerException e) {
+                            throw e;
                         }
+                        break;
                 }
             }
         } catch (JsonParseException e) {
-            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload parsing failed", e);
-            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload parsing failed", e);
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Payload parsing failed", e);
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - Payload parsing failed", e);
         } catch (IOException e) {
-            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
-            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + "Payload build failed", e);
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Payload build failed", e);
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - Payload build failed", e);
+        }
+    }
+
+    /**
+     *
+     * @param maxDepth maximum depth allowed for json payload
+     * @param currentDepth current depth of json payload
+     * @param apiContext current api context
+     * @throws APIMThreatAnalyzerException if currentDepth is greater than maxDepth
+     */
+    public void analyzeDepth(int maxDepth, int currentDepth, String apiContext) throws APIMThreatAnalyzerException {
+        if (maxDepth > currentDepth) {
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Depth Limit Reached");
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX
+                    + apiContext + " - Depth Limit Reached");
+        }
+    }
+
+    /**
+     * Analyzes json fields using defined limits
+     *
+     * @param field value of the json field
+     * @param maxFieldCount maximum number of fields allowed
+     * @param currentFieldCount current field count
+     * @param maxFieldLength maximum field length allowed
+     * @param apiContext current api context
+     * @throws APIMThreatAnalyzerException if current values exceed maximum values
+     */
+    private void analyzeField(String field, int maxFieldCount, int currentFieldCount, int maxFieldLength,
+            String apiContext) throws APIMThreatAnalyzerException {
+        if (field == null) {
+            return;
+        }
+
+        if (field.length() > maxFieldLength) {
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Max Key Length Reached");
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - Max Key Length Reached");
+        }
+
+        if (currentFieldCount > maxFieldCount) {
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX +  apiContext
+                    + " - Max Property Count Reached");
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX
+                    + apiContext + " - Max Property Count Reached");
+        }
+    }
+
+    /**
+     * Analyzes json string values using defined limits
+     *
+     * @param value value of the string
+     * @param maxLength maximum string length allowed
+     * @param apiContext current api context
+     * @throws APIMThreatAnalyzerException if string length is greater than maximum length provided
+     */
+    private void analyzeString(String value, int maxLength, String apiContext) throws APIMThreatAnalyzerException {
+        if (value == null) {
+            return;
+        }
+
+        if (value.length() > maxLength) {
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - Max String Length Reached");
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - Max String Length Reached");
+        }
+    }
+
+    /**
+     * Analyzes json arrays using defined limits
+     *
+     * @param parser JsonParser instance (Current token should be at JsonToken.START_ARRAY state)
+     * @param maxArrayElementCount maximum array element count allowed
+     * @param maxStringLength maximum string length allowed
+     * @param apiContext current api context
+     * @throws APIMThreatAnalyzerException if array/string length is greater than maximum values provided
+     */
+    private void analyzeArray(JsonParser parser, int maxArrayElementCount, int maxStringLength, String apiContext)
+            throws APIMThreatAnalyzerException {
+        JsonToken token;
+        try {
+            //parser is in wrong state. Do nothing.
+            if (parser.currentToken() != JsonToken.START_ARRAY) {
+                return;
+            }
+
+            int arrayElementCount = 0;
+            while ((token = parser.nextToken()) != JsonToken.END_ARRAY) {
+                //analyzing string values inside array
+                if (token == JsonToken.VALUE_STRING) {
+                    String value = parser.getText();
+                    try {
+                        analyzeString(value, maxStringLength, apiContext);
+                    } catch (APIMThreatAnalyzerException e) {
+                        throw e;
+                    }
+                }
+
+                arrayElementCount += 1;
+                if (arrayElementCount > maxArrayElementCount) {
+                    logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                            + " - Max Array Length Reached");
+                    throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                            + " - Max Array Length Reached");
+                }
+            }
+        } catch (IOException e) {
+            logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Array Parsing Error", e);
+            throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext
+                    + " - Array Parsing Error", e);
         }
     }
 }
