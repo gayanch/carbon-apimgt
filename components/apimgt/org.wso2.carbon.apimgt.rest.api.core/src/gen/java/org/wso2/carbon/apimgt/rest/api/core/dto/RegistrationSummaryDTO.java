@@ -7,8 +7,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.wso2.carbon.apimgt.rest.api.core.dto.AnalyticsInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.JWTInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.JsonThreatProtectionInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.KeyManagerInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThrottlingInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.XmlThreatProtectionInfoDTO;
 import java.util.Objects;
 
 /**
@@ -27,11 +29,11 @@ public class RegistrationSummaryDTO   {
   @JsonProperty("ThrottlingInfo")
   private ThrottlingInfoDTO throttlingInfo = null;
 
-  @JsonProperty("JSONThreatProtectionInfo")
-  private JSONThreatProtectionInfoDTO jsonThreatProtectionInfo = null;
+  @JsonProperty("JsonThreatProtectionInfo")
+  private JsonThreatProtectionInfoDTO jsonThreatProtectionInfo = null;
 
-  @JsonProperty("XMLThreatProtectionInfo")
-  private XMLThreatProtectionInfoDTO xmlThreatProtectionInfo = null;
+  @JsonProperty("XmlThreatProtectionInfo")
+  private XmlThreatProtectionInfoDTO xmlThreatProtectionInfo = null;
 
   public RegistrationSummaryDTO keyManagerInfo(KeyManagerInfoDTO keyManagerInfo) {
     this.keyManagerInfo = keyManagerInfo;
@@ -105,41 +107,42 @@ public class RegistrationSummaryDTO   {
     this.throttlingInfo = throttlingInfo;
   }
 
-  /**
-   * Get JSON threat protection infp
-   * @return jsonthreatprotectioninfo
-   **/
+  public RegistrationSummaryDTO jsonThreatProtectionInfo(JsonThreatProtectionInfoDTO jsonThreatProtectionInfo) {
+    this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
+    return this;
+  }
+
+   /**
+   * Get jsonThreatProtectionInfo
+   * @return jsonThreatProtectionInfo
+  **/
   @ApiModelProperty(value = "")
-  public JSONThreatProtectionInfoDTO getJSONThreatProtectionInfo() {
+  public JsonThreatProtectionInfoDTO getJsonThreatProtectionInfo() {
     return jsonThreatProtectionInfo;
   }
 
-  public void setJSONThreatProtectionInfo(JSONThreatProtectionInfoDTO jsonThreatProtectionInfo) {
+  public void setJsonThreatProtectionInfo(JsonThreatProtectionInfoDTO jsonThreatProtectionInfo) {
     this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
   }
 
-  public RegistrationSummaryDTO JSONThreatProtectionInfo(JSONThreatProtectionInfoDTO jsonThreatProtectionInfo) {
-    this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
+  public RegistrationSummaryDTO xmlThreatProtectionInfo(XmlThreatProtectionInfoDTO xmlThreatProtectionInfo) {
+    this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
     return this;
   }
 
-  /**
-   * Get JSON threat protection infp
-   * @return jsonthreatprotectioninfo
-   **/
+   /**
+   * Get xmlThreatProtectionInfo
+   * @return xmlThreatProtectionInfo
+  **/
   @ApiModelProperty(value = "")
-  public XMLThreatProtectionInfoDTO getXMLThreatProtectionInfo() {
+  public XmlThreatProtectionInfoDTO getXmlThreatProtectionInfo() {
     return xmlThreatProtectionInfo;
   }
 
-  public void setXMLThreatProtectionInfo(XMLThreatProtectionInfoDTO xmlThreatProtectionInfo) {
+  public void setXmlThreatProtectionInfo(XmlThreatProtectionInfoDTO xmlThreatProtectionInfo) {
     this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
   }
 
-  public RegistrationSummaryDTO XMLThreatProtectionInfo(XMLThreatProtectionInfoDTO xmlThreatProtectionInfo) {
-    this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
-    return this;
-  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -153,12 +156,14 @@ public class RegistrationSummaryDTO   {
     return Objects.equals(this.keyManagerInfo, registrationSummary.keyManagerInfo) &&
         Objects.equals(this.jwTInfo, registrationSummary.jwTInfo) &&
         Objects.equals(this.analyticsInfo, registrationSummary.analyticsInfo) &&
-        Objects.equals(this.throttlingInfo, registrationSummary.throttlingInfo);
+        Objects.equals(this.throttlingInfo, registrationSummary.throttlingInfo) &&
+        Objects.equals(this.jsonThreatProtectionInfo, registrationSummary.jsonThreatProtectionInfo) &&
+        Objects.equals(this.xmlThreatProtectionInfo, registrationSummary.xmlThreatProtectionInfo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(keyManagerInfo, jwTInfo, analyticsInfo, throttlingInfo);
+    return Objects.hash(keyManagerInfo, jwTInfo, analyticsInfo, throttlingInfo, jsonThreatProtectionInfo, xmlThreatProtectionInfo);
   }
 
   @Override
@@ -170,6 +175,8 @@ public class RegistrationSummaryDTO   {
     sb.append("    jwTInfo: ").append(toIndentedString(jwTInfo)).append("\n");
     sb.append("    analyticsInfo: ").append(toIndentedString(analyticsInfo)).append("\n");
     sb.append("    throttlingInfo: ").append(toIndentedString(throttlingInfo)).append("\n");
+    sb.append("    jsonThreatProtectionInfo: ").append(toIndentedString(jsonThreatProtectionInfo)).append("\n");
+    sb.append("    xmlThreatProtectionInfo: ").append(toIndentedString(xmlThreatProtectionInfo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -25,6 +25,7 @@ function initGateway () (boolean) {
         gatewayUtil:loadAPIs();
         gatewayUtil:loadGlobalEndpoints();
         gatewayUtil:loadBlockConditions();
+        //cnonfigure here
 
     } catch (errors:Error e) {
         system:println("Error while initilazing API gateway. " + e.msg);

@@ -69,7 +69,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
     /**
      *
      * @param payload json payload
-     * @throws APIMThreatAnalyzerException
+     * @throws APIMThreatAnalyzerException if defined limits for json payload exceeds
      */
     @Override
     public void analyze(String payload, String apiContext) throws APIMThreatAnalyzerException {

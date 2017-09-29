@@ -46,7 +46,7 @@ public class AnalyzerHolder {
     static {
         poolConfig = new GenericObjectPoolConfig();
         poolConfig.setMaxTotal(400);
-        
+
         poolConfig.setBlockWhenExhausted(false);
         poolConfig.setMaxWaitMillis(0);
 
@@ -54,10 +54,12 @@ public class AnalyzerHolder {
         jsonAnalyzerAnalyzerPool = new AnalyzerPool<>(new JSONAnalyzerFactory(), poolConfig);
     }
 
-    private AnalyzerHolder() {}
+    private AnalyzerHolder() {
+    }
 
     /**
      * Borrows an object from pools (xml or json) for threat analysis
+     *
      * @param contentType Content-Type of the payload
      * @return Instance of APIMThreatAnalyzer based on content type
      */
@@ -81,6 +83,7 @@ public class AnalyzerHolder {
 
     /**
      * Returns objects back to the pool
+     *
      * @param analyzer borrowed instance of {@link APIMThreatAnalyzer} via {@link AnalyzerHolder#getAnalyzer(String)}
      */
     public static void returnObject(APIMThreatAnalyzer analyzer) {

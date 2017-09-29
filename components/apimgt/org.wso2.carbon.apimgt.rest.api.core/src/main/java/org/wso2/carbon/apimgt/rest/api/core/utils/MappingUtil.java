@@ -31,7 +31,24 @@ import org.wso2.carbon.apimgt.core.models.SubscriptionValidationData;
 import org.wso2.carbon.apimgt.core.models.UriTemplate;
 import org.wso2.carbon.apimgt.core.util.APIMgtConstants;
 import org.wso2.carbon.apimgt.core.util.APIUtils;
-import org.wso2.carbon.apimgt.rest.api.core.dto.*;
+import org.wso2.carbon.apimgt.rest.api.core.dto.APIInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.APIListDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.AnalyticsInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ApplicationDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.BlockingConditionDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.BlockingConditionListDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.CredentialsDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.EndPointDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.JWTInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.JsonThreatProtectionInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.KeyManagerInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.LabelDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.PolicyDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.RegistrationSummaryDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.SubscriptionDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThrottlingInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.UriTemplateDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.XmlThreatProtectionInfoDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,8 +187,8 @@ public class MappingUtil {
         registrationSummaryDTO.setAnalyticsInfo(toAnalyticsDTO(registrationSummary));
         registrationSummaryDTO.setJwTInfo(toJWTInfoDTO(registrationSummary));
         registrationSummaryDTO.setThrottlingInfo(toThrottlingInfoDTO(registrationSummary));
-        registrationSummaryDTO.setJSONThreatProtectionInfo(toJSONThreatProtectionInfoDTO(registrationSummary));
-        registrationSummaryDTO.setXMLThreatProtectionInfo(toXMLThreatProtectionInfoDTO(registrationSummary));
+        registrationSummaryDTO.setJsonThreatProtectionInfo(toJSONThreatProtectionInfoDTO(registrationSummary));
+        registrationSummaryDTO.setXmlThreatProtectionInfo(toXMLThreatProtectionInfoDTO(registrationSummary));
         return registrationSummaryDTO;
     }
 
@@ -181,8 +198,8 @@ public class MappingUtil {
      * @param registrationSummary the registration summary required by gateway
      * @return JSONThreatProtectionInfoDTO
      */
-    private static JSONThreatProtectionInfoDTO toJSONThreatProtectionInfoDTO(RegistrationSummary registrationSummary) {
-        JSONThreatProtectionInfoDTO jsonThreatProtectionInfoDTO = new JSONThreatProtectionInfoDTO();
+    private static JsonThreatProtectionInfoDTO toJSONThreatProtectionInfoDTO(RegistrationSummary registrationSummary) {
+        JsonThreatProtectionInfoDTO jsonThreatProtectionInfoDTO = new JsonThreatProtectionInfoDTO();
         jsonThreatProtectionInfoDTO.setArrayElementCount(registrationSummary.getJsonThreatProtectionInfo()
                 .getArrayElementCount());
         jsonThreatProtectionInfoDTO.setKeyLength(registrationSummary.getJsonThreatProtectionInfo().getKeyLength());
@@ -201,8 +218,8 @@ public class MappingUtil {
      * @param registrationSummary the registration summary required by gateway
      * @return XMLThreatProtectionInfoDTO
      */
-    private static XMLThreatProtectionInfoDTO toXMLThreatProtectionInfoDTO(RegistrationSummary registrationSummary) {
-        XMLThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = new XMLThreatProtectionInfoDTO();
+    private static XmlThreatProtectionInfoDTO toXMLThreatProtectionInfoDTO(RegistrationSummary registrationSummary) {
+        XmlThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = new XmlThreatProtectionInfoDTO();
         xmlThreatProtectionInfoDTO.setAttributeCount(registrationSummary.getXmlThreatProtectionInfo()
                 .getAttributeCount());
         xmlThreatProtectionInfoDTO.setAttributeLength(registrationSummary.getXmlThreatProtectionInfo()

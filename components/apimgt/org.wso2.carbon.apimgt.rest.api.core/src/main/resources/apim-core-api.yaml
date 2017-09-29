@@ -906,8 +906,11 @@ definitions:
         $ref: '#/definitions/AnalyticsInfo'
       ThrottlingInfo:
         $ref: '#/definitions/ThrottlingInfo'
-      JSONThreatProtectionInfo:
-        $ref: '#/definitions/JSONThreatProtectionInfo'
+      JsonThreatProtectionInfo:
+        $ref: '#/definitions/JsonThreatProtectionInfo'
+      XmlThreatProtectionInfo:
+        $ref: '#/definitions/XmlThreatProtectionInfo'
+
 
 #-----------------------------------------------------
 # The API List resource
@@ -1120,57 +1123,57 @@ definitions:
 #-----------------------------------------------------
 # JSON Threat Protection information
 #-----------------------------------------------------
-  JSONThreatProtectionInfo:
+  JsonThreatProtectionInfo:
     title: JSON Threat Protection information
     properties:
       propertyCount:
         type: integer
-        format: int64
+        format: int
       stringLength:
         type: integer
-        format: int64
+        format: int
       arrayElementCount:
         type: integer
-        format: int64
+        format: int
       keyLength:
         type: integer
-        format: int64
+        format: int
       maxDepth:
         type: integer
-        format: int64
+        format: int
       credentials:
         $ref: '#/definitions/Credentials'
 
 #-----------------------------------------------------
 # XML Threat Protection information
 #-----------------------------------------------------
-  XMLThreatProtectionInfo:
+  XmlThreatProtectionInfo:
     title: XML Threat Protection information
     properties:
       dtdEnabled:
         type: boolean
         example: false
-      externalEntitiesEanbled:
+      externalEntitiesEnabled:
         type: boolean
         example: false
       maxDepth:
         type: integer
-        format: int64
+        format: int
       elementCount:
         type: integer
-        format: int64
+        format: int
       attributeCount:
         type: integer
-        format: int64
+        format: int
       attributeLength:
         type: integer
-        format: int64
+        format: int
       entityExpansionLimit:
         type: integer
-        format: int64
+        format: int
       childrenPerElement:
         type: integer
-        format: int64
+        format: int
       credentials:
         $ref: '#/definitions/Credentials'
 
