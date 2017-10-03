@@ -4,6 +4,7 @@ import ballerina.lang.system;
 import ballerina.lang.errors;
 import org.wso2.carbon.apimgt.gateway.utils as gatewayUtil;
 import org.wso2.carbon.apimgt.gateway.holders as holder;
+import org.wso2.carbon.apimgt.gateway.threatprotection;
 
 import ballerina.net.http;
 
@@ -25,7 +26,8 @@ function initGateway () (boolean) {
         gatewayUtil:loadAPIs();
         gatewayUtil:loadGlobalEndpoints();
         gatewayUtil:loadBlockConditions();
-        //cnonfigure here
+        //set threat protection configurations
+        threatprotection:initThreatProtection();
 
     } catch (errors:Error e) {
         system:println("Error while initilazing API gateway. " + e.msg);

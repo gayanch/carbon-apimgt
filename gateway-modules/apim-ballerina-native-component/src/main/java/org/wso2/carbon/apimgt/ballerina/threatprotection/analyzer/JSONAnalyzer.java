@@ -45,7 +45,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
     private int maxJsonDepth = 0;
 
     /**
-     * Create a JSONAnalyzer using API-Specific configuration values
+     * Create a JSONAnalyzer using default configuration values
      */
     public JSONAnalyzer() {
         //configure analyzer
@@ -58,7 +58,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
     }
 
     /**
-     * Create a JSON using API-Specific configuration values
+     * Create a JSONAnalyzer using API-Specific configuration values
      *
      * @param apiId Unique id of an API
      */
