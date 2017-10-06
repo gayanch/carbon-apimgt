@@ -261,6 +261,8 @@ function fromJsonToGatewayConfDTO (json conf) (dto:GatewayConfDTO) {
     //Extract Threat Protection Information
     json jsonThreatProtectionInfo = conf.jsonThreatProtectionInfo;
     dto:JSONThreatProtectionInfoDTO jsonThreatProtectionInfoDTO = {};
+    //set apiId as global
+    jsonThreatProtectionInfoDTO.apiId = "GLOBAL";
     jsonThreatProtectionInfoDTO.propertyCount, err = (int)jsonThreatProtectionInfo.propertyCount;
     jsonThreatProtectionInfoDTO.stringLength, err = (int)jsonThreatProtectionInfo.stringLength;
     jsonThreatProtectionInfoDTO.arrayElementCount, err = (int)jsonThreatProtectionInfo.arrayElementCount;
@@ -270,6 +272,8 @@ function fromJsonToGatewayConfDTO (json conf) (dto:GatewayConfDTO) {
 
     json xmlThreatProtectionInfo = conf.xmlThreatProtectionInfo;
     dto:XMLThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = {};
+    //set apiId as global
+    xmlThreatProtectionInfoDTO.apiId = "GLOBAL";
     xmlThreatProtectionInfoDTO.dtdEnabled, err = (boolean)xmlThreatProtectionInfo.dtdEnabled;
     xmlThreatProtectionInfoDTO.externalEntitiesEnabled, err = (boolean)xmlThreatProtectionInfo.externalEntitiesEnabled;
     xmlThreatProtectionInfoDTO.maxDepth, err = (int)xmlThreatProtectionInfo.maxDepth;

@@ -66,7 +66,7 @@ public class Analyze extends AbstractNativeFunction {
         String payload = getStringArgument(context, 1);
         String apiContext = getStringArgument(context, 2);
 
-        APIMThreatAnalyzer analyzer = AnalyzerHolder.getAnalyzer(payloadType);
+        APIMThreatAnalyzer analyzer = AnalyzerHolder.getAnalyzer(payloadType, "GLOBAL");
         if (analyzer == null) {
             return getBValues(new BBoolean(false), new BString("Unknown Payload Type"));
         }

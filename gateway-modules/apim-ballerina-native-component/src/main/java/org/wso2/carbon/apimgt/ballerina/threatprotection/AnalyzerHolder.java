@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.APIMThreatAnalyzer;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.JSONAnalyzer;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.XMLAnalyzer;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.ConfigurationHolder;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.JSONConfig;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.AnalyzerPool;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.JSONAnalyzerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.pool.XMLAnalyzerFactory;
@@ -61,19 +64,34 @@ public class AnalyzerHolder {
      * Borrows an object from pools (xml or json) for threat analysis
      *
      * @param contentType Content-Type of the payload
+     * @param apiId ID of the API
      * @return Instance of APIMThreatAnalyzer based on content type
      */
-    public static APIMThreatAnalyzer getAnalyzer(String contentType) {
+    public static APIMThreatAnalyzer getAnalyzer(String contentType, String apiId) {
         APIMThreatAnalyzer analyzer = null;
         if (T_TEXT_XML.equalsIgnoreCase(contentType) || T_APPLICATION_XML.equalsIgnoreCase(contentType)) {
             try {
                 analyzer = xmlAnalyzerAnalyzerPool.borrowObject();
+
+                //configure per api
+                XMLConfig xmlConfig = ConfigurationHolder.getXmlConfig(apiId);
+                if (xmlConfig == null) {
+                    xmlConfig = ConfigurationHolder.getXmlConfig(ConfigurationHolder.GLOBAL_CONFIG_KEY);
+                }
+                analyzer.configure(xmlConfig);
             } catch (Exception e) {
                 logger.error("Threat Protection: Failed to create XMLAnalyzer, " + e.getMessage());
             }
         } else if (T_TEXT_JSON.equalsIgnoreCase(contentType) || T_APPLICATION_JSON.equalsIgnoreCase(contentType)) {
             try {
                 analyzer = jsonAnalyzerAnalyzerPool.borrowObject();
+
+                //configure per api
+                JSONConfig jsonConfig = ConfigurationHolder.getJsonConfig(apiId);
+                if (jsonConfig == null) {
+                    jsonConfig = ConfigurationHolder.getJsonConfig(ConfigurationHolder.GLOBAL_CONFIG_KEY);
+                }
+                analyzer.configure(jsonConfig);
             } catch (Exception e) {
                 logger.error("Threat Protection: Failed to create JSONAnalyzer, " + e.getMessage());
             }
@@ -84,7 +102,7 @@ public class AnalyzerHolder {
     /**
      * Returns objects back to the pool
      *
-     * @param analyzer borrowed instance of {@link APIMThreatAnalyzer} via {@link AnalyzerHolder#getAnalyzer(String)}
+     * @param analyzer borrowed instance of {@link APIMThreatAnalyzer} via {@link AnalyzerHolder#getAnalyzer(String, String)}
      */
     public static void returnObject(APIMThreatAnalyzer analyzer) {
         if (analyzer instanceof JSONAnalyzer) {

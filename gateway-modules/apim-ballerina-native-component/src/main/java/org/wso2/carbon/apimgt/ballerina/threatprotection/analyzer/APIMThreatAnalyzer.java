@@ -19,6 +19,8 @@
 package org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer;
 
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.JSONConfig;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 
 /**
  * Interface for json/xml analyzers
@@ -32,4 +34,20 @@ public interface APIMThreatAnalyzer {
      * @throws APIMThreatAnalyzerException
      */
     void analyze(String payload, String apiContext) throws APIMThreatAnalyzerException;
+
+    /**
+     * Configures the XMLAnalyzer using XMLConfig
+     *
+     * @param config instance of the XMLConfig with appropriate configuration values
+     * @throws UnsupportedOperationException if called on a JSONAnalyzer instance
+     */
+    void configure(XMLConfig config);
+
+    /**
+     * Configures the JSONAnalyzer using JSONConfig
+     *
+     * @param config instance of the JSONConfig with appropriate configuration values
+     * @throws UnsupportedOperationException if called on a XMLAnalyzer instance
+     */
+    void configure(JSONConfig config);
 }

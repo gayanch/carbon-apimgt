@@ -23,6 +23,7 @@ import com.ctc.wstx.stax.WstxInputFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.JSONConfig;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 
 import java.io.IOException;
@@ -45,11 +46,9 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
     /**
      * Create a XMLAnalyzer using default configuration values
      */
-    public XMLAnalyzer() {
+    public void configure(XMLConfig config) {
         factory = WstxInputFactory.newInstance();
         //configure
-        XMLConfig config = XMLConfig.getInstance();
-
         boolean dtdEnabled = config.isDtdEnabled();
         boolean externalEntitiesEnabled = config.isExternalEntitiesEnabled();
         int maxDepth = config.getMaxDepth();
@@ -69,13 +68,9 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
         factory.setProperty(WstxInputProperties.P_MAX_ELEMENT_COUNT, maxElementCount);
     }
 
-    /**
-     * Create a XMLAnalyzer using API-Specific configuration values
-     *
-     * @param apiId Unique id of an API
-     */
-    private XMLAnalyzer(String apiId) {
-        //to-do: load api specific configurations for Analyzers
+    @Override
+    public void configure(JSONConfig config) {
+        throw new UnsupportedOperationException("This method is not supported on this instance");
     }
 
     /**

@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.APIMThreatAnalyzerException;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.JSONConfig;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -47,9 +48,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
     /**
      * Create a JSONAnalyzer using default configuration values
      */
-    public JSONAnalyzer() {
-        //configure analyzer
-        JSONConfig config = JSONConfig.getInstance();
+    public void configure(JSONConfig config) {
         maxFieldCount = config.getMaxPropertyCount();
         maxStringLength = config.getMaxStringLength();
         maxArrayElementCount = config.getMaxArrayElementCount();
@@ -57,13 +56,9 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
         maxJsonDepth = config.getMaxJsonDepth();
     }
 
-    /**
-     * Create a JSONAnalyzer using API-Specific configuration values
-     *
-     * @param apiId Unique id of an API
-     */
-    private JSONAnalyzer(String apiId) {
-        //to-do: load api specific configurations for Analyzers
+    @Override
+    public void configure(XMLConfig config) {
+        throw new UnsupportedOperationException("This method is not supported on this instance");
     }
 
     /**

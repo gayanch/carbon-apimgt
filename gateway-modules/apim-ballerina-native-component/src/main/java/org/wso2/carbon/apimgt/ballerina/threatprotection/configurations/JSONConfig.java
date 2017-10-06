@@ -28,10 +28,6 @@ public class JSONConfig {
     private int maxKeyLength = 0;
     private int maxJsonDepth = 0;
 
-    private static JSONConfig instance = new JSONConfig();
-
-    private JSONConfig() {}
-
     public int getMaxPropertyCount() {
         return maxPropertyCount;
     }
@@ -71,9 +67,4 @@ public class JSONConfig {
     public void setMaxJsonDepth(int maxJsonDepth) {
         this.maxJsonDepth = maxJsonDepth;
     }
-
-    public static JSONConfig getInstance() {
-        return instance;
-    }
-
 }

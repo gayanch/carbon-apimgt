@@ -31,10 +31,6 @@ public class XMLConfig {
     private int entityExpansionLimit;
     private int maxChildrenPerElement;
 
-    private static XMLConfig instance = new XMLConfig();
-
-    private XMLConfig() {}
-
     public boolean isDtdEnabled() {
         return dtdEnabled;
     }
@@ -97,9 +93,5 @@ public class XMLConfig {
 
     public void setMaxChildrenPerElement(int maxChildrenPerElement) {
         this.maxChildrenPerElement = maxChildrenPerElement;
-    }
-
-    public static XMLConfig getInstance() {
-        return instance;
     }
 }

@@ -29,6 +29,7 @@ import org.ballerinalang.natives.annotations.Attribute;
 import org.ballerinalang.natives.annotations.BallerinaAnnotation;
 import org.ballerinalang.natives.annotations.BallerinaFunction;
 import org.ballerinalang.natives.annotations.ReturnType;
+import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.ConfigurationHolder;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.JSONConfig;
 import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfig;
 
@@ -64,13 +65,16 @@ public class Configure extends AbstractNativeFunction {
         int arrayElementCount = (int) jsonInfo.getIntField(2);
         int keyLength = (int) jsonInfo.getIntField(3);
         int maxJSONDepth = (int) jsonInfo.getIntField(4);
+        String jsonApiId = jsonInfo.getStringField(0);
 
-        JSONConfig jsonConfig = JSONConfig.getInstance();
+        JSONConfig jsonConfig = new JSONConfig();
         jsonConfig.setMaxPropertyCount(propertyCount);
         jsonConfig.setMaxStringLength(stringLength);
         jsonConfig.setMaxArrayElementCount(arrayElementCount);
         jsonConfig.setMaxKeyLength(keyLength);
         jsonConfig.setMaxJsonDepth(maxJSONDepth);
+        //put into ConfigurationHolder
+        ConfigurationHolder.addJsonConfig(jsonApiId, jsonConfig);
 
         //configure xml analyzer
         boolean dtdEnabled = xmlInfo.getBooleanField(0) != 0;
@@ -81,8 +85,9 @@ public class Configure extends AbstractNativeFunction {
         int attributeLength = (int) xmlInfo.getIntField(3);
         int entityExpansionLimit = (int) xmlInfo.getIntField(4);
         int childrenPerElement = (int) xmlInfo.getIntField(5);
+        String xmlApiId = xmlInfo.getStringField(0);
 
-        XMLConfig xmlConfig = XMLConfig.getInstance();
+        XMLConfig xmlConfig = new XMLConfig();
         xmlConfig.setDtdEnabled(dtdEnabled);
         xmlConfig.setExternalEntitiesEnabled(externalEntitiesEnabled);
         xmlConfig.setMaxDepth(maxXMLDepth);
@@ -91,6 +96,9 @@ public class Configure extends AbstractNativeFunction {
         xmlConfig.setMaxAttributeLength(attributeLength);
         xmlConfig.setEntityExpansionLimit(entityExpansionLimit);
         xmlConfig.setMaxChildrenPerElement(childrenPerElement);
+
+        //put into ConfigurationHolder
+        ConfigurationHolder.addXmlConfig(xmlApiId, xmlConfig);
 
         return getBValues(new BBoolean(true));
     }
