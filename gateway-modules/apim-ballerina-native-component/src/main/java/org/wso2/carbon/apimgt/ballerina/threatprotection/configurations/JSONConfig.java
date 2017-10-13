@@ -22,11 +22,20 @@ package org.wso2.carbon.apimgt.ballerina.threatprotection.configurations;
  * Configuration holding class for {@link org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.JSONAnalyzer}
  */
 public class JSONConfig {
+    private boolean enabled;
     private int maxPropertyCount = 0;
     private int maxStringLength = 0;
     private int maxArrayElementCount = 0;
     private int maxKeyLength = 0;
     private int maxJsonDepth = 0;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public int getMaxPropertyCount() {
         return maxPropertyCount;

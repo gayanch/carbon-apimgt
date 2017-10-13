@@ -261,27 +261,27 @@ function fromJsonToGatewayConfDTO (json conf) (dto:GatewayConfDTO) {
     //Extract Threat Protection Information
     json jsonThreatProtectionInfo = conf.jsonThreatProtectionInfo;
     dto:JSONThreatProtectionInfoDTO jsonThreatProtectionInfoDTO = {};
-    //set apiId as global
-    jsonThreatProtectionInfoDTO.apiId = "GLOBAL";
-    jsonThreatProtectionInfoDTO.propertyCount, err = (int)jsonThreatProtectionInfo.propertyCount;
-    jsonThreatProtectionInfoDTO.stringLength, err = (int)jsonThreatProtectionInfo.stringLength;
-    jsonThreatProtectionInfoDTO.arrayElementCount, err = (int)jsonThreatProtectionInfo.arrayElementCount;
-    jsonThreatProtectionInfoDTO.keyLength, err = (int)jsonThreatProtectionInfo.keyLength;
+    jsonThreatProtectionInfoDTO.enabled, err = (boolean)jsonThreatProtectionInfo.enabled;
+    jsonThreatProtectionInfoDTO.apiId, err = (string)jsonThreatProtectionInfo.apiId;
+    jsonThreatProtectionInfoDTO.propertyCount, err = (int)jsonThreatProtectionInfo.maxFieldCount;
+    jsonThreatProtectionInfoDTO.stringLength, err = (int)jsonThreatProtectionInfo.maxStringLength;
+    jsonThreatProtectionInfoDTO.arrayElementCount, err = (int)jsonThreatProtectionInfo.maxArrayElementCount;
+    jsonThreatProtectionInfoDTO.keyLength, err = (int)jsonThreatProtectionInfo.maxFieldLength;
     jsonThreatProtectionInfoDTO.maxDepth, err = (int)jsonThreatProtectionInfo.maxDepth;
     gatewayConf.jsonThreatProtectionInfo = jsonThreatProtectionInfoDTO;
 
     json xmlThreatProtectionInfo = conf.xmlThreatProtectionInfo;
     dto:XMLThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = {};
-    //set apiId as global
-    xmlThreatProtectionInfoDTO.apiId = "GLOBAL";
+    xmlThreatProtectionInfoDTO.enabled, err = (boolean)xmlThreatProtectionInfo.enabled;
+    xmlThreatProtectionInfoDTO.apiId, err = (string)xmlThreatProtectionInfo.apiId;
     xmlThreatProtectionInfoDTO.dtdEnabled, err = (boolean)xmlThreatProtectionInfo.dtdEnabled;
     xmlThreatProtectionInfoDTO.externalEntitiesEnabled, err = (boolean)xmlThreatProtectionInfo.externalEntitiesEnabled;
     xmlThreatProtectionInfoDTO.maxDepth, err = (int)xmlThreatProtectionInfo.maxDepth;
-    xmlThreatProtectionInfoDTO.elementCount, err = (int)xmlThreatProtectionInfo.elementCount;
-    xmlThreatProtectionInfoDTO.attributeCount, err = (int)xmlThreatProtectionInfo.attributeCount;
-    xmlThreatProtectionInfoDTO.attributeLength, err = (int)xmlThreatProtectionInfo.attributeLength;
+    xmlThreatProtectionInfoDTO.elementCount, err = (int)xmlThreatProtectionInfo.maxElementCount;
+    xmlThreatProtectionInfoDTO.attributeCount, err = (int)xmlThreatProtectionInfo.maxAttributeCount;
+    xmlThreatProtectionInfoDTO.attributeLength, err = (int)xmlThreatProtectionInfo.maxAttributeLength;
     xmlThreatProtectionInfoDTO.entityExpansionLimit, err = (int)xmlThreatProtectionInfo.entityExpansionLimit;
-    xmlThreatProtectionInfoDTO.childrenPerElement, err = (int)xmlThreatProtectionInfo.childrenPerElement;
+    xmlThreatProtectionInfoDTO.childrenPerElement, err = (int)xmlThreatProtectionInfo.maxChildrenPerElement;
     gatewayConf.xmlThreatProtectionInfo = xmlThreatProtectionInfoDTO;
 
     return gatewayConf;

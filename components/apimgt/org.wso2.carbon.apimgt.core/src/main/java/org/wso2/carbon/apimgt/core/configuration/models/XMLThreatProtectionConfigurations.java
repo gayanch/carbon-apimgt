@@ -27,6 +27,12 @@ import org.wso2.carbon.kernel.annotations.Element;
 @Configuration(description = "Configrations for xml threat protection")
 public class XMLThreatProtectionConfigurations {
 
+    @Element(description = "Enabled/Disabled Status")
+    private boolean enabled = true;
+
+    @Element(description = "API ID of the Applicable API")
+    private String apiId = "GLOBAL";
+
     @Element(description = "DTD enabled")
     private boolean dtdEnabled = false;
 
@@ -50,6 +56,22 @@ public class XMLThreatProtectionConfigurations {
 
     @Element(description = "Maximum children per element")
     private int childrenPerElement = 1000;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(String apiId) {
+        this.apiId = apiId;
+    }
 
     public boolean isDtdEnabled() {
         return dtdEnabled;

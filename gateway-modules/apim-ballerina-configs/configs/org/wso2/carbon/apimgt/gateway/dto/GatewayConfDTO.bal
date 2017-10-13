@@ -44,6 +44,7 @@ struct CredentialsDTO {
 }
 
 struct XMLThreatProtectionInfoDTO {
+    boolean enabled;
     string apiId;
     boolean dtdEnabled;
     boolean externalEntitiesEnabled;
@@ -56,6 +57,7 @@ struct XMLThreatProtectionInfoDTO {
 }
 
 struct JSONThreatProtectionInfoDTO {
+    boolean enabled;
     string apiId;
     int propertyCount;
     int stringLength;

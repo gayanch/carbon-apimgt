@@ -56,49 +56,56 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfi
 public class Configure extends AbstractNativeFunction {
     @Override
     public BValue[] execute(Context context) {
-        BStruct jsonInfo = ((BStruct) getRefArgument(context, 0));
-        BStruct xmlInfo = ((BStruct) getRefArgument(context, 1));
-
         //configure json analyzer
-        int propertyCount = (int) jsonInfo.getIntField(0);
-        int stringLength = (int) jsonInfo.getIntField(1);
-        int arrayElementCount = (int) jsonInfo.getIntField(2);
-        int keyLength = (int) jsonInfo.getIntField(3);
-        int maxJSONDepth = (int) jsonInfo.getIntField(4);
-        String jsonApiId = jsonInfo.getStringField(0);
+        BStruct jsonInfo = ((BStruct) getRefArgument(context, 0));
+        if (jsonInfo != null) {
+            boolean enabled = jsonInfo.getBooleanField(0) != 0;
+            int propertyCount = (int) jsonInfo.getIntField(0);
+            int stringLength = (int) jsonInfo.getIntField(1);
+            int arrayElementCount = (int) jsonInfo.getIntField(2);
+            int keyLength = (int) jsonInfo.getIntField(3);
+            int maxJSONDepth = (int) jsonInfo.getIntField(4);
+            String jsonApiId = jsonInfo.getStringField(0);
 
-        JSONConfig jsonConfig = new JSONConfig();
-        jsonConfig.setMaxPropertyCount(propertyCount);
-        jsonConfig.setMaxStringLength(stringLength);
-        jsonConfig.setMaxArrayElementCount(arrayElementCount);
-        jsonConfig.setMaxKeyLength(keyLength);
-        jsonConfig.setMaxJsonDepth(maxJSONDepth);
-        //put into ConfigurationHolder
-        ConfigurationHolder.addJsonConfig(jsonApiId, jsonConfig);
+            JSONConfig jsonConfig = new JSONConfig();
+            jsonConfig.setEnabled(enabled);
+            jsonConfig.setMaxPropertyCount(propertyCount);
+            jsonConfig.setMaxStringLength(stringLength);
+            jsonConfig.setMaxArrayElementCount(arrayElementCount);
+            jsonConfig.setMaxKeyLength(keyLength);
+            jsonConfig.setMaxJsonDepth(maxJSONDepth);
+            //put into ConfigurationHolder
+            ConfigurationHolder.addJsonConfig(jsonApiId, jsonConfig);
+        }
 
         //configure xml analyzer
-        boolean dtdEnabled = xmlInfo.getBooleanField(0) != 0;
-        boolean externalEntitiesEnabled = xmlInfo.getBooleanField(1) != 0;
-        int maxXMLDepth = (int) xmlInfo.getIntField(0);
-        int elementCount = (int) xmlInfo.getIntField(1);
-        int attributeCount = (int) xmlInfo.getIntField(2);
-        int attributeLength = (int) xmlInfo.getIntField(3);
-        int entityExpansionLimit = (int) xmlInfo.getIntField(4);
-        int childrenPerElement = (int) xmlInfo.getIntField(5);
-        String xmlApiId = xmlInfo.getStringField(0);
+        BStruct xmlInfo = ((BStruct) getRefArgument(context, 1));
+        if (xmlInfo != null) {
+            boolean enabled = xmlInfo.getBooleanField(0) != 0;
+            boolean dtdEnabled = xmlInfo.getBooleanField(1) != 0;
+            boolean externalEntitiesEnabled = xmlInfo.getBooleanField(2) != 0;
+            int maxXMLDepth = (int) xmlInfo.getIntField(0);
+            int elementCount = (int) xmlInfo.getIntField(1);
+            int attributeCount = (int) xmlInfo.getIntField(2);
+            int attributeLength = (int) xmlInfo.getIntField(3);
+            int entityExpansionLimit = (int) xmlInfo.getIntField(4);
+            int childrenPerElement = (int) xmlInfo.getIntField(5);
+            String xmlApiId = xmlInfo.getStringField(0);
 
-        XMLConfig xmlConfig = new XMLConfig();
-        xmlConfig.setDtdEnabled(dtdEnabled);
-        xmlConfig.setExternalEntitiesEnabled(externalEntitiesEnabled);
-        xmlConfig.setMaxDepth(maxXMLDepth);
-        xmlConfig.setMaxElementCount(elementCount);
-        xmlConfig.setMaxAttributeCount(attributeCount);
-        xmlConfig.setMaxAttributeLength(attributeLength);
-        xmlConfig.setEntityExpansionLimit(entityExpansionLimit);
-        xmlConfig.setMaxChildrenPerElement(childrenPerElement);
+            XMLConfig xmlConfig = new XMLConfig();
+            xmlConfig.setEnabled(enabled);
+            xmlConfig.setDtdEnabled(dtdEnabled);
+            xmlConfig.setExternalEntitiesEnabled(externalEntitiesEnabled);
+            xmlConfig.setMaxDepth(maxXMLDepth);
+            xmlConfig.setMaxElementCount(elementCount);
+            xmlConfig.setMaxAttributeCount(attributeCount);
+            xmlConfig.setMaxAttributeLength(attributeLength);
+            xmlConfig.setEntityExpansionLimit(entityExpansionLimit);
+            xmlConfig.setMaxChildrenPerElement(childrenPerElement);
 
-        //put into ConfigurationHolder
-        ConfigurationHolder.addXmlConfig(xmlApiId, xmlConfig);
+            //put into ConfigurationHolder
+            ConfigurationHolder.addXmlConfig(xmlApiId, xmlConfig);
+        }
 
         return getBValues(new BBoolean(true));
     }

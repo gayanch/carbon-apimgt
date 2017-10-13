@@ -221,6 +221,8 @@ public class RegistrationSummary {
      * This class holds the JSON Threat Protection info required by gateway
      */
     public static class JSONThreatProtectionInfo {
+        private boolean enabled;
+        private String apiId;
         private int propertyCount;
         private int stringLength;
         private int arrayElementCount;
@@ -228,11 +230,21 @@ public class RegistrationSummary {
         private int maxDepth;
 
         public JSONThreatProtectionInfo(JSONThreatProtectionConfigurations configurations) {
+            this.enabled = configurations.isEnabled();
+            this.apiId = configurations.getApiId();
             this.propertyCount = configurations.getPropertyCount();
             this.stringLength = configurations.getStringLength();
             this.arrayElementCount = configurations.getArrayElementCount();
             this.keyLength = configurations.getKeyLength();
             this.maxDepth = configurations.getMaxDepth();
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public String getApiId() {
+            return apiId;
         }
 
         public int getPropertyCount() {
@@ -260,6 +272,8 @@ public class RegistrationSummary {
      * This class holds the XML Threat Protection info required by gateway
      */
     public static class XMLThreatProtectionInfo {
+        private boolean enabled;
+        private String apiId;
         private boolean dtdEnabled;
         private boolean externalEntitiesEnabled;
         private int maxDepth;
@@ -270,6 +284,8 @@ public class RegistrationSummary {
         private int childrenPerElement;
 
         public XMLThreatProtectionInfo(XMLThreatProtectionConfigurations configurations) {
+            this.enabled = configurations.isEnabled();
+            this.apiId = configurations.getApiId();
             this.dtdEnabled = configurations.isDtdEnabled();
             this.externalEntitiesEnabled = configurations.isExternalEntitiesEnabled();
             this.maxDepth = configurations.getMaxDepth();
@@ -278,6 +294,14 @@ public class RegistrationSummary {
             this.attributeLength = configurations.getAttributeLength();
             this.entityExpansionLimit = configurations.getEntityExpansionLimit();
             this.childrenPerElement = configurations.getChildrenPerElement();
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public String getApiId() {
+            return apiId;
         }
 
         public boolean isDtdEnabled() {
