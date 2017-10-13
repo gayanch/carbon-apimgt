@@ -42,7 +42,6 @@ import org.wso2.carbon.apimgt.rest.api.core.dto.BlockingConditionListDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.CredentialsDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.EndPointDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.JWTInfoDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.JsonThreatProtectionInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.KeyManagerInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.LabelDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.PolicyDTO;
@@ -52,7 +51,6 @@ import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThrottlingInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.UriTemplateDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.XmlThreatProtectionInfoDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,8 +189,8 @@ public class MappingUtil {
         registrationSummaryDTO.setAnalyticsInfo(toAnalyticsDTO(registrationSummary));
         registrationSummaryDTO.setJwTInfo(toJWTInfoDTO(registrationSummary));
         registrationSummaryDTO.setThrottlingInfo(toThrottlingInfoDTO(registrationSummary));
-        registrationSummaryDTO.setJsonThreatProtectionInfo(toJSONThreatProtectionInfoDTO(registrationSummary));
-        registrationSummaryDTO.setXmlThreatProtectionInfo(toXMLThreatProtectionInfoDTO(registrationSummary));
+        registrationSummaryDTO.setJsonThreatProtectionInfo(toJSONThreatProtectionPolicyDTO(registrationSummary));
+        registrationSummaryDTO.setXmlThreatProtectionInfo(toXMLThreatProtectionPolicyDTO(registrationSummary));
         return registrationSummaryDTO;
     }
 
@@ -202,18 +200,20 @@ public class MappingUtil {
      * @param registrationSummary the registration summary required by gateway
      * @return JSONThreatProtectionInfoDTO
      */
-    private static JsonThreatProtectionInfoDTO toJSONThreatProtectionInfoDTO(RegistrationSummary registrationSummary) {
-        JsonThreatProtectionInfoDTO jsonThreatProtectionInfoDTO = new JsonThreatProtectionInfoDTO();
-        jsonThreatProtectionInfoDTO.setArrayElementCount(registrationSummary.getJsonThreatProtectionInfo()
+    private static ThreatProtectionJsonPolicyDTO toJSONThreatProtectionPolicyDTO(RegistrationSummary registrationSummary) {
+        ThreatProtectionJsonPolicyDTO policy = new ThreatProtectionJsonPolicyDTO();
+        policy.setEnabled(registrationSummary.getJsonThreatProtectionInfo().isEnabled());
+        policy.setApiId(registrationSummary.getJsonThreatProtectionInfo().getApiId());
+        policy.setMaxArrayElementCount(registrationSummary.getJsonThreatProtectionInfo()
                 .getArrayElementCount());
-        jsonThreatProtectionInfoDTO.setKeyLength(registrationSummary.getJsonThreatProtectionInfo().getKeyLength());
-        jsonThreatProtectionInfoDTO.setMaxDepth(registrationSummary.getJsonThreatProtectionInfo().getMaxDepth());
-        jsonThreatProtectionInfoDTO.setPropertyCount(registrationSummary.getJsonThreatProtectionInfo()
+        policy.setMaxFieldLength(registrationSummary.getJsonThreatProtectionInfo().getKeyLength());
+        policy.setMaxDepth(registrationSummary.getJsonThreatProtectionInfo().getMaxDepth());
+        policy.setMaxFieldCount(registrationSummary.getJsonThreatProtectionInfo()
                 .getPropertyCount());
-        jsonThreatProtectionInfoDTO.setStringLength(registrationSummary.getJsonThreatProtectionInfo()
+        policy.setMaxStringLength(registrationSummary.getJsonThreatProtectionInfo()
                 .getStringLength());
 
-        return jsonThreatProtectionInfoDTO;
+        return policy;
     }
 
     /**
@@ -222,23 +222,25 @@ public class MappingUtil {
      * @param registrationSummary the registration summary required by gateway
      * @return XMLThreatProtectionInfoDTO
      */
-    private static XmlThreatProtectionInfoDTO toXMLThreatProtectionInfoDTO(RegistrationSummary registrationSummary) {
-        XmlThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = new XmlThreatProtectionInfoDTO();
-        xmlThreatProtectionInfoDTO.setAttributeCount(registrationSummary.getXmlThreatProtectionInfo()
+    private static ThreatProtectionXmlPolicyDTO toXMLThreatProtectionPolicyDTO(RegistrationSummary registrationSummary) {
+        ThreatProtectionXmlPolicyDTO policy = new ThreatProtectionXmlPolicyDTO();
+        policy.setEnabled(registrationSummary.getXmlThreatProtectionInfo().isEnabled());
+        policy.setApiId(registrationSummary.getXmlThreatProtectionInfo().getApiId());
+        policy.setMaxAttributeCount(registrationSummary.getXmlThreatProtectionInfo()
                 .getAttributeCount());
-        xmlThreatProtectionInfoDTO.setAttributeLength(registrationSummary.getXmlThreatProtectionInfo()
+        policy.setMaxAttributeLength(registrationSummary.getXmlThreatProtectionInfo()
                 .getAttributeLength());
-        xmlThreatProtectionInfoDTO.setChildrenPerElement(registrationSummary.getXmlThreatProtectionInfo()
+        policy.setMaxChildrenPerElement(registrationSummary.getXmlThreatProtectionInfo()
                 .getChildrenPerElement());
-        xmlThreatProtectionInfoDTO.setDtdEnabled(registrationSummary.getXmlThreatProtectionInfo().isDtdEnabled());
-        xmlThreatProtectionInfoDTO.setElementCount(registrationSummary.getXmlThreatProtectionInfo().getElementCount());
-        xmlThreatProtectionInfoDTO.setExternalEntitiesEnabled(registrationSummary.getXmlThreatProtectionInfo()
+        policy.setDtdEnabled(registrationSummary.getXmlThreatProtectionInfo().isDtdEnabled());
+        policy.setMaxElementCount(registrationSummary.getXmlThreatProtectionInfo().getElementCount());
+        policy.setExternalEntitiesEnabled(registrationSummary.getXmlThreatProtectionInfo()
                 .isExternalEntitiesEnabled());
-        xmlThreatProtectionInfoDTO.setEntityExpansionLimit(registrationSummary.getXmlThreatProtectionInfo()
+        policy.setEntityExpansionLimit(registrationSummary.getXmlThreatProtectionInfo()
                 .getEntityExpansionLimit());
-        xmlThreatProtectionInfoDTO.setMaxDepth(registrationSummary.getXmlThreatProtectionInfo().getMaxDepth());
+        policy.setMaxDepth(registrationSummary.getXmlThreatProtectionInfo().getMaxDepth());
 
-        return xmlThreatProtectionInfoDTO;
+        return policy;
     }
 
     /**

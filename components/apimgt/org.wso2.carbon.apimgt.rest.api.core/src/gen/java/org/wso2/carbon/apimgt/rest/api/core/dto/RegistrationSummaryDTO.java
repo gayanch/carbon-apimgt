@@ -7,10 +7,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.wso2.carbon.apimgt.rest.api.core.dto.AnalyticsInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.JWTInfoDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.JsonThreatProtectionInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.KeyManagerInfoDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThrottlingInfoDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.XmlThreatProtectionInfoDTO;
 import java.util.Objects;
 
 /**
@@ -30,10 +30,10 @@ public class RegistrationSummaryDTO   {
   private ThrottlingInfoDTO throttlingInfo = null;
 
   @JsonProperty("JsonThreatProtectionInfo")
-  private JsonThreatProtectionInfoDTO jsonThreatProtectionInfo = null;
+  private ThreatProtectionJsonPolicyDTO jsonThreatProtectionInfo = null;
 
   @JsonProperty("XmlThreatProtectionInfo")
-  private XmlThreatProtectionInfoDTO xmlThreatProtectionInfo = null;
+  private ThreatProtectionXmlPolicyDTO xmlThreatProtectionInfo = null;
 
   public RegistrationSummaryDTO keyManagerInfo(KeyManagerInfoDTO keyManagerInfo) {
     this.keyManagerInfo = keyManagerInfo;
@@ -107,7 +107,7 @@ public class RegistrationSummaryDTO   {
     this.throttlingInfo = throttlingInfo;
   }
 
-  public RegistrationSummaryDTO jsonThreatProtectionInfo(JsonThreatProtectionInfoDTO jsonThreatProtectionInfo) {
+  public RegistrationSummaryDTO jsonThreatProtectionInfo(ThreatProtectionJsonPolicyDTO jsonThreatProtectionInfo) {
     this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
     return this;
   }
@@ -117,15 +117,15 @@ public class RegistrationSummaryDTO   {
    * @return jsonThreatProtectionInfo
   **/
   @ApiModelProperty(value = "")
-  public JsonThreatProtectionInfoDTO getJsonThreatProtectionInfo() {
+  public ThreatProtectionJsonPolicyDTO getJsonThreatProtectionInfo() {
     return jsonThreatProtectionInfo;
   }
 
-  public void setJsonThreatProtectionInfo(JsonThreatProtectionInfoDTO jsonThreatProtectionInfo) {
+  public void setJsonThreatProtectionInfo(ThreatProtectionJsonPolicyDTO jsonThreatProtectionInfo) {
     this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
   }
 
-  public RegistrationSummaryDTO xmlThreatProtectionInfo(XmlThreatProtectionInfoDTO xmlThreatProtectionInfo) {
+  public RegistrationSummaryDTO xmlThreatProtectionInfo(ThreatProtectionXmlPolicyDTO xmlThreatProtectionInfo) {
     this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
     return this;
   }
@@ -135,11 +135,11 @@ public class RegistrationSummaryDTO   {
    * @return xmlThreatProtectionInfo
   **/
   @ApiModelProperty(value = "")
-  public XmlThreatProtectionInfoDTO getXmlThreatProtectionInfo() {
+  public ThreatProtectionXmlPolicyDTO getXmlThreatProtectionInfo() {
     return xmlThreatProtectionInfo;
   }
 
-  public void setXmlThreatProtectionInfo(XmlThreatProtectionInfoDTO xmlThreatProtectionInfo) {
+  public void setXmlThreatProtectionInfo(ThreatProtectionXmlPolicyDTO xmlThreatProtectionInfo) {
     this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
   }
 

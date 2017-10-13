@@ -975,9 +975,9 @@ definitions:
       ThrottlingInfo:
         $ref: '#/definitions/ThrottlingInfo'
       JsonThreatProtectionInfo:
-        $ref: '#/definitions/JsonThreatProtectionInfo'
+        $ref: '#/definitions/ThreatProtectionJsonPolicy'
       XmlThreatProtectionInfo:
-        $ref: '#/definitions/XmlThreatProtectionInfo'
+        $ref: '#/definitions/ThreatProtectionXmlPolicy'
 
 
 #-----------------------------------------------------
@@ -1191,59 +1191,59 @@ definitions:
 #-----------------------------------------------------
 # JSON Threat Protection information
 #-----------------------------------------------------
-  JsonThreatProtectionInfo:
-    title: JSON Threat Protection information
-    properties:
-      propertyCount:
-        type: integer
-        format: int
-      stringLength:
-        type: integer
-        format: int
-      arrayElementCount:
-        type: integer
-        format: int
-      keyLength:
-        type: integer
-        format: int
-      maxDepth:
-        type: integer
-        format: int
-      credentials:
-        $ref: '#/definitions/Credentials'
+#  JsonThreatProtectionInfo:
+#    title: JSON Threat Protection information
+#    properties:
+#      propertyCount:
+#        type: integer
+#        format: int
+#      stringLength:
+#        type: integer
+#        format: int
+#      arrayElementCount:
+#        type: integer
+#        format: int
+#      keyLength:
+#        type: integer
+#        format: int
+#      maxDepth:
+#        type: integer
+#        format: int
+#      credentials:
+#        $ref: '#/definitions/Credentials'
 
 #-----------------------------------------------------
 # XML Threat Protection information
 #-----------------------------------------------------
-  XmlThreatProtectionInfo:
-    title: XML Threat Protection information
-    properties:
-      dtdEnabled:
-        type: boolean
-        example: false
-      externalEntitiesEnabled:
-        type: boolean
-        example: false
-      maxDepth:
-        type: integer
-        format: int
-      elementCount:
-        type: integer
-        format: int
-      attributeCount:
-        type: integer
-        format: int
-      attributeLength:
-        type: integer
-        format: int
-      entityExpansionLimit:
-        type: integer
-        format: int
-      childrenPerElement:
-        type: integer
-        format: int
-      credentials:
-        $ref: '#/definitions/Credentials'
+#  XmlThreatProtectionInfo:
+#    title: XML Threat Protection information
+#    properties:
+#      dtdEnabled:
+#        type: boolean
+#        example: false
+#      externalEntitiesEnabled:
+#        type: boolean
+#        example: false
+#      maxDepth:
+#        type: integer
+#        format: int
+#      elementCount:
+#        type: integer
+#        format: int
+#      attributeCount:
+#        type: integer
+#        format: int
+#      attributeLength:
+#        type: integer
+#        format: int
+#      entityExpansionLimit:
+#        type: integer
+#        format: int
+#      childrenPerElement:
+#        type: integer
+#        format: int
+#      credentials:
+#        $ref: '#/definitions/Credentials'
 
 #-----------------------------------------------------
 # Throttling information
