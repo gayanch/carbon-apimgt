@@ -574,6 +574,53 @@ paths:
               type: string
 
 ######################################################
+# The "Threat Protection" resource API
+######################################################
+  /threat-protection/xml/{apiId}:
+    get:
+      summary: "Get an xml policy"
+      description: "xml policy"
+      parameters:
+        - $ref: '#/parameters/apiId'
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/ThreatProtectionXmlPolicy'
+          description: OK
+
+    post:
+      summary: "add an xml policy"
+      description: "add an xml policy"
+      parameters:
+        - $ref: '#/parameters/apiId'
+        - $ref: '#/parameters/threatProtectionXmlPolicy'
+      responses:
+        200:
+          description: OK
+
+  /threat-protection/json/{apiId}:
+    get:
+      summary: "get"
+      description: "desc"
+      parameters:
+        - $ref: '#/parameters/apiId'
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/ThreatProtectionJsonPolicy'
+          description: OK
+
+    post:
+      summary: "post"
+      description: "desc"
+      parameters:
+        - $ref: '#/parameters/apiId'
+        - $ref: '#/parameters/threatProtectionJsonPolicy'
+      responses:
+        200:
+          description: OK
+
+######################################################
 # Parameters - required by some of the APIs above
 ######################################################
 parameters:
@@ -661,6 +708,27 @@ parameters:
     required: false
     type: string
 
+#Threat Protection JSON policy parameter
+  threatProtectionJsonPolicy:
+    name: threatProtectionJsonPolicy
+    in: body
+    description: |
+      Threat protection json policy request parameter
+    required: true
+    schema: {
+      $ref: '#/definitions/ThreatProtectionJsonPolicy'
+    }
+
+#Threat Protection XML Policy parameter
+  threatProtectionXmlPolicy:
+    name: threatProtectionXmlPolicy
+    in: body
+    description: |
+      Threat protection xml policy request parameter
+    required: true
+    schema: {
+      $ref: '#/definitions/ThreatProtectionXmlPolicy'
+    }
 
 ######################################################
 # The resources used by some of the APIs above within the message body
@@ -1244,7 +1312,89 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/BlockingCondition'
+#-----------------------------------------------------
+# The Threat Protection JSON Policy resource
+#-----------------------------------------------------
+  ThreatProtectionJsonPolicy:
+    title: "JSON Threat Protection Policy Schema"
+    required:
+      - enabled
+      - apiId
+      - maxFieldCount
+      - maxStringLength
+      - maxArrayElementCount
+      - maxFieldLength
+      - maxDepth
+    properties:
+      enabled:
+        type: boolean
+        description: Enabled/Disabled status
+      apiId:
+        type: string
+        description: API ID
+      maxFieldCount:
+        type: integer
+        description: Maximum number of fields allowed on json document
+      maxStringLength:
+        type: integer
+        description: Maximum string length allowed
+      maxArrayElementCount:
+        type: integer
+        description: Maximum array elements allowed
+      maxFieldLength:
+        type: integer
+        description: Maximum field length allowed (in chars)
+      maxDepth:
+        type: integer
+        description: Maximum depth allowed
 
+#-----------------------------------------------------
+# The Threat Protection XML Policy resource
+#-----------------------------------------------------
+  ThreatProtectionXmlPolicy:
+    title: XML Threat Protection Policy Schema
+    required:
+      - enabled
+      - apiId
+      - dtdEnabled
+      - externalEntitiesEnabled
+      - maxDepth
+      - maxElementCount
+      - maxAttributeCount
+      - maxAttributeLength
+      - entityExpansionLimit
+      - maxChildrenPerElement
+    properties:
+      enabled:
+        type: boolean
+        description: Enabled/Disabled status
+      apiId:
+        type: string
+        description: API ID
+      dtdEnabled:
+        type: boolean
+        description: is DTD Enabled
+      externalEntitiesEnabled:
+        type: boolean
+        description: Is external entities enabled
+      maxDepth:
+        type: integer
+        description: Max Depth
+      maxElementCount:
+        type: integer
+        description: Maximum elements
+      maxAttributeCount:
+        type: integer
+        description: Maximum attributes allowed
+      maxAttributeLength:
+        type: integer
+        description: Maximum length of an attribute (in chars)
+      entityExpansionLimit:
+        type: integer
+        description: Maximum number of entity expansions allowed
+      maxChildrenPerElement:
+        type: integer
+        description: Maximum children per element
 #-----------------------------------------------------
 # END-OF-FILE
 #-----------------------------------------------------

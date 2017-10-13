@@ -33,6 +33,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * DAO Layer implementation class for Threat Protection Policies
@@ -42,23 +43,23 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     private static final String THREAT_PROTECTION_XML_TABLE = "AM_THREAT_PROTECTION_XML";
 
     //DB Column names
-    private static final String UUID = "UUID";
-    private static final String API_ID = "API_ID";
-    private static final String ENABLED = "ENABLED";
+    private static final String F_UUID = "UUID";
+    private static final String F_API_ID = "API_ID";
+    private static final String F_ENABLED = "ENABLED";
 
-    private static final String MAX_FIELD_COUNT = "MAX_FIELD_COUNT";
-    private static final String MAX_STRING_LENGTH = "MAX_STRING_LENGTH";
-    private static final String MAX_ARRAY_ELEMENT_COUNT = "MAX_ARRAY_ELEMENT_COUNT";
-    private static final String MAX_FIELD_LENGTH = "MAX_FIELD_LENGTH";
-    private static final String MAX_DEPTH = "MAX_DEPTH";
+    private static final String F_MAX_FIELD_COUNT = "MAX_FIELD_COUNT";
+    private static final String F_MAX_STRING_LENGTH = "MAX_STRING_LENGTH";
+    private static final String F_MAX_ARRAY_ELEMENT_COUNT = "MAX_ARRAY_ELEMENT_COUNT";
+    private static final String F_MAX_FIELD_LENGTH = "MAX_FIELD_LENGTH";
+    private static final String F_MAX_DEPTH = "MAX_DEPTH";
 
-    private static final String DTD_ENABLED = "DTD_ENABLED";
-    private static final String EXTERNAL_ENTITIES_ENABLED = "EXTERNAL_ENTITIES_ENABLED";
-    private static final String MAX_ELEMENT_COUNT = "MAX_ELEMENT_COUNT";
-    private static final String MAX_ATTRIBUTE_COUNT = "MAX_ATTRIBUTE_COUNT";
-    private static final String MAX_ATTRIBUTE_LENGTH = "MAX_ATTRIBUTE_LENGTH";
-    private static final String ENTITY_EXPANSION_LIMIT = "ENTITY_EXPANSION_LIMIT";
-    private static final String MAX_CHILDREN_PER_ELEMENT = "MAX_CHILDREN_PER_ELEMENT";
+    private static final String F_DTD_ENABLED = "DTD_ENABLED";
+    private static final String F_EXTERNAL_ENTITIES_ENABLED = "EXTERNAL_ENTITIES_ENABLED";
+    private static final String F_MAX_ELEMENT_COUNT = "MAX_ELEMENT_COUNT";
+    private static final String F_MAX_ATTRIBUTE_COUNT = "MAX_ATTRIBUTE_COUNT";
+    private static final String F_MAX_ATTRIBUTE_LENGTH = "MAX_ATTRIBUTE_LENGTH";
+    private static final String F_ENTITY_EXPANSION_LIMIT = "ENTITY_EXPANSION_LIMIT";
+    private static final String F_MAX_CHILDREN_PER_ELEMENT = "MAX_CHILDREN_PER_ELEMENT";
 
     private static final Logger log = LoggerFactory.getLogger(ThreatProtectionDAOImpl.class);
 
@@ -109,6 +110,7 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     @Override
     public void addJsonPolicy(ThreatProtectionJsonPolicy policy) throws APIMgtDAOException {
         try (Connection connection = DAOUtil.getConnection()) {
+            policy.setUuid(UUID.randomUUID().toString());
             addJsonPolicy(policy, connection);
         } catch (SQLException e) {
             String errorMsg = "Error adding JSON Threat Protection policy";
@@ -120,9 +122,46 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     @Override
     public void addXmlPolicy(ThreatProtectionXmlPolicy policy) throws APIMgtDAOException {
         try (Connection connection = DAOUtil.getConnection()) {
+            policy.setUuid(UUID.randomUUID().toString());
             addXmlPolicy(policy, connection);
         } catch (SQLException e) {
-            String errorMsg = "Error adding XML Threat Protection policy: Connection Error";
+            String errorMsg = "Error adding XML Threat Protection policy";
+            log.error(errorMsg, e);
+            throw new APIMgtDAOException(errorMsg, e);
+        }
+    }
+
+    @Override
+    public boolean isXmlPolicyExists(String apiId) throws APIMgtDAOException {
+        String sqlQuery = "SELECT UUID FROM " + THREAT_PROTECTION_XML_TABLE + " WHERE " +
+                "API_ID = ?";
+        try (Connection connection = DAOUtil.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+                preparedStatement.setString(1, apiId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    return resultSet.next();
+                }
+            }
+        } catch (SQLException e) {
+            String errorMsg = "Error querying XML policy status for APIID: " + apiId;
+            log.error(errorMsg, e);
+            throw new APIMgtDAOException(errorMsg, e);
+        }
+    }
+
+    @Override
+    public boolean isJsonPolicyExists(String apiId) throws APIMgtDAOException {
+        String sqlQuery = "SELECT UUID FROM " + THREAT_PROTECTION_JSON_TABLE + " WHERE " +
+                "API_ID = ?";
+        try (Connection connection = DAOUtil.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+                preparedStatement.setString(1, apiId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    return resultSet.next();
+                }
+            }
+        } catch (SQLException e) {
+            String errorMsg = "Error querying JSON policy status for APIID: " + apiId;
             log.error(errorMsg, e);
             throw new APIMgtDAOException(errorMsg, e);
         }
@@ -143,14 +182,14 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
                 List<ThreatProtectionJsonPolicy> list = new ArrayList<>();
                 while (rs.next()) {
                     ThreatProtectionJsonPolicy policy = new ThreatProtectionJsonPolicy();
-                    policy.setUuid(rs.getString(UUID));
-                    policy.setApiId(rs.getString(API_ID));
-                    policy.setEnabled(rs.getBoolean(ENABLED));
-                    policy.setMaxFieldCount(rs.getInt(MAX_FIELD_COUNT));
-                    policy.setMaxStringLength(rs.getInt(MAX_STRING_LENGTH));
-                    policy.setMaxArrayElementCount(rs.getInt(MAX_ARRAY_ELEMENT_COUNT));
-                    policy.setMaxFieldLength(rs.getInt(MAX_FIELD_LENGTH));
-                    policy.setMaxDepth(rs.getInt(MAX_DEPTH));
+                    policy.setUuid(rs.getString(F_UUID));
+                    policy.setApiId(rs.getString(F_API_ID));
+                    policy.setEnabled(rs.getBoolean(F_ENABLED));
+                    policy.setMaxFieldCount(rs.getInt(F_MAX_FIELD_COUNT));
+                    policy.setMaxStringLength(rs.getInt(F_MAX_STRING_LENGTH));
+                    policy.setMaxArrayElementCount(rs.getInt(F_MAX_ARRAY_ELEMENT_COUNT));
+                    policy.setMaxFieldLength(rs.getInt(F_MAX_FIELD_LENGTH));
+                    policy.setMaxDepth(rs.getInt(F_MAX_DEPTH));
                     list.add(policy);
                 }
                 return list;
@@ -179,16 +218,16 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
                 ThreatProtectionJsonPolicy policy = null;
                 if (rs.next()) {
                     policy = new ThreatProtectionJsonPolicy();
-                    policy.setUuid(rs.getString(UUID));
-                    policy.setApiId(rs.getString(API_ID));
-                    policy.setEnabled(rs.getBoolean(ENABLED));
-                    policy.setMaxFieldCount(rs.getInt(MAX_FIELD_COUNT));
-                    policy.setMaxStringLength(rs.getInt(MAX_STRING_LENGTH));
-                    policy.setMaxArrayElementCount(rs.getInt(MAX_ARRAY_ELEMENT_COUNT));
-                    policy.setMaxFieldLength(rs.getInt(MAX_FIELD_LENGTH));
-                    policy.setMaxDepth(rs.getInt(MAX_DEPTH));
+                    policy.setUuid(rs.getString(F_UUID));
+                    policy.setApiId(rs.getString(F_API_ID));
+                    policy.setEnabled(rs.getBoolean(F_ENABLED));
+                    policy.setMaxFieldCount(rs.getInt(F_MAX_FIELD_COUNT));
+                    policy.setMaxStringLength(rs.getInt(F_MAX_STRING_LENGTH));
+                    policy.setMaxArrayElementCount(rs.getInt(F_MAX_ARRAY_ELEMENT_COUNT));
+                    policy.setMaxFieldLength(rs.getInt(F_MAX_FIELD_LENGTH));
+                    policy.setMaxDepth(rs.getInt(F_MAX_DEPTH));
                 } else {
-                    log.warn("No JSON Threat Protection Policy found for API_ID: " + apiId);
+                    log.warn("No JSON Threat Protection Policy found for F_API_ID: " + apiId);
                 }
                 return policy;
             }
@@ -200,14 +239,21 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     }
 
     private void addJsonPolicy(ThreatProtectionJsonPolicy policy, Connection connection) throws APIMgtDAOException {
-        String sqlQuery = "INSERT (UUID, " +
+        //update if there is already a policy for API
+        if (isJsonPolicyExists(policy.getApiId())) {
+            updateJsonPolicy(policy, connection);
+            return;
+        }
+
+        String sqlQuery = "INSERT INTO " + THREAT_PROTECTION_JSON_TABLE +
+                " (UUID, " +
                 "API_ID, " +
                 "ENABLED, " +
                 "MAX_FIELD_COUNT, " +
                 "MAX_STRING_LENGTH, " +
                 "MAX_ARRAY_ELEMENT_COUNT, " +
                 "MAX_FIELD_LENGTH, " +
-                "MAX_DEPTH) INTO " + THREAT_PROTECTION_JSON_TABLE +
+                "MAX_DEPTH)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, policy.getUuid());
@@ -244,17 +290,17 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
                 List<ThreatProtectionXmlPolicy> list = new ArrayList<>();
                 while (rs.next()) {
                     ThreatProtectionXmlPolicy policy = new ThreatProtectionXmlPolicy();
-                    policy.setUuid(rs.getString(UUID));
-                    policy.setApiId(rs.getString(API_ID));
-                    policy.setEnabled(rs.getBoolean(ENABLED));
-                    policy.setDtdEnabled(rs.getBoolean(DTD_ENABLED));
-                    policy.setExternalEntitiesEnabled(rs.getBoolean(EXTERNAL_ENTITIES_ENABLED));
-                    policy.setMaxDepth(rs.getInt(MAX_DEPTH));
-                    policy.setMaxElementCount(rs.getInt(MAX_ELEMENT_COUNT));
-                    policy.setMaxAttributeCount(rs.getInt(MAX_ATTRIBUTE_COUNT));
-                    policy.setMaxAttributeLength(rs.getInt(MAX_ATTRIBUTE_LENGTH));
-                    policy.setEntityExpansionLimit(rs.getInt(ENTITY_EXPANSION_LIMIT));
-                    policy.setMaxChildrenPerElement(rs.getInt(MAX_CHILDREN_PER_ELEMENT));
+                    policy.setUuid(rs.getString(F_UUID));
+                    policy.setApiId(rs.getString(F_API_ID));
+                    policy.setEnabled(rs.getBoolean(F_ENABLED));
+                    policy.setDtdEnabled(rs.getBoolean(F_DTD_ENABLED));
+                    policy.setExternalEntitiesEnabled(rs.getBoolean(F_EXTERNAL_ENTITIES_ENABLED));
+                    policy.setMaxDepth(rs.getInt(F_MAX_DEPTH));
+                    policy.setMaxElementCount(rs.getInt(F_MAX_ELEMENT_COUNT));
+                    policy.setMaxAttributeCount(rs.getInt(F_MAX_ATTRIBUTE_COUNT));
+                    policy.setMaxAttributeLength(rs.getInt(F_MAX_ATTRIBUTE_LENGTH));
+                    policy.setEntityExpansionLimit(rs.getInt(F_ENTITY_EXPANSION_LIMIT));
+                    policy.setMaxChildrenPerElement(rs.getInt(F_MAX_CHILDREN_PER_ELEMENT));
                     list.add(policy);
                 }
                 return list;
@@ -286,19 +332,19 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
                 ThreatProtectionXmlPolicy policy = null;
                 if (rs.next()) {
                     policy = new ThreatProtectionXmlPolicy();
-                    policy.setUuid(rs.getString(UUID));
-                    policy.setApiId(rs.getString(API_ID));
-                    policy.setEnabled(rs.getBoolean(ENABLED));
-                    policy.setDtdEnabled(rs.getBoolean(DTD_ENABLED));
-                    policy.setExternalEntitiesEnabled(rs.getBoolean(EXTERNAL_ENTITIES_ENABLED));
-                    policy.setMaxDepth(rs.getInt(MAX_DEPTH));
-                    policy.setMaxElementCount(rs.getInt(MAX_ELEMENT_COUNT));
-                    policy.setMaxAttributeCount(rs.getInt(MAX_ATTRIBUTE_COUNT));
-                    policy.setMaxAttributeLength(rs.getInt(MAX_ATTRIBUTE_LENGTH));
-                    policy.setEntityExpansionLimit(rs.getInt(ENTITY_EXPANSION_LIMIT));
-                    policy.setMaxChildrenPerElement((rs.getInt(MAX_CHILDREN_PER_ELEMENT)));
+                    policy.setUuid(rs.getString(F_UUID));
+                    policy.setApiId(rs.getString(F_API_ID));
+                    policy.setEnabled(rs.getBoolean(F_ENABLED));
+                    policy.setDtdEnabled(rs.getBoolean(F_DTD_ENABLED));
+                    policy.setExternalEntitiesEnabled(rs.getBoolean(F_EXTERNAL_ENTITIES_ENABLED));
+                    policy.setMaxDepth(rs.getInt(F_MAX_DEPTH));
+                    policy.setMaxElementCount(rs.getInt(F_MAX_ELEMENT_COUNT));
+                    policy.setMaxAttributeCount(rs.getInt(F_MAX_ATTRIBUTE_COUNT));
+                    policy.setMaxAttributeLength(rs.getInt(F_MAX_ATTRIBUTE_LENGTH));
+                    policy.setEntityExpansionLimit(rs.getInt(F_ENTITY_EXPANSION_LIMIT));
+                    policy.setMaxChildrenPerElement((rs.getInt(F_MAX_CHILDREN_PER_ELEMENT)));
                 } else {
-                    log.warn("No XML Threat Protection Policy found for API_ID: " + apiId);
+                    log.warn("No XML Threat Protection Policy found for F_API_ID: " + apiId);
                 }
                 return policy;
             }
@@ -310,7 +356,14 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     }
 
     private void addXmlPolicy(ThreatProtectionXmlPolicy policy, Connection connection) throws APIMgtDAOException {
-        String sqlQuery = "INSERT (UUID, " +
+        //update if there is already a policy for API
+        if (isXmlPolicyExists(policy.getApiId())) {
+            updateXmlPolicy(policy, connection);
+            return;
+        }
+
+        String sqlQuery = "INSERT INTO " + THREAT_PROTECTION_XML_TABLE +
+                "(UUID, " +
                 "API_ID, " +
                 "ENABLED, " +
                 "DTD_ENABLED, " +
@@ -320,7 +373,7 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
                 "MAX_ATTRIBUTE_COUNT, " +
                 "MAX_ATTRIBUTE_LENGTH, " +
                 "ENTITY_EXPANSION_LIMIT, " +
-                "MAX_CHILDREN_PER_ELEMENT) INTO " + THREAT_PROTECTION_XML_TABLE +
+                "MAX_CHILDREN_PER_ELEMENT)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, policy.getUuid());
@@ -337,6 +390,62 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             String errorMsg = "Error adding XML Threat Protection policy";
+            log.error(errorMsg, e);
+            throw new APIMgtDAOException(errorMsg, e);
+        }
+    }
+
+    private void updateJsonPolicy(ThreatProtectionJsonPolicy policy, Connection connection) throws APIMgtDAOException {
+        String sqlQuery = "UPDATE " + THREAT_PROTECTION_JSON_TABLE +
+                " SET ENABLED = ?," +
+                "MAX_FIELD_COUNT = ?," +
+                "MAX_STRING_LENGTH = ?," +
+                "MAX_ARRAY_ELEMENT_COUNT = ?," +
+                "MAX_FIELD_LENGTH = ?," +
+                "MAX_DEPTH = ? " +
+                "WHERE API_ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            preparedStatement.setBoolean(1, policy.isEnabled());
+            preparedStatement.setInt(2, policy.getMaxFieldCount());
+            preparedStatement.setInt(3, policy.getMaxStringLength());
+            preparedStatement.setInt(4, policy.getMaxArrayElementCount());
+            preparedStatement.setInt(5, policy.getMaxFieldLength());
+            preparedStatement.setInt(6, policy.getMaxDepth());
+            preparedStatement.setString(7, policy.getApiId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            String errorMsg = "Error updating JSON Threat Protection policy";
+            log.error(errorMsg, e);
+            throw new APIMgtDAOException(errorMsg, e);
+        }
+    }
+
+    private void updateXmlPolicy(ThreatProtectionXmlPolicy policy, Connection connection) throws APIMgtDAOException {
+        String sqlQuery = "UPDATE " + THREAT_PROTECTION_XML_TABLE +
+                " SET ENABLED = ?, " +
+                "DTD_ENABLED = ?, " +
+                "EXTERNAL_ENTITIES_ENABLED = ?, " +
+                "MAX_DEPTH = ?, " +
+                "MAX_ELEMENT_COUNT = ?, " +
+                "MAX_ATTRIBUTE_COUNT = ?, " +
+                "MAX_ATTRIBUTE_LENGTH = ?, " +
+                "ENTITY_EXPANSION_LIMIT = ?, " +
+                "MAX_CHILDREN_PER_ELEMENT = ? " +
+                "WHERE API_ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            preparedStatement.setBoolean(1, policy.isEnabled());
+            preparedStatement.setBoolean(2, policy.isDtdEnabled());
+            preparedStatement.setBoolean(3, policy.isExternalEntitiesEnabled());
+            preparedStatement.setInt(4, policy.getMaxDepth());
+            preparedStatement.setInt(5, policy.getMaxElementCount());
+            preparedStatement.setInt(6, policy.getMaxAttributeCount());
+            preparedStatement.setInt(7, policy.getMaxAttributeLength());
+            preparedStatement.setInt(8, policy.getEntityExpansionLimit());
+            preparedStatement.setInt(9, policy.getMaxChildrenPerElement());
+            preparedStatement.setString(10, policy.getApiId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            String errorMsg = "Error updating XML Threat Protection policy";
             log.error(errorMsg, e);
             throw new APIMgtDAOException(errorMsg, e);
         }

@@ -48,7 +48,7 @@ public class AnalyzerHolder {
 
     static {
         poolConfig = new GenericObjectPoolConfig();
-        poolConfig.setMaxTotal(400);
+        poolConfig.setMaxTotal(200);
 
         poolConfig.setBlockWhenExhausted(false);
         poolConfig.setMaxWaitMillis(0);
@@ -102,7 +102,8 @@ public class AnalyzerHolder {
     /**
      * Returns objects back to the pool
      *
-     * @param analyzer borrowed instance of {@link APIMThreatAnalyzer} via {@link AnalyzerHolder#getAnalyzer(String, String)}
+     * @param analyzer borrowed instance of {@link APIMThreatAnalyzer} via
+     * {@link AnalyzerHolder#getAnalyzer(String, String)}
      */
     public static void returnObject(APIMThreatAnalyzer analyzer) {
         if (analyzer instanceof JSONAnalyzer) {
