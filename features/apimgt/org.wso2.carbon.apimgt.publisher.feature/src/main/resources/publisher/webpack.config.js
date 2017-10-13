@@ -6,9 +6,10 @@ const config = {
     },
     output: {
         path: path.resolve(__dirname, 'public/dist'),
-        filename: '[name].js'
+        filename: "[name].bundle.js",
+        chunkFilename: "[name].bundle.js",
+        publicPath: 'public/dist/'
     },
-    devtool: "source-map",
     plugins: [],
     watch: false,
     module: {
@@ -50,6 +51,10 @@ const config = {
 
 if (process.env.NODE_ENV === "development") {
     config.watch = true;
+    config.devtool = "source-map";
+}
+if (process.env.NODE_ENV === 'production') {
+   
 }
 
 module.exports = config;

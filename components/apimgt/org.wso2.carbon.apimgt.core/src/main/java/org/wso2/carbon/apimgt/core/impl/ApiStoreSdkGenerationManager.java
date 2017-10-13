@@ -69,6 +69,9 @@ public class ApiStoreSdkGenerationManager {
     }
 
     public Map<String, String> getSdkGenLanguages() {
+        if (sdkGenLanguages == null) {
+            return new HashMap<>();
+        }
         return sdkGenLanguages;
     }
 
@@ -138,7 +141,7 @@ public class ApiStoreSdkGenerationManager {
             log.debug("Generating SDK for the swagger definition {} was successful.",
                     swaggerDefJsonFile.getAbsolutePath());
             String archiveName = apiName + "_" + language + "_" + apiVersion;
-            tempZipFilePath = tempSdkGenDir + "/" + archiveName + ".zip";
+            tempZipFilePath = tempSdkGenDir + File.separator + archiveName + ".zip";
             APIFileUtils.archiveDirectory(tempSdkGenDir.toString(),
                     tempSdkGenDir.toString(),
                     archiveName);
