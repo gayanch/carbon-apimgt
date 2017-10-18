@@ -42,6 +42,10 @@ public interface ThreatProtectionDAO {
 
     void addXmlPolicy(ThreatProtectionXmlPolicy policy) throws APIMgtDAOException;
 
+    void updateJsonPolicy(ThreatProtectionJsonPolicy policy) throws APIMgtDAOException;
+
+    void updateXmlPolicy(ThreatProtectionXmlPolicy policy) throws APIMgtDAOException;
+
     boolean isXmlPolicyExists(String apiId) throws APIMgtDAOException;
 
     boolean isJsonPolicyExists(String apiId) throws APIMgtDAOException;

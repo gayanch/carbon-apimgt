@@ -39,11 +39,17 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
     private Logger logger = LoggerFactory.getLogger(JSONAnalyzer.class);
 
+    private JsonFactory factory;
+
     private int maxFieldCount = 0;
     private int maxStringLength = 0;
     private int maxArrayElementCount = 0;
     private int maxFieldLength = 0;
     private int maxJsonDepth = 0;
+
+    public JSONAnalyzer() {
+        factory = new JsonFactory();
+    }
 
     /**
      * Create a JSONAnalyzer using default configuration values
@@ -68,7 +74,6 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      */
     @Override
     public void analyze(String payload, String apiContext) throws APIMThreatAnalyzerException {
-        JsonFactory factory = new JsonFactory();
         try (JsonParser parser = factory.createParser(new StringReader(payload))) {
             int currentDepth = 0;
             int currentFieldCount = 0;

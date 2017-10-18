@@ -167,6 +167,28 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
         }
     }
 
+    @Override
+    public void updateJsonPolicy(ThreatProtectionJsonPolicy policy) throws APIMgtDAOException {
+        try (Connection connection = DAOUtil.getConnection()) {
+            updateJsonPolicy(policy, connection);
+        } catch (SQLException e) {
+            String errorMsg = "Error updating JSON policy for API_ID: " + policy.getApiId();
+            log.error(errorMsg, e);
+            throw new APIMgtDAOException(errorMsg, e);
+        }
+    }
+
+    @Override
+    public void updateXmlPolicy(ThreatProtectionXmlPolicy policy) throws APIMgtDAOException {
+        try (Connection connection = DAOUtil.getConnection()) {
+            updateXmlPolicy(policy, connection);
+        } catch (SQLException e) {
+            String errorMsg = "Error updating XML policy for API_ID: " + policy.getApiId();
+            log.error(errorMsg, e);
+            throw new APIMgtDAOException(errorMsg, e);
+        }
+    }
+
     private List<ThreatProtectionJsonPolicy> getJsonPolicies(Connection connection) throws APIMgtDAOException {
         String sqlQuery = "SELECT UUID," +
                 "API_ID," +
@@ -239,12 +261,6 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     }
 
     private void addJsonPolicy(ThreatProtectionJsonPolicy policy, Connection connection) throws APIMgtDAOException {
-        //update if there is already a policy for API
-        if (isJsonPolicyExists(policy.getApiId())) {
-            updateJsonPolicy(policy, connection);
-            return;
-        }
-
         String sqlQuery = "INSERT INTO " + THREAT_PROTECTION_JSON_TABLE +
                 " (UUID, " +
                 "API_ID, " +
@@ -344,7 +360,7 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
                     policy.setEntityExpansionLimit(rs.getInt(F_ENTITY_EXPANSION_LIMIT));
                     policy.setMaxChildrenPerElement((rs.getInt(F_MAX_CHILDREN_PER_ELEMENT)));
                 } else {
-                    log.warn("No XML Threat Protection Policy found for F_API_ID: " + apiId);
+                    log.warn("No XML Threat Protection Policy found for API_ID: " + apiId);
                 }
                 return policy;
             }
@@ -356,12 +372,6 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     }
 
     private void addXmlPolicy(ThreatProtectionXmlPolicy policy, Connection connection) throws APIMgtDAOException {
-        //update if there is already a policy for API
-        if (isXmlPolicyExists(policy.getApiId())) {
-            updateXmlPolicy(policy, connection);
-            return;
-        }
-
         String sqlQuery = "INSERT INTO " + THREAT_PROTECTION_XML_TABLE +
                 "(UUID, " +
                 "API_ID, " +
@@ -390,31 +400,6 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             String errorMsg = "Error adding XML Threat Protection policy";
-            log.error(errorMsg, e);
-            throw new APIMgtDAOException(errorMsg, e);
-        }
-    }
-
-    private void updateJsonPolicy(ThreatProtectionJsonPolicy policy, Connection connection) throws APIMgtDAOException {
-        String sqlQuery = "UPDATE " + THREAT_PROTECTION_JSON_TABLE +
-                " SET ENABLED = ?," +
-                "MAX_FIELD_COUNT = ?," +
-                "MAX_STRING_LENGTH = ?," +
-                "MAX_ARRAY_ELEMENT_COUNT = ?," +
-                "MAX_FIELD_LENGTH = ?," +
-                "MAX_DEPTH = ? " +
-                "WHERE API_ID = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
-            preparedStatement.setBoolean(1, policy.isEnabled());
-            preparedStatement.setInt(2, policy.getMaxFieldCount());
-            preparedStatement.setInt(3, policy.getMaxStringLength());
-            preparedStatement.setInt(4, policy.getMaxArrayElementCount());
-            preparedStatement.setInt(5, policy.getMaxFieldLength());
-            preparedStatement.setInt(6, policy.getMaxDepth());
-            preparedStatement.setString(7, policy.getApiId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            String errorMsg = "Error updating JSON Threat Protection policy";
             log.error(errorMsg, e);
             throw new APIMgtDAOException(errorMsg, e);
         }
@@ -450,4 +435,30 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
             throw new APIMgtDAOException(errorMsg, e);
         }
     }
+
+    private void updateJsonPolicy(ThreatProtectionJsonPolicy policy, Connection connection) throws APIMgtDAOException {
+        String sqlQuery = "UPDATE " + THREAT_PROTECTION_JSON_TABLE +
+                " SET ENABLED = ?," +
+                "MAX_FIELD_COUNT = ?," +
+                "MAX_STRING_LENGTH = ?," +
+                "MAX_ARRAY_ELEMENT_COUNT = ?," +
+                "MAX_FIELD_LENGTH = ?," +
+                "MAX_DEPTH = ? " +
+                "WHERE API_ID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            preparedStatement.setBoolean(1, policy.isEnabled());
+            preparedStatement.setInt(2, policy.getMaxFieldCount());
+            preparedStatement.setInt(3, policy.getMaxStringLength());
+            preparedStatement.setInt(4, policy.getMaxArrayElementCount());
+            preparedStatement.setInt(5, policy.getMaxFieldLength());
+            preparedStatement.setInt(6, policy.getMaxDepth());
+            preparedStatement.setString(7, policy.getApiId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            String errorMsg = "Error updating JSON Threat Protection policy";
+            log.error(errorMsg, e);
+            throw new APIMgtDAOException(errorMsg, e);
+        }
+    }
+
 }

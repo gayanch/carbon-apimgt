@@ -39,6 +39,8 @@ import org.wso2.carbon.apimgt.core.models.events.EndpointEvent;
 import org.wso2.carbon.apimgt.core.models.events.GatewayEvent;
 import org.wso2.carbon.apimgt.core.models.events.PolicyEvent;
 import org.wso2.carbon.apimgt.core.models.events.SubscriptionEvent;
+import org.wso2.carbon.apimgt.core.models.events.ThreatProtectionJsonEvent;
+import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionJsonPolicy;
 import org.wso2.carbon.apimgt.core.util.APIMgtConstants;
 import org.wso2.carbon.apimgt.core.util.APIUtils;
 import org.wso2.carbon.apimgt.core.util.BrokerUtil;
@@ -54,12 +56,14 @@ public class APIGatewayPublisherImpl implements APIGateway {
     private String publisherTopic;
     private String storeTopic;
     private String throttleTopic;
+    private String threatProtectionTopic;
 
     public APIGatewayPublisherImpl() {
         config = ServiceReferenceHolder.getInstance().getAPIMConfiguration();
         publisherTopic = config.getBrokerConfigurations().getPublisherTopic();
         storeTopic = config.getBrokerConfigurations().getStoreTopic();
         throttleTopic = config.getBrokerConfigurations().getThrottleTopic();
+        threatProtectionTopic = config.getBrokerConfigurations().getThreatProtectionTopic();
     }
 
     @Override
@@ -231,6 +235,14 @@ public class APIGatewayPublisherImpl implements APIGateway {
      */
     private void publishToThrottleTopic(GatewayEvent gatewayDTO) throws GatewayException {
         BrokerUtil.publishToTopic(throttleTopic, gatewayDTO);
+        if (log.isDebugEnabled()) {
+            log.debug("Gateway event : " + gatewayDTO.getEventType() + " has been published to store topic : " +
+                    storeTopic);
+        }
+    }
+
+    private void publishToThreatProtectionTopic(GatewayEvent gatewayDTO) throws GatewayException {
+        BrokerUtil.publishToTopic(threatProtectionTopic, gatewayDTO);
         if (log.isDebugEnabled()) {
             log.debug("Gateway event : " + gatewayDTO.getEventType() + " has been published to store topic : " +
                     storeTopic);
@@ -420,6 +432,30 @@ public class APIGatewayPublisherImpl implements APIGateway {
                         "published " + "to broker");
             }
         }
+    }
+
+    @Override
+    public void addJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
+        ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
+                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_JSON_POLICY_ADD);
+        event.setPolicy(policy);
+        publishToThreatProtectionTopic(event);
+    }
+
+    @Override
+    public void deleteJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
+        ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
+                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_JSON_POLICY_DELETE);
+        event.setPolicy(policy);
+        publishToThreatProtectionTopic(event);
+    }
+
+    @Override
+    public void updateJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
+        ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
+                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_JSON_POLICY_UPDATE);
+        event.setPolicy(policy);
+        publishToThreatProtectionTopic(event);
     }
 
     /**

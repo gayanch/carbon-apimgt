@@ -43,11 +43,14 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
     private XMLInputFactory factory;
     private Logger logger = LoggerFactory.getLogger(XMLAnalyzer.class);
 
+    public XMLAnalyzer() {
+        factory = WstxInputFactory.newInstance();
+    }
+
     /**
      * Create a XMLAnalyzer using default configuration values
      */
     public void configure(XMLConfig config) {
-        factory = WstxInputFactory.newInstance();
         //configure
         boolean dtdEnabled = config.isDtdEnabled();
         boolean externalEntitiesEnabled = config.isExternalEntitiesEnabled();
@@ -99,17 +102,18 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
                     + " - " + e.getMessage(), e);
         } finally {
             try {
-                xmlEventReaderReader.close();
-                reader.close();
+                if (xmlEventReaderReader != null) {
+                    xmlEventReaderReader.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
             } catch (XMLStreamException e) {
                 logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
                         + " - Failed to close XMLEventReader", e);
             } catch (IOException e) {
                 logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
                         + " - Failed to close payload StringReader", e);
-            } catch (NullPointerException e) {
-                logger.warn(XML_THREAT_PROTECTION_MSG_PREFIX + apiContext
-                        + " - NullPointerException", e);
             }
         }
     }
