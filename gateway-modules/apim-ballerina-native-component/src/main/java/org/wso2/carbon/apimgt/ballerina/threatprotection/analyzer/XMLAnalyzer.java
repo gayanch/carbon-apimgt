@@ -43,6 +43,8 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
     private XMLInputFactory factory;
     private Logger logger = LoggerFactory.getLogger(XMLAnalyzer.class);
 
+    private boolean enabled = true;
+
     public XMLAnalyzer() {
         factory = WstxInputFactory.newInstance();
     }
@@ -52,6 +54,7 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
      */
     public void configure(XMLConfig config) {
         //configure
+        enabled = config.isEnabled();
         boolean dtdEnabled = config.isDtdEnabled();
         boolean externalEntitiesEnabled = config.isExternalEntitiesEnabled();
         int maxDepth = config.getMaxDepth();
@@ -74,6 +77,11 @@ public class XMLAnalyzer implements APIMThreatAnalyzer {
     @Override
     public void configure(JSONConfig config) {
         throw new UnsupportedOperationException("This method is not supported on this instance");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     /**

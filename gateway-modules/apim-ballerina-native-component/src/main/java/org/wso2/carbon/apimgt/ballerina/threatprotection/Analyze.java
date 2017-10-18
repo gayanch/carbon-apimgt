@@ -71,6 +71,11 @@ public class Analyze extends AbstractNativeFunction {
             return getBValues(new BBoolean(false), new BString("Unknown Payload Type"));
         }
 
+        //skip analyzing if analyzer is disabled by configs
+        if (!analyzer.isEnabled()) {
+            return getBValues(new BBoolean(true), new BString(null));
+        }
+
         boolean ok = true;
         String errMessage = null;
         try {

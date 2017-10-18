@@ -40,7 +40,7 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfi
  */
 @BallerinaFunction(
         packageName = "org.wso2.carbon.apimgt.ballerina.threatprotection",
-        functionName = "configure",
+        functionName = "configureXmlAnalyzer",
         args = {@Argument(name = "xmlInfo", type = TypeEnum.STRUCT, structType = "XMLThreatProtectionInfoDTO"),
                 @Argument(name = "event", type = TypeEnum.STRING)},
         returnType = { @ReturnType(type = TypeEnum.BOOLEAN)},

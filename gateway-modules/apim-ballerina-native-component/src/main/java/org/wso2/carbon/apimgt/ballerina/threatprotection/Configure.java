@@ -59,7 +59,7 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfi
 public class Configure extends AbstractNativeFunction {
     @Override
     public BValue[] execute(Context context) {
-        String event = getStringArgument(context, 0);
+        //String event = getStringArgument(context, 0);
         //configure json analyzer
         BStruct jsonInfo = ((BStruct) getRefArgument(context, 0));
         if (jsonInfo != null) {
