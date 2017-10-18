@@ -32,4 +32,12 @@ public class ConfigurationHolder {
     public static XMLConfig getXmlConfig(String apiId) {
         return xmlConfigMap.get(apiId);
     }
+
+    public static void removeJsonConfig(String apiId) {
+        jsonConfigMap.remove(apiId);
+    }
+
+    public static void removeXmlConfig(String apiId) {
+        xmlConfigMap.remove(apiId);
+    }
 }

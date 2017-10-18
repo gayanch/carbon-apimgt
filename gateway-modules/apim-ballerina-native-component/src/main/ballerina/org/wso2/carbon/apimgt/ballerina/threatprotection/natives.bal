@@ -15,5 +15,10 @@ native function analyze(string payloadType, string payload, string apiContext) (
 @doc:Description { value: "Configures the analyzers" }
 @doc:Param { value: "jsonInfo: ballerina struct containing JSONAnalyzer configurations" }
 @doc:Param { value: "xmlInfo: ballerina struct containing XMLAnalyzer configurations" }
+@doc:Param {value: "event: Threat Protection Policy event (add/delete/update"}
 @doc:Return { value: "boolean: true if success, false otherwise" }
-native function configure(any jsonInfo, any xmlInfo) (boolean);
+native function configure(any jsonInfo, any xmlInfo, string event) (boolean);
+
+native function configureJsonAnalyzer(any jsonInfo, string event) (boolean);
+
+native function configureXmlAnalyzer(any xmlInfo, string event) (boolean);

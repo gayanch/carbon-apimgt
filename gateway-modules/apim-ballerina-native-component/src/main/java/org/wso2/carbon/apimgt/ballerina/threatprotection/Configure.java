@@ -41,7 +41,8 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfi
         packageName = "org.wso2.carbon.apimgt.ballerina.threatprotection",
         functionName = "configure",
         args = { @Argument(name = "jsonInfo", type = TypeEnum.STRUCT, structType = "JSONThreatProtectionInfoDTO"),
-                @Argument(name = "xmlInfo", type = TypeEnum.STRUCT, structType = "XMLThreatProtectionInfoDTO")},
+                @Argument(name = "xmlInfo", type = TypeEnum.STRUCT, structType = "XMLThreatProtectionInfoDTO"),
+                @Argument(name = "event", type = TypeEnum.STRING)},
         returnType = { @ReturnType(type = TypeEnum.BOOLEAN)},
         isPublic = true
 )
@@ -51,11 +52,14 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.configurations.XMLConfi
         value = "JSONThreatProtectionInfoDTO struct")})
 @BallerinaAnnotation(annotationName = "Param", attributes = {@Attribute(name = "xmlInfo",
         value = "XMLThreatProtectionInfoDTO struct")})
+@BallerinaAnnotation(annotationName = "Param", attributes = {@Attribute(name = "event",
+        value = "Threat Protection Policy Event")})
 @BallerinaAnnotation(annotationName = "Return", attributes = {@Attribute(name = "boolean",
         value = "true if success, false otherwise")})
 public class Configure extends AbstractNativeFunction {
     @Override
     public BValue[] execute(Context context) {
+        String event = getStringArgument(context, 0);
         //configure json analyzer
         BStruct jsonInfo = ((BStruct) getRefArgument(context, 0));
         if (jsonInfo != null) {
