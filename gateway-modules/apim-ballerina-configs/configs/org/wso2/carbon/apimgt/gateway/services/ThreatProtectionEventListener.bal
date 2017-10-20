@@ -22,7 +22,8 @@ service<jms> ThreatProtectionJmsService {
     @http:GET {}
     resource onMessage (message m) {
         json event = messages:getJsonPayload(m);
-        string eventType = event.eventType;
+        string eventType;
+        eventType, _ = (string)event.eventType;
         system:println(event);
         if (strings:contains(eventType, "JSON")) {
             json jsonPolicy = event.policy;
@@ -36,6 +37,5 @@ service<jms> ThreatProtectionJmsService {
             system:println("Threat Protection: Unknown event type for Threat Protection Policy. Event: " + eventType);
         }
     }
-
 }
 

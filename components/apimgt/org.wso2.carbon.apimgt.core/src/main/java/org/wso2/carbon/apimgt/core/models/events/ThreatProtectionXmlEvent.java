@@ -18,23 +18,23 @@
 
 package org.wso2.carbon.apimgt.core.models.events;
 
-import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionJsonPolicy;
+import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionXmlPolicy;
 
 /**
- * Holds Json Threat Protection details transferred to gateway
+ * Holds Xml Threat Protection details transferred to gateway
  */
-public class ThreatProtectionJsonEvent extends GatewayEvent {
-    private ThreatProtectionJsonPolicy policy;
+public class ThreatProtectionXmlEvent extends GatewayEvent {
+    private ThreatProtectionXmlPolicy policy;
 
-    public ThreatProtectionJsonEvent(String eventType) {
+    public ThreatProtectionXmlEvent(String eventType) {
         super(eventType);
     }
 
-    public void setPolicy(ThreatProtectionJsonPolicy policy) {
+    public void setPolicy(ThreatProtectionXmlPolicy policy) {
         this.policy = policy;
     }
 
-    public ThreatProtectionJsonPolicy getPolicy() {
+    public ThreatProtectionXmlPolicy getPolicy() {
         return policy;
     }
 }

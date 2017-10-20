@@ -10,7 +10,7 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection;
 
 function requestInterceptor(message m) (boolean, message) {
     system:println("invoking threat protection interceptor");
-    string apiContext = messages:getProperty(m,constants:BASE_PATH);
+    string apiContext = messages:getProperty(m, constants:BASE_PATH);
     return analyzePayload(m, apiContext);
 }
 

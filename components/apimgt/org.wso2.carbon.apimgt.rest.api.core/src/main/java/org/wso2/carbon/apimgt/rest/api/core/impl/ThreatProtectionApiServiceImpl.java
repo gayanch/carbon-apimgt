@@ -66,7 +66,7 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         } catch (APIMgtDAOException e) {
             log.error("Error adding JSON ThreatProtectionJsonPolicy for API_ID: " + apiId, e);
         } catch (GatewayException e) {
-            log.error("Error publishing JSONThreatProtectionPolicy to topic");
+            log.error("Error publishing JSON Threat Protection Policy to Gateway");
         }
         return Response.status(500).build();
     }
@@ -92,17 +92,19 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         try {
             ThreatProtectionDAO dao = DAOFactory.getThreatProtectionDAO();
             ThreatProtectionXmlPolicy policy = MappingUtil.toThreatProtectionXmlPolicy(threatProtectionXmlPolicy);
-            //APIGateway gateway = APIManagerFactory.getInstance().getApiGateway();
+            APIGateway gateway = APIManagerFactory.getInstance().getApiGateway();
             if (dao.isXmlPolicyExists(policy.getApiId())) {
                 dao.updateXmlPolicy(policy);
-                //update xml policy topic here
+                gateway.updateXmlThreatProtectionPolicy(policy);
             } else {
                 dao.addXmlPolicy(policy);
-                //add new policy for topic here
+                gateway.addXmlThreatProtectionPolicy(policy);
             }
             return Response.status(201).entity("created").build();
         } catch (APIMgtDAOException e) {
             log.error("Error adding XML ThreatProtectionJsonPolicy for API_ID: " + apiId, e);
+        } catch (GatewayException e) {
+            log.error("Error publishing XML Threat Protection Policy to Gateway");
         }
         return Response.status(500).entity("Failed to add XML policy for API_ID: " + apiId).build();
     }
