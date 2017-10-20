@@ -147,7 +147,7 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      * @throws APIMThreatAnalyzerException if currentDepth is greater than maxDepth
      */
     public void analyzeDepth(int maxDepth, int currentDepth, String apiContext) throws APIMThreatAnalyzerException {
-        if (maxDepth > currentDepth) {
+        if (currentDepth > maxDepth) {
             logger.error(JSON_THREAT_PROTECTION_MSG_PREFIX + apiContext + " - Depth Limit Reached");
             throw new APIMThreatAnalyzerException(JSON_THREAT_PROTECTION_MSG_PREFIX
                     + apiContext + " - Depth Limit Reached");
