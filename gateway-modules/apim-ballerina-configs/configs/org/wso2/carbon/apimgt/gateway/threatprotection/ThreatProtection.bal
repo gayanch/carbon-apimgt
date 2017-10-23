@@ -11,15 +11,18 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection;
 function requestInterceptor(message m) (boolean, message) {
     system:println("invoking threat protection interceptor");
     string apiContext = messages:getProperty(m, constants:BASE_PATH);
-    return analyzePayload(m, apiContext);
+    //extract api version when support arrives
+    //use apiContext + ":" + apiVersion to obtain apiId from holder
+    string apiId = "GLOBAL";
+    return analyzePayload(m, apiContext, apiId);
 }
 
 function responseInterceptor (message m) (boolean, message) {
-    system:println("invoking response threat protection interceptor");
+    system:println("invoking threat protection response interceptor");
     return true, m;
 }
 
-function analyzePayload(message m, string apiContext) (boolean, message) {
+function analyzePayload(message m, string apiContext, string apiId) (boolean, message) {
     string contentType;
     try {
         contentType = messages:getHeader(m, "Content-Type");
@@ -31,7 +34,7 @@ function analyzePayload(message m, string apiContext) (boolean, message) {
     string payload = messages:getStringPayload(m);
     boolean ok;
     string errMessage;
-    ok, errMessage = threatprotection:analyze(contentType, payload, apiContext);
+    ok, errMessage = threatprotection:analyze(contentType, payload, apiContext, apiId);
 
     if (ok) {
         return true, m;
