@@ -260,34 +260,15 @@ function fromJsonToGatewayConfDTO (json conf) (dto:GatewayConfDTO) {
 
     //Extract Threat Protection Information
     json jsonThreatProtectionInfo = conf.jsonThreatProtectionInfo;
-    //dto:JSONThreatProtectionInfoDTO jsonThreatProtectionInfoDTO = {};
-    //jsonThreatProtectionInfoDTO.enabled, err = (boolean)jsonThreatProtectionInfo.enabled;
-    //jsonThreatProtectionInfoDTO.apiId, err = (string)jsonThreatProtectionInfo.apiId;
-    //jsonThreatProtectionInfoDTO.propertyCount, err = (int)jsonThreatProtectionInfo.maxFieldCount;
-    //jsonThreatProtectionInfoDTO.stringLength, err = (int)jsonThreatProtectionInfo.maxStringLength;
-    //jsonThreatProtectionInfoDTO.arrayElementCount, err = (int)jsonThreatProtectionInfo.maxArrayElementCount;
-    //jsonThreatProtectionInfoDTO.keyLength, err = (int)jsonThreatProtectionInfo.maxFieldLength;
-    //jsonThreatProtectionInfoDTO.maxDepth, err = (int)jsonThreatProtectionInfo.maxDepth;
     gatewayConf.jsonThreatProtectionInfo = fromJSONToJSONThreatProtectionInfoDTO(jsonThreatProtectionInfo);
 
     json xmlThreatProtectionInfo = conf.xmlThreatProtectionInfo;
-    //dto:XMLThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = {};
-    //xmlThreatProtectionInfoDTO.enabled, err = (boolean)xmlThreatProtectionInfo.enabled;
-    //xmlThreatProtectionInfoDTO.apiId, err = (string)xmlThreatProtectionInfo.apiId;
-    //xmlThreatProtectionInfoDTO.dtdEnabled, err = (boolean)xmlThreatProtectionInfo.dtdEnabled;
-    //xmlThreatProtectionInfoDTO.externalEntitiesEnabled, err = (boolean)xmlThreatProtectionInfo.externalEntitiesEnabled;
-    //xmlThreatProtectionInfoDTO.maxDepth, err = (int)xmlThreatProtectionInfo.maxDepth;
-    //xmlThreatProtectionInfoDTO.elementCount, err = (int)xmlThreatProtectionInfo.maxElementCount;
-    //xmlThreatProtectionInfoDTO.attributeCount, err = (int)xmlThreatProtectionInfo.maxAttributeCount;
-    //xmlThreatProtectionInfoDTO.attributeLength, err = (int)xmlThreatProtectionInfo.maxAttributeLength;
-    //xmlThreatProtectionInfoDTO.entityExpansionLimit, err = (int)xmlThreatProtectionInfo.entityExpansionLimit;
-    //xmlThreatProtectionInfoDTO.childrenPerElement, err = (int)xmlThreatProtectionInfo.maxChildrenPerElement;
-    gatewayConf.xmlThreatProtectionInfo = fromJSONToXMLThreatProtectionDTO(xmlThreatProtectionInfo);
+    gatewayConf.xmlThreatProtectionInfo = fromJSONToXMLThreatProtectionInfoDTO(xmlThreatProtectionInfo);
 
     return gatewayConf;
 }
 
-function fromJSONToXMLThreatProtectionDTO(json xmlThreatProtectionInfo) (dto:XMLThreatProtectionInfoDTO) {
+function fromJSONToXMLThreatProtectionInfoDTO(json xmlThreatProtectionInfo) (dto:XMLThreatProtectionInfoDTO) {
     dto:XMLThreatProtectionInfoDTO xmlThreatProtectionInfoDTO = {};
     xmlThreatProtectionInfoDTO.enabled, err = (boolean)xmlThreatProtectionInfo.enabled;
     xmlThreatProtectionInfoDTO.apiId, err = (string)xmlThreatProtectionInfo.apiId;

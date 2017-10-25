@@ -39,7 +39,7 @@ function getThreatProtectionJsonPolicies() (json) {
     try {
         http:ClientConnector client = create http:ClientConnector(getAPICoreURL());
         message request = {};
-        message response = http:ClientConnector.post(client, "/api/am/core/v1.0/threat-protection/json", request);
+        message response = http:ClientConnector.get(client, "/api/am/core/v1.0/threat-protection/json", request);
         threatProtectionJsonPolicyList = messages:getJsonPayload(response);
     } catch (errors:Error error) {
         system:println("Error occurred while retrieving ThreatProtection JSON Policy List from API Core. " + error.msg);
@@ -53,13 +53,13 @@ function getThreatProtectionXmlPolicies() (json) {
     try {
         http:ClientConnector client = create http:ClientConnector(getAPICoreURL());
         message request = {};
-        message response = http:ClientConnector.post(client, "/api/am/core/v1.0/threat-protection/xml", request);
+        message response = http:ClientConnector.get(client, "/api/am/core/v1.0/threat-protection/xml", request);
         threatProtectionXmlPolicyList = messages:getJsonPayload(response);
     } catch (errors:Error error) {
         system:println("Error occurred while retrieving ThreatProtection XML Policy List from API Core. " + error.msg);
         throw error;
     }
-    return threatProtectionJsonPolicyList;
+    return threatProtectionXmlPolicyList;
 }
 
 function loadAPIs () {

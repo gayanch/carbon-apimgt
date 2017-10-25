@@ -31,7 +31,7 @@ service<jms> ThreatProtectionJmsService {
             threatprotection:configureJsonAnalyzer(jsonInfo, eventType);
         } else if (strings:contains(eventType, "XML")) {
             json xmlPolicy = event.policy;
-            dto:XMLThreatProtectionInfoDTO xmlInfo = utils:fromJSONToXMLThreatProtectionDTO(xmlPolicy);
+            dto:XMLThreatProtectionInfoDTO xmlInfo = utils:fromJSONToXMLThreatProtectionInfoDTO(xmlPolicy);
             threatprotection:configureXmlAnalyzer(xmlInfo, eventType);
         } else {
             system:println("Threat Protection: Unknown event type for Threat Protection Policy. Event: " + eventType);

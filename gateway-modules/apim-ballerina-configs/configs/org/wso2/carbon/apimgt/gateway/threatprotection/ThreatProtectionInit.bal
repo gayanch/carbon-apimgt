@@ -21,19 +21,15 @@ function initThreatProtection() (boolean) {
     try {
         json jsonPolicyList = utils:getThreatProtectionJsonPolicies();
         setPerApiJsonPolicies(jsonPolicyList);
-        system:println("====JSON Policy List====");
-        system:println(jsonPolicyList);
     } catch (errors:Error error) {
-        system:println("Error occured while setting per-API JSON threat protection policies");
+        system:println("Error occured while setting per-API JSON threat protection policies. " + error.msg);
     }
 
     try {
         json xmlPolicyList = utils:getThreatProtectionXmlPolicies();
         setPerApiXmlPolicies(xmlPolicyList);
-        system:println("====XML Policy List====");
-        system:println(xmlPolicyList);
     } catch (errors:Error error) {
-        system:println("Error occured while setting per-API XML threat protection policies");
+        system:println("Error occured while setting per-API XML threat protection policies. " error.msg);
     }
 
 
