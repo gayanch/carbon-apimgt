@@ -4,7 +4,9 @@ package org.wso2.carbon.apimgt.rest.api.core;
 import io.swagger.annotations.ApiParam;
 
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyListDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyListDTO;
 import org.wso2.carbon.apimgt.rest.api.core.factories.ThreatProtectionApiServiceFactory;
 
 import org.wso2.msf4j.Microservice;
@@ -69,6 +71,17 @@ public class ThreatProtectionApi implements Microservice  {
         return delegate.threatProtectionJsonApiIdPost(apiId,threatProtectionJsonPolicy,request);
     }
     @GET
+    @Path("/json")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Get json policy list", notes = "json policy list", response = ThreatProtectionJsonPolicyListDTO.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionJsonPolicyListDTO.class) })
+    public Response threatProtectionJsonGet( @Context Request request)
+    throws NotFoundException {
+        return delegate.threatProtectionJsonGet(request);
+    }
+    @GET
     @Path("/xml/{apiId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
@@ -92,5 +105,16 @@ public class ThreatProtectionApi implements Microservice  {
  ,@Context Request request)
     throws NotFoundException {
         return delegate.threatProtectionXmlApiIdPost(apiId,threatProtectionXmlPolicy,request);
+    }
+    @GET
+    @Path("/xml")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Get xml policy list", notes = "xml policy list", response = ThreatProtectionXmlPolicyListDTO.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionXmlPolicyListDTO.class) })
+    public Response threatProtectionXmlGet( @Context Request request)
+    throws NotFoundException {
+        return delegate.threatProtectionXmlGet(request);
     }
 }

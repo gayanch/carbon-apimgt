@@ -598,6 +598,16 @@ paths:
         200:
           description: OK
 
+  /threat-protection/xml:
+    get:
+      summary: "Get xml policy list"
+      description: "xml policy list"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/ThreatProtectionXmlPolicyList'
+          description: OK
+
   /threat-protection/json/{apiId}:
     get:
       summary: "get"
@@ -619,6 +629,16 @@ paths:
       responses:
         200:
           description: OK
+
+  /threat-protection/json:
+      get:
+        summary: "Get json policy list"
+        description: "json policy list"
+        responses:
+          200:
+            schema:
+              $ref: '#/definitions/ThreatProtectionJsonPolicyList'
+            description: OK
 
 ######################################################
 # Parameters - required by some of the APIs above
@@ -1189,63 +1209,6 @@ definitions:
         $ref: '#/definitions/Credentials'
 
 #-----------------------------------------------------
-# JSON Threat Protection information
-#-----------------------------------------------------
-#  JsonThreatProtectionInfo:
-#    title: JSON Threat Protection information
-#    properties:
-#      propertyCount:
-#        type: integer
-#        format: int
-#      stringLength:
-#        type: integer
-#        format: int
-#      arrayElementCount:
-#        type: integer
-#        format: int
-#      keyLength:
-#        type: integer
-#        format: int
-#      maxDepth:
-#        type: integer
-#        format: int
-#      credentials:
-#        $ref: '#/definitions/Credentials'
-
-#-----------------------------------------------------
-# XML Threat Protection information
-#-----------------------------------------------------
-#  XmlThreatProtectionInfo:
-#    title: XML Threat Protection information
-#    properties:
-#      dtdEnabled:
-#        type: boolean
-#        example: false
-#      externalEntitiesEnabled:
-#        type: boolean
-#        example: false
-#      maxDepth:
-#        type: integer
-#        format: int
-#      elementCount:
-#        type: integer
-#        format: int
-#      attributeCount:
-#        type: integer
-#        format: int
-#      attributeLength:
-#        type: integer
-#        format: int
-#      entityExpansionLimit:
-#        type: integer
-#        format: int
-#      childrenPerElement:
-#        type: integer
-#        format: int
-#      credentials:
-#        $ref: '#/definitions/Credentials'
-
-#-----------------------------------------------------
 # Throttling information
 #-----------------------------------------------------
   ThrottlingInfo:
@@ -1312,6 +1275,29 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/BlockingCondition'
+
+#-----------------------------------------------------
+# The Threat Protection JSON Policy List resource
+#-----------------------------------------------------
+  ThreatProtectionJsonPolicyList:
+    title: "JSON Threat Protection Policy List"
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/ThreatProtectionJsonPolicy'
+
+#-----------------------------------------------------
+# The Threat Protection XML Policy List resource
+#-----------------------------------------------------
+  ThreatProtectionXmlPolicyList:
+    title: "XML Threat Protection Policy List"
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/ThreatProtectionXmlPolicy'
+
 #-----------------------------------------------------
 # The Threat Protection JSON Policy resource
 #-----------------------------------------------------

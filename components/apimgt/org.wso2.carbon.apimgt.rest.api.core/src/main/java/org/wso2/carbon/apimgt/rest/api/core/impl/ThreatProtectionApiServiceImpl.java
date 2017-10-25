@@ -70,6 +70,23 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         }
         return Response.status(500).build();
     }
+
+    @Override
+    public Response threatProtectionJsonGet(Request request) throws NotFoundException {
+        try {
+            ThreatProtectionDAO dao = DAOFactory.getThreatProtectionDAO();
+            List<ThreatProtectionJsonPolicy> list = dao.getJsonPolicies();
+            ThreatProtectionJsonPolicyListDTO listDTO = new ThreatProtectionJsonPolicyListDTO();
+            for (ThreatProtectionJsonPolicy policy: list) {
+                listDTO.addListItem(MappingUtil.toThreatProtectionJsonPolicyDTO(policy));
+            }
+            return Response.ok().entity(listDTO).build();
+        } catch (APIMgtDAOException e) {
+            log.error("Error getting JSON ThreatProtectionJsonPolicy list", e);
+        }
+        return Response.status(500).entity("Internal Server Error").build();
+    }
+
     @Override
     public Response threatProtectionXmlApiIdGet(String apiId
   ,Request request) throws NotFoundException {
@@ -107,5 +124,21 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
             log.error("Error publishing XML Threat Protection Policy to Gateway");
         }
         return Response.status(500).entity("Failed to add XML policy for API_ID: " + apiId).build();
+    }
+
+    @Override
+    public Response threatProtectionXmlGet(Request request) throws NotFoundException {
+        try {
+            ThreatProtectionDAO dao = DAOFactory.getThreatProtectionDAO();
+            List<ThreatProtectionXmlPolicy> list = dao.getXmlPolicies();
+            ThreatProtectionXmlPolicyListDTO listDTO = new ThreatProtectionXmlPolicyListDTO();
+            for (ThreatProtectionXmlPolicy policy: list) {
+                listDTO.addListItem(MappingUtil.toThreatProtectionXmlPolicyDTO(policy));
+            }
+            return Response.ok().entity(listDTO).build();
+        } catch (APIMgtDAOException e) {
+            log.error("Error getting Xml ThreatProtectionXmlPolicy list", e);
+        }
+        return Response.status(500).entity("Internal Server Error").build();
     }
 }
