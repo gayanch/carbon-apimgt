@@ -1,3 +1,22 @@
+/*
+ *
+ *   Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *   WSO2 Inc. licenses this file to you under the Apache License,
+ *   Version 2.0 (the "License"); you may not use this file except
+ *   in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ *
+ */
 package org.wso2.carbon.apimgt.rest.api.core.impl;
 
 import org.slf4j.Logger;
@@ -26,10 +45,20 @@ import org.wso2.msf4j.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+/**
+ * Implementation class for {@link ThreatProtectionApiService}
+ */
 public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
 
     private Logger log = LoggerFactory.getLogger(ThreatProtectionApiServiceImpl.class);
 
+    /**
+     * Retrieve JSON threat protection policy
+     * @param apiId API_ID
+     * @param request {@link Request}
+     * @return JSON threat protection policy
+     * @throws NotFoundException if failed to retrieve the policy
+     */
     @Override
     public Response threatProtectionJsonApiIdGet(String apiId
   ,Request request) throws NotFoundException {
@@ -47,6 +76,15 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         return Response.status(404).build();
         //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
+
+    /**
+     * Add a JSON threat protection policy
+     * @param apiId API_ID
+     * @param threatProtectionJsonPolicy {@link ThreatProtectionJsonPolicyDTO}
+     * @param request {@link Request}
+     * @return http status 201, if failed 500
+     * @throws NotFoundException
+     */
     @Override
     public Response threatProtectionJsonApiIdPost(String apiId
 , ThreatProtectionJsonPolicyDTO threatProtectionJsonPolicy
@@ -71,6 +109,12 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         return Response.status(500).build();
     }
 
+    /**
+     * Retrieve all JSON threat protection policies
+     * @param request {@link Request}
+     * @return A list of JSON threat protection policies
+     * @throws NotFoundException if failed to retrieve policies
+     */
     @Override
     public Response threatProtectionJsonGet(Request request) throws NotFoundException {
         try {
@@ -87,6 +131,13 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         return Response.status(500).entity("Internal Server Error").build();
     }
 
+    /**
+     * Retrieve an XML threat protection policy
+     * @param apiId API_ID
+     * @param request {@link Request}
+     * @return XML threat protection policy
+     * @throws NotFoundException if failed to retrieve the policy
+     */
     @Override
     public Response threatProtectionXmlApiIdGet(String apiId
   ,Request request) throws NotFoundException {
@@ -102,6 +153,15 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         }
         return Response.status(500).build();
     }
+
+    /**
+     * Add an XML threat protection policy
+     * @param apiId API_ID
+     * @param threatProtectionXmlPolicy {@link ThreatProtectionXmlPolicyDTO}
+     * @param request {@link Request}
+     * @return http status 201, if failed 500
+     * @throws NotFoundException
+     */
     @Override
     public Response threatProtectionXmlApiIdPost(String apiId
 , ThreatProtectionXmlPolicyDTO threatProtectionXmlPolicy
@@ -126,6 +186,12 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
         return Response.status(500).entity("Failed to add XML policy for API_ID: " + apiId).build();
     }
 
+    /**
+     * Retrieve all XML threat protection policies
+     * @param request {@link Request}
+     * @return A list of all XML threat protection policies
+     * @throws NotFoundException if failed to retrieve the list of policies
+     */
     @Override
     public Response threatProtectionXmlGet(Request request) throws NotFoundException {
         try {

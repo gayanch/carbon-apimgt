@@ -30,23 +30,80 @@ import java.util.List;
  * Provides access to Threat Protection data layer
  */
 public interface ThreatProtectionDAO {
+
+    /**
+     * Get all JSON policies as a list
+     * @return A list containing {@link ThreatProtectionJsonPolicy} objects.
+     * An Empty list will be returned if no policies found.
+     * @throws APIMgtDAOException if policy retrieval fails
+     */
     List<ThreatProtectionJsonPolicy> getJsonPolicies() throws APIMgtDAOException;
 
+    /**
+     * Get all XML policies as a list
+     * @return A list containing all {@link ThreatProtectionXmlPolicy} objects.
+     * An Empty list will be returned if no policies found.
+     * @throws APIMgtDAOException if policy retrieval fails
+     */
     List<ThreatProtectionXmlPolicy> getXmlPolicies() throws APIMgtDAOException;
 
+    /**
+     * Get a JSON policy associated with apiId
+     * @param apiId API_ID
+     * @return  {@link ThreatProtectionJsonPolicy}, if no policy is found for apiID, a null will be returned.
+     * @throws APIMgtDAOException if policy retrieval fails
+     */
     ThreatProtectionJsonPolicy getJsonPolicy(String apiId) throws APIMgtDAOException;
 
+    /**
+     * Get an XML policy associated with apiId
+     * @param apiId API_ID
+     * @return {@link ThreatProtectionXmlPolicy}, if no policy is found for apiID, a null will be returned.
+     * @throws APIMgtDAOException if policy retrieval fails
+     */
     ThreatProtectionXmlPolicy getXmlPolicy(String apiId) throws APIMgtDAOException;
 
+    /**
+     * Adds a JSON policy to the database
+     * @param policy {@link ThreatProtectionJsonPolicy}
+     * @throws APIMgtDAOException if fails to add the policy
+     */
     void addJsonPolicy(ThreatProtectionJsonPolicy policy) throws APIMgtDAOException;
 
+    /**
+     * Adds an XML policy to the database
+     * @param policy {@link ThreatProtectionXmlPolicy}
+     * @throws APIMgtDAOException if fails to add the policy
+     */
     void addXmlPolicy(ThreatProtectionXmlPolicy policy) throws APIMgtDAOException;
 
+    /**
+     * Updates a JSON policy associated with policy.apiId
+     * @param policy {@link ThreatProtectionJsonPolicy}
+     * @throws APIMgtDAOException if fails to update the policy
+     */
     void updateJsonPolicy(ThreatProtectionJsonPolicy policy) throws APIMgtDAOException;
 
+    /**
+     * Updates an XML policy associated with policy.apiId
+     * @param policy {@link ThreatProtectionXmlPolicy}
+     * @throws APIMgtDAOException if fails to update the policy
+     */
     void updateXmlPolicy(ThreatProtectionXmlPolicy policy) throws APIMgtDAOException;
 
+    /**
+     * Checks whether a JSON policy exists for the apiId
+     * @param apiId API_ID
+     * @return true if policy exists, false otherwise
+     * @throws APIMgtDAOException if fails to get the existence status of the policy
+     */
     boolean isXmlPolicyExists(String apiId) throws APIMgtDAOException;
 
+    /**
+     * Checks whether a XML policy exists for the apiId
+     * @param apiId API_ID
+     * @return true if policy exists, false otherwise
+     * @throws APIMgtDAOException if fails to get the existence status of the policy
+     */
     boolean isJsonPolicyExists(String apiId) throws APIMgtDAOException;
 }

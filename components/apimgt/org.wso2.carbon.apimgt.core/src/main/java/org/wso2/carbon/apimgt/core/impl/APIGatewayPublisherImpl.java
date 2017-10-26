@@ -243,6 +243,11 @@ public class APIGatewayPublisherImpl implements APIGateway {
         }
     }
 
+    /**
+     * Publish an event to threatprotection topic
+     * @param gatewayDTO {@link GatewayEvent}
+     * @throws GatewayException if fails to publish to the topic
+     */
     private void publishToThreatProtectionTopic(GatewayEvent gatewayDTO) throws GatewayException {
         BrokerUtil.publishToTopic(threatProtectionTopic, gatewayDTO);
         if (log.isDebugEnabled()) {
