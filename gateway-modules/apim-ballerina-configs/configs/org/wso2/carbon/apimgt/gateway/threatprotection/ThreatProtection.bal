@@ -30,7 +30,7 @@ function analyzePayload(message m, string apiContext, string apiId) (boolean, me
         system:println("Threat Protection: No Content-Type declared for " + apiContext);
         return true, m;
     }
-
+    //verify
     string payload = messages:getStringPayload(m);
     boolean ok;
     string errMessage;

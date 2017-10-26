@@ -79,7 +79,7 @@ public class Analyze extends AbstractNativeFunction {
         if (!analyzer.isEnabled()) {
             return getBValues(new BBoolean(true), new BString(null));
         }
-
+        //add meaningful name
         boolean ok = true;
         String errMessage = null;
         try {

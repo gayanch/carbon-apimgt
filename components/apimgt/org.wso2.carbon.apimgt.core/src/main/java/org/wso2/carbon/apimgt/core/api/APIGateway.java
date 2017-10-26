@@ -174,6 +174,7 @@ public interface APIGateway {
      * @throws GatewayException If there is a failure in notifying update policy to gateway
      */
     void updatePolicy(PolicyValidationData policyValidationData) throws GatewayException;
+
     /**
      *Publish policy delete event to gateway
      *

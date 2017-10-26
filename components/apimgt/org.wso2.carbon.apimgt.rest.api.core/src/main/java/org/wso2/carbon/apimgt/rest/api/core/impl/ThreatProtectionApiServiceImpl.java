@@ -96,8 +96,10 @@ public class ThreatProtectionApiServiceImpl extends ThreatProtectionApiService {
             if (dao.isJsonPolicyExists(policy.getApiId())) {
                 dao.updateJsonPolicy(policy);
                 gateway.updateJsonThreatProtectionPolicy(policy);
+                //200
             } else {
                 dao.addJsonPolicy(policy);
+                //send 201
                 gateway.addJsonThreatProtectionPolicy(policy);
             }
             return Response.status(201).entity("created").build();

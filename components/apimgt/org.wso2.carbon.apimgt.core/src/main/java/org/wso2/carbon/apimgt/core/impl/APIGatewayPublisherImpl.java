@@ -246,7 +246,7 @@ public class APIGatewayPublisherImpl implements APIGateway {
     /**
      * Publish an event to threatprotection topic
      * @param gatewayDTO {@link GatewayEvent}
-     * @throws GatewayException if fails to publish to the topic
+     * @throws GatewayException if failed to publish to the topic
      */
     private void publishToThreatProtectionTopic(GatewayEvent gatewayDTO) throws GatewayException {
         BrokerUtil.publishToTopic(threatProtectionTopic, gatewayDTO);
@@ -441,6 +441,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
         ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
@@ -449,6 +452,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
         publishToThreatProtectionTopic(event);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
         ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
@@ -457,6 +463,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
         publishToThreatProtectionTopic(event);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
         ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
@@ -465,6 +474,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
         publishToThreatProtectionTopic(event);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException {
         ThreatProtectionXmlEvent event = new ThreatProtectionXmlEvent(
@@ -473,6 +485,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
         publishToThreatProtectionTopic(event);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException {
         ThreatProtectionXmlEvent event = new ThreatProtectionXmlEvent(
@@ -481,6 +496,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
         publishToThreatProtectionTopic(event);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException {
         ThreatProtectionXmlEvent event = new ThreatProtectionXmlEvent(
