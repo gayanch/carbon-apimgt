@@ -7,22 +7,22 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionPolicyDTO;
 import java.util.Objects;
 
 /**
- * ThreatProtectionXmlPolicyListDTO
+ * ThreatProtectionPolicyListDTO
  */
-public class ThreatProtectionXmlPolicyListDTO   {
+public class ThreatProtectionPolicyListDTO   {
   @JsonProperty("list")
-  private List<ThreatProtectionXmlPolicyDTO> list = new ArrayList<ThreatProtectionXmlPolicyDTO>();
+  private List<ThreatProtectionPolicyDTO> list = new ArrayList<ThreatProtectionPolicyDTO>();
 
-  public ThreatProtectionXmlPolicyListDTO list(List<ThreatProtectionXmlPolicyDTO> list) {
+  public ThreatProtectionPolicyListDTO list(List<ThreatProtectionPolicyDTO> list) {
     this.list = list;
     return this;
   }
 
-  public ThreatProtectionXmlPolicyListDTO addListItem(ThreatProtectionXmlPolicyDTO listItem) {
+  public ThreatProtectionPolicyListDTO addListItem(ThreatProtectionPolicyDTO listItem) {
     this.list.add(listItem);
     return this;
   }
@@ -32,11 +32,11 @@ public class ThreatProtectionXmlPolicyListDTO   {
    * @return list
   **/
   @ApiModelProperty(value = "")
-  public List<ThreatProtectionXmlPolicyDTO> getList() {
+  public List<ThreatProtectionPolicyDTO> getList() {
     return list;
   }
 
-  public void setList(List<ThreatProtectionXmlPolicyDTO> list) {
+  public void setList(List<ThreatProtectionPolicyDTO> list) {
     this.list = list;
   }
 
@@ -49,8 +49,8 @@ public class ThreatProtectionXmlPolicyListDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ThreatProtectionXmlPolicyListDTO threatProtectionXmlPolicyList = (ThreatProtectionXmlPolicyListDTO) o;
-    return Objects.equals(this.list, threatProtectionXmlPolicyList.list);
+    ThreatProtectionPolicyListDTO threatProtectionPolicyList = (ThreatProtectionPolicyListDTO) o;
+    return Objects.equals(this.list, threatProtectionPolicyList.list);
   }
 
   @Override
@@ -61,7 +61,7 @@ public class ThreatProtectionXmlPolicyListDTO   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ThreatProtectionXmlPolicyListDTO {\n");
+    sb.append("class ThreatProtectionPolicyListDTO {\n");
     
     sb.append("    list: ").append(toIndentedString(list)).append("\n");
     sb.append("}");

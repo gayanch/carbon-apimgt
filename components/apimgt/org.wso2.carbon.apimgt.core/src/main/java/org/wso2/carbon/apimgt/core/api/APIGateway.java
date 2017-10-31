@@ -26,8 +26,7 @@ import org.wso2.carbon.apimgt.core.models.CompositeAPI;
 import org.wso2.carbon.apimgt.core.models.Endpoint;
 import org.wso2.carbon.apimgt.core.models.PolicyValidationData;
 import org.wso2.carbon.apimgt.core.models.SubscriptionValidationData;
-import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionJsonPolicy;
-import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionXmlPolicy;
+import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionPolicy;
 
 import java.util.List;
 
@@ -205,44 +204,23 @@ public interface APIGateway {
     void deleteBlockCondition(BlockConditions blockConditions) throws GatewayException;
 
     /**
-     * Publish Threat Protection Json Policy add event to gateway
-     * @param policy ThreatProtectionJsonPolicy, see {@link ThreatProtectionJsonPolicy}
+     * Publish Threat Protection Policy add event to gateway
+     * @param policy ThreatProtectionPolicy, see {@link ThreatProtectionPolicy}
      * @throws GatewayException if there is a failure in notifying event to gateway
      */
-    void addJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException;
+    void addThreatProtectionPolicy(ThreatProtectionPolicy policy) throws GatewayException;
 
     /**
-     * Publish Threat Protection Json Policy delete event to gateway
-     * @param policy ThreatProtectionJsonPolicy, see {@link ThreatProtectionJsonPolicy}
+     * Publish Threat Protection Policy delete event to gateway
+     * @param policy ThreatProtectionPolicy, see {@link ThreatProtectionPolicy}
      * @throws GatewayException if there is a failure in notifying event to gateway
      */
-    void deleteJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException;
+    void deleteThreatProtectionPolicy(ThreatProtectionPolicy policy) throws GatewayException;
 
     /**
-     * Publish Threat Protection Json Policy update event to gateway
-     * @param policy ThreatProtectionJsonPolicy, see {@link ThreatProtectionJsonPolicy}
+     * Publish Threat Protection Policy update event to gateway
+     * @param policy ThreatProtectionPolicy, see {@link ThreatProtectionPolicy}
      * @throws GatewayException if there is a failure in notifying event to gateway
      */
-    void updateJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException;
-
-    /**
-     * Publish Threat Protection XML Policy add event to gateway
-     * @param policy ThreatProtectionXmlPolicy, see {@link ThreatProtectionXmlPolicy}
-     * @throws GatewayException if there is a failure in notifying event to gateway
-     */
-    void addXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException;
-
-    /**
-     * Publish Threat Protection XML Policy delete event to gateway
-     * @param policy ThreatProtectionXmlPolicy, see {@link ThreatProtectionXmlPolicy}
-     * @throws GatewayException if there is a failure in notifying event to gateway
-     */
-    void deleteXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException;
-
-    /**
-     * Publish Threat Protection XML Policy update event to gateway
-     * @param policy ThreatProtectionXmlPolicy, see {@link ThreatProtectionXmlPolicy}
-     * @throws GatewayException if there is a failure in notifying event to gateway
-     */
-    void updateXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException;
+    void updateThreatProtectionPolicy(ThreatProtectionPolicy policy) throws GatewayException;
 }

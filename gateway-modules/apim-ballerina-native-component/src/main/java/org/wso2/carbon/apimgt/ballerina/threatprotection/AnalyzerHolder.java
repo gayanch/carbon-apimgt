@@ -65,17 +65,17 @@ public class AnalyzerHolder {
      * Borrows an object from pools (xml or json) for threat analysis
      *
      * @param contentType Content-Type of the payload
-     * @param apiId ID of the API
+     * @param policyId ID of the API
      * @return Instance of APIMThreatAnalyzer based on content type
      */
-    public static APIMThreatAnalyzer getAnalyzer(String contentType, String apiId) {
+    public static APIMThreatAnalyzer getAnalyzer(String contentType, String policyId) {
         APIMThreatAnalyzer analyzer = null;
         if (T_TEXT_XML.equalsIgnoreCase(contentType) || T_APPLICATION_XML.equalsIgnoreCase(contentType)) {
             try {
                 analyzer = xmlAnalyzerAnalyzerPool.borrowObject();
 
                 //configure per api
-                XMLConfig xmlConfig = ConfigurationHolder.getXmlConfig(apiId);
+                XMLConfig xmlConfig = ConfigurationHolder.getXmlConfig(policyId);
                 if (xmlConfig == null) {
                     xmlConfig = ConfigurationHolder.getXmlConfig(ConfigurationHolder.GLOBAL_CONFIG_KEY);
                 }
@@ -88,7 +88,7 @@ public class AnalyzerHolder {
                 analyzer = jsonAnalyzerAnalyzerPool.borrowObject();
 
                 //configure per api
-                JSONConfig jsonConfig = ConfigurationHolder.getJsonConfig(apiId);
+                JSONConfig jsonConfig = ConfigurationHolder.getJsonConfig(policyId);
                 if (jsonConfig == null) {
                     jsonConfig = ConfigurationHolder.getJsonConfig(ConfigurationHolder.GLOBAL_CONFIG_KEY);
                 }

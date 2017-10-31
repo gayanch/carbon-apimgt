@@ -3,10 +3,8 @@ package org.wso2.carbon.apimgt.rest.api.core;
 
 import io.swagger.annotations.ApiParam;
 
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyListDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyListDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionPolicyDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionPolicyListDTO;
 import org.wso2.carbon.apimgt.rest.api.core.factories.ThreatProtectionApiServiceFactory;
 
 import org.wso2.msf4j.Microservice;
@@ -46,75 +44,50 @@ public class ThreatProtectionApi implements Microservice  {
    private final ThreatProtectionApiService delegate = ThreatProtectionApiServiceFactory.getThreatProtectionApi();
 
     @GET
-    @Path("/json/{apiId}")
+    @Path("/policies")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "get", notes = "desc", response = ThreatProtectionJsonPolicyDTO.class, tags={  })
+    @io.swagger.annotations.ApiOperation(value = "Get all threat protection policies", notes = "all", response = ThreatProtectionPolicyListDTO.class, tags={  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionJsonPolicyDTO.class) })
-    public Response threatProtectionJsonApiIdGet(@ApiParam(value = "The UUID of an API ",required=true) @PathParam("apiId") String apiId
- ,@Context Request request)
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionPolicyListDTO.class) })
+    public Response threatProtectionPoliciesGet( @Context Request request)
     throws NotFoundException {
-        return delegate.threatProtectionJsonApiIdGet(apiId,request);
+        return delegate.threatProtectionPoliciesGet(request);
     }
     @POST
-    @Path("/json/{apiId}")
+    @Path("/policy")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "add a threat protection policy", notes = "add a threat protection policy", response = void.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = void.class) })
+    public Response threatProtectionPolicyPost(@ApiParam(value = "Threat protection json policy request parameter " ,required=true) ThreatProtectionPolicyDTO threatProtectionPolicy
+ ,@Context Request request)
+    throws NotFoundException {
+        return delegate.threatProtectionPolicyPost(threatProtectionPolicy,request);
+    }
+    @GET
+    @Path("/policy/{threatProtectionPolicyId}")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Get one threat protection policy", notes = "Get one threat protection policy", response = ThreatProtectionPolicyDTO.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionPolicyDTO.class) })
+    public Response threatProtectionPolicyThreatProtectionPolicyIdGet( @Context Request request)
+    throws NotFoundException {
+        return delegate.threatProtectionPolicyThreatProtectionPolicyIdGet(request);
+    }
+    @POST
+    @Path("/policy/{threatProtectionPolicyId}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "post", notes = "desc", response = void.class, tags={  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = void.class) })
-    public Response threatProtectionJsonApiIdPost(@ApiParam(value = "The UUID of an API ",required=true) @PathParam("apiId") String apiId
-,@ApiParam(value = "Threat protection json policy request parameter " ,required=true) ThreatProtectionJsonPolicyDTO threatProtectionJsonPolicy
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Ok", response = void.class) })
+    public Response threatProtectionPolicyThreatProtectionPolicyIdPost(@ApiParam(value = "The UUID of a Policy ",required=true) @PathParam("ThreatProtectionPolicyId") String threatProtectionPolicyId
+,@ApiParam(value = "Threat protection json policy request parameter " ,required=true) ThreatProtectionPolicyDTO threatProtectionPolicy
  ,@Context Request request)
     throws NotFoundException {
-        return delegate.threatProtectionJsonApiIdPost(apiId,threatProtectionJsonPolicy,request);
-    }
-    @GET
-    @Path("/json")
-    @Consumes({ "application/json" })
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Get json policy list", notes = "json policy list", response = ThreatProtectionJsonPolicyListDTO.class, tags={  })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionJsonPolicyListDTO.class) })
-    public Response threatProtectionJsonGet( @Context Request request)
-    throws NotFoundException {
-        return delegate.threatProtectionJsonGet(request);
-    }
-    @GET
-    @Path("/xml/{apiId}")
-    @Consumes({ "application/json" })
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Get an xml policy", notes = "xml policy", response = ThreatProtectionXmlPolicyDTO.class, tags={  })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionXmlPolicyDTO.class) })
-    public Response threatProtectionXmlApiIdGet(@ApiParam(value = "The UUID of an API ",required=true) @PathParam("apiId") String apiId
- ,@Context Request request)
-    throws NotFoundException {
-        return delegate.threatProtectionXmlApiIdGet(apiId,request);
-    }
-    @POST
-    @Path("/xml/{apiId}")
-    @Consumes({ "application/json" })
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "add an xml policy", notes = "add an xml policy", response = void.class, tags={  })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = void.class) })
-    public Response threatProtectionXmlApiIdPost(@ApiParam(value = "The UUID of an API ",required=true) @PathParam("apiId") String apiId
-,@ApiParam(value = "Threat protection xml policy request parameter " ,required=true) ThreatProtectionXmlPolicyDTO threatProtectionXmlPolicy
- ,@Context Request request)
-    throws NotFoundException {
-        return delegate.threatProtectionXmlApiIdPost(apiId,threatProtectionXmlPolicy,request);
-    }
-    @GET
-    @Path("/xml")
-    @Consumes({ "application/json" })
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Get xml policy list", notes = "xml policy list", response = ThreatProtectionXmlPolicyListDTO.class, tags={  })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = ThreatProtectionXmlPolicyListDTO.class) })
-    public Response threatProtectionXmlGet( @Context Request request)
-    throws NotFoundException {
-        return delegate.threatProtectionXmlGet(request);
+        return delegate.threatProtectionPolicyThreatProtectionPolicyIdPost(threatProtectionPolicyId,threatProtectionPolicy,request);
     }
 }

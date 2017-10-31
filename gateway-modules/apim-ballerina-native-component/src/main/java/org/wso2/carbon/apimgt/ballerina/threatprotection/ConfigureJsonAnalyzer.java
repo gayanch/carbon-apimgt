@@ -67,11 +67,11 @@ public class ConfigureJsonAnalyzer extends AbstractNativeFunction {
         //configure json analyzer
         BStruct jsonInfo = ((BStruct) getRefArgument(context, 0));
         if (jsonInfo != null) {
-            String jsonApiId = jsonInfo.getStringField(0);
+            String jsonPolicyId = jsonInfo.getStringField(0);
             switch (event) {
                 case THREAT_PROTECTION_JSON_POLICY_ADD:
                 case THREAT_PROTECTION_JSON_POLICY_UPDATE:
-                    boolean enabled = jsonInfo.getBooleanField(0) != 0;
+                    String name = jsonInfo.getStringField(1);
                     int propertyCount = (int) jsonInfo.getIntField(0);
                     int stringLength = (int) jsonInfo.getIntField(1);
                     int arrayElementCount = (int) jsonInfo.getIntField(2);
@@ -79,22 +79,22 @@ public class ConfigureJsonAnalyzer extends AbstractNativeFunction {
                     int maxJSONDepth = (int) jsonInfo.getIntField(4);
 
                     JSONConfig jsonConfig = new JSONConfig();
-                    jsonConfig.setEnabled(enabled);
+                    jsonConfig.setName(name);
                     jsonConfig.setMaxPropertyCount(propertyCount);
                     jsonConfig.setMaxStringLength(stringLength);
                     jsonConfig.setMaxArrayElementCount(arrayElementCount);
                     jsonConfig.setMaxKeyLength(keyLength);
                     jsonConfig.setMaxJsonDepth(maxJSONDepth);
                     //put into ConfigurationHolder
-                    ConfigurationHolder.addJsonConfig(jsonApiId, jsonConfig);
+                    ConfigurationHolder.addJsonConfig(jsonPolicyId, jsonConfig);
                     break;
 
                 case THREAT_PROTECTION_JSON_POLICY_DELETE:
-                    ConfigurationHolder.removeJsonConfig(jsonApiId);
+                    ConfigurationHolder.removeJsonConfig(jsonPolicyId);
                     break;
 
                 default:
-                    log.warn("Unknown event type for JSON Threat Protection Policy. Event: " + event);
+                    log.warn("Unknown event type for Threat Protection Policy. Event: " + event);
                     break;
             }
         }

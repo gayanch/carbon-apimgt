@@ -29,8 +29,7 @@ import org.wso2.carbon.apimgt.core.models.PolicyValidationData;
 import org.wso2.carbon.apimgt.core.models.RegistrationSummary;
 import org.wso2.carbon.apimgt.core.models.SubscriptionValidationData;
 import org.wso2.carbon.apimgt.core.models.UriTemplate;
-import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionJsonPolicy;
-import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionXmlPolicy;
+import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionPolicy;
 import org.wso2.carbon.apimgt.core.util.APIMgtConstants;
 import org.wso2.carbon.apimgt.core.util.APIUtils;
 import org.wso2.carbon.apimgt.rest.api.core.dto.APIInfoDTO;
@@ -47,8 +46,7 @@ import org.wso2.carbon.apimgt.rest.api.core.dto.LabelDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.PolicyDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.RegistrationSummaryDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.SubscriptionDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyDTO;
+import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionPolicyDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThrottlingInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.UriTemplateDTO;
 
@@ -189,58 +187,7 @@ public class MappingUtil {
         registrationSummaryDTO.setAnalyticsInfo(toAnalyticsDTO(registrationSummary));
         registrationSummaryDTO.setJwTInfo(toJWTInfoDTO(registrationSummary));
         registrationSummaryDTO.setThrottlingInfo(toThrottlingInfoDTO(registrationSummary));
-        registrationSummaryDTO.setJsonThreatProtectionInfo(toJSONThreatProtectionPolicyDTO(registrationSummary));
-        registrationSummaryDTO.setXmlThreatProtectionInfo(toXMLThreatProtectionPolicyDTO(registrationSummary));
         return registrationSummaryDTO;
-    }
-
-    /**
-     * Converts RegistrationSummary JSON Threat Protection Information into JSONThreatProtectionInfoDTO
-     *
-     * @param registrationSummary the registration summary required by gateway
-     * @return JSONThreatProtectionInfoDTO
-     */
-    private static ThreatProtectionJsonPolicyDTO toJSONThreatProtectionPolicyDTO(RegistrationSummary registrationSummary) {
-        ThreatProtectionJsonPolicyDTO policy = new ThreatProtectionJsonPolicyDTO();
-        policy.setEnabled(registrationSummary.getJsonThreatProtectionInfo().isEnabled());
-        policy.setApiId(registrationSummary.getJsonThreatProtectionInfo().getApiId());
-        policy.setMaxArrayElementCount(registrationSummary.getJsonThreatProtectionInfo()
-                .getArrayElementCount());
-        policy.setMaxFieldLength(registrationSummary.getJsonThreatProtectionInfo().getKeyLength());
-        policy.setMaxDepth(registrationSummary.getJsonThreatProtectionInfo().getMaxDepth());
-        policy.setMaxFieldCount(registrationSummary.getJsonThreatProtectionInfo()
-                .getPropertyCount());
-        policy.setMaxStringLength(registrationSummary.getJsonThreatProtectionInfo()
-                .getStringLength());
-
-        return policy;
-    }
-
-    /**
-     * Converts RegistrationSummary XML Threat Protection Information into XMLThreatProtectionInfoDTO
-     *
-     * @param registrationSummary the registration summary required by gateway
-     * @return XMLThreatProtectionInfoDTO
-     */
-    private static ThreatProtectionXmlPolicyDTO toXMLThreatProtectionPolicyDTO(RegistrationSummary registrationSummary) {
-        ThreatProtectionXmlPolicyDTO policy = new ThreatProtectionXmlPolicyDTO();
-        policy.setEnabled(registrationSummary.getXmlThreatProtectionInfo().isEnabled());
-        policy.setApiId(registrationSummary.getXmlThreatProtectionInfo().getApiId());
-        policy.setMaxAttributeCount(registrationSummary.getXmlThreatProtectionInfo()
-                .getAttributeCount());
-        policy.setMaxAttributeLength(registrationSummary.getXmlThreatProtectionInfo()
-                .getAttributeLength());
-        policy.setMaxChildrenPerElement(registrationSummary.getXmlThreatProtectionInfo()
-                .getChildrenPerElement());
-        policy.setDtdEnabled(registrationSummary.getXmlThreatProtectionInfo().isDtdEnabled());
-        policy.setMaxElementCount(registrationSummary.getXmlThreatProtectionInfo().getElementCount());
-        policy.setExternalEntitiesEnabled(registrationSummary.getXmlThreatProtectionInfo()
-                .isExternalEntitiesEnabled());
-        policy.setEntityExpansionLimit(registrationSummary.getXmlThreatProtectionInfo()
-                .getEntityExpansionLimit());
-        policy.setMaxDepth(registrationSummary.getXmlThreatProtectionInfo().getMaxDepth());
-
-        return policy;
     }
 
     /**
@@ -393,77 +340,31 @@ public class MappingUtil {
     }
 
     /**
-     * Converts ThreatProtectionJsonPolicy core model ThreatProtectionJsonPolicyDTO rest api core model
-     * @param policy apimgt core model of ThreatProtectionJsonPolicy
-     * @return ThreatProtectionJsonPolicyDTO rest api core model
+     * Converts ThreatProtectionPolicy core model ThreatProtectionPolicyDTO rest api core model
+     * @param policy apimgt core model of ThreatProtectionPolicy
+     * @return ThreatProtectionPolicyDTO rest api core model
      */
-    public static ThreatProtectionJsonPolicyDTO toThreatProtectionJsonPolicyDTO(ThreatProtectionJsonPolicy policy) {
-        ThreatProtectionJsonPolicyDTO dto = new ThreatProtectionJsonPolicyDTO();
-        dto.setEnabled(policy.isEnabled());
-        dto.setApiId(policy.getApiId());
-        dto.setMaxArrayElementCount(policy.getMaxArrayElementCount());
-        dto.setMaxDepth(policy.getMaxDepth());
-        dto.setMaxFieldCount(policy.getMaxFieldCount());
-        dto.setMaxFieldLength(policy.getMaxFieldLength());
-        dto.setMaxStringLength(policy.getMaxStringLength());
+    public static ThreatProtectionPolicyDTO toThreatProtectionPolicyDTO(ThreatProtectionPolicy policy) {
+        ThreatProtectionPolicyDTO dto = new ThreatProtectionPolicyDTO();
+        dto.setUuid(policy.getUuid());
+        dto.setName(policy.getName());
+        dto.setType(policy.getType());
+        dto.setPolicy(policy.getPolicy());
         return dto;
     }
 
-    /**
-     * Converts ThreatProtectionXmlPolicy core model ThreatProtectionXmlPolicyDTO rest api core model
-     * @param policy
-     * @return
-     */
-    public static ThreatProtectionXmlPolicyDTO toThreatProtectionXmlPolicyDTO(ThreatProtectionXmlPolicy policy) {
-        ThreatProtectionXmlPolicyDTO dto = new ThreatProtectionXmlPolicyDTO();
-        dto.setEnabled(policy.isEnabled());
-        dto.setApiId(policy.getApiId());
-        dto.setDtdEnabled(policy.isDtdEnabled());
-        dto.setExternalEntitiesEnabled(policy.isExternalEntitiesEnabled());
-        dto.setEntityExpansionLimit(policy.getEntityExpansionLimit());
-        dto.setMaxAttributeCount(policy.getMaxAttributeCount());
-        dto.setMaxAttributeLength(policy.getMaxAttributeLength());
-        dto.setMaxChildrenPerElement(policy.getMaxChildrenPerElement());
-        dto.setMaxDepth(policy.getMaxDepth());
-        dto.setMaxElementCount(policy.getMaxElementCount());
-        return dto;
-    }
 
     /**
      * Converts rest api core ThreatProtectionJsonPolicy into apimgt core ThreatProtectionJsonPolicy
      * @param dto rest api core ThreatProtectionJsonPolicyDTO
      * @return apimgt core ThreatProtectionJsonPolicy
      */
-    public static ThreatProtectionJsonPolicy toThreatProtectionJsonPolicy(ThreatProtectionJsonPolicyDTO dto) {
-        ThreatProtectionJsonPolicy policy = new ThreatProtectionJsonPolicy();
-        policy.setEnabled(dto.getEnabled());
-        policy.setApiId(dto.getApiId());
-        policy.setMaxArrayElementCount(dto.getMaxArrayElementCount());
-        policy.setMaxDepth(dto.getMaxDepth());
-        policy.setMaxFieldCount(dto.getMaxFieldCount());
-        policy.setMaxFieldLength(dto.getMaxFieldLength());
-        policy.setMaxStringLength(dto.getMaxStringLength());
+    public static ThreatProtectionPolicy toThreatProtectionPolicy(ThreatProtectionPolicyDTO dto) {
+        ThreatProtectionPolicy policy = new ThreatProtectionPolicy();
+        policy.setUuid(dto.getUuid());
+        policy.setType(dto.getType());
+        policy.setName(dto.getName());
+        policy.setPolicy(dto.getPolicy());
         return policy;
     }
-
-    /**
-     * Converts rest api core ThreatProtectionXmlPolicy into apimgt core ThreatProtectionXmlPolicy
-     * @param dto rest api core ThreatProtectionXmlPolicyDTO
-     * @return apimgt core ThreatProtectionXmlPolicy
-     */
-    public static ThreatProtectionXmlPolicy toThreatProtectionXmlPolicy(ThreatProtectionXmlPolicyDTO dto) {
-        ThreatProtectionXmlPolicy policy = new ThreatProtectionXmlPolicy();
-        policy.setEnabled(dto.getEnabled());
-        policy.setApiId(dto.getApiId());
-        policy.setDtdEnabled(dto.getDtdEnabled());
-        policy.setExternalEntitiesEnabled(dto.getExternalEntitiesEnabled());
-        policy.setEntityExpansionLimit(dto.getEntityExpansionLimit());
-        policy.setMaxAttributeCount(dto.getMaxAttributeCount());
-        policy.setMaxAttributeLength(dto.getMaxAttributeLength());
-        policy.setMaxChildrenPerElement(dto.getMaxChildrenPerElement());
-        policy.setMaxDepth(dto.getMaxDepth());
-        policy.setMaxElementCount(dto.getMaxElementCount());
-        return policy;
-    }
-
 }

@@ -66,13 +66,13 @@ public class ConfigureXmlAnalyzer extends AbstractNativeFunction {
         String event = getStringArgument(context, 0);
         BStruct xmlInfo = ((BStruct) getRefArgument(context, 0));
         if (xmlInfo != null) {
-            String xmlApiId = xmlInfo.getStringField(0);
+            String xmlPolicyId = xmlInfo.getStringField(0);
             switch (event) {
                 case THREAT_PROTECTION_XML_POLICY_ADD:
                 case THREAT_PROTECTION_XML_POLICY_UPDATE:
-                    boolean enabled = xmlInfo.getBooleanField(0) != 0;
-                    boolean dtdEnabled = xmlInfo.getBooleanField(1) != 0;
-                    boolean externalEntitiesEnabled = xmlInfo.getBooleanField(2) != 0;
+                    String name = xmlInfo.getStringField(1);
+                    boolean dtdEnabled = xmlInfo.getBooleanField(0) != 0;
+                    boolean externalEntitiesEnabled = xmlInfo.getBooleanField(1) != 0;
                     int maxXMLDepth = (int) xmlInfo.getIntField(0);
                     int elementCount = (int) xmlInfo.getIntField(1);
                     int attributeCount = (int) xmlInfo.getIntField(2);
@@ -81,7 +81,7 @@ public class ConfigureXmlAnalyzer extends AbstractNativeFunction {
                     int childrenPerElement = (int) xmlInfo.getIntField(5);
 
                     XMLConfig xmlConfig = new XMLConfig();
-                    xmlConfig.setEnabled(enabled);
+                    xmlConfig.setName(name);
                     xmlConfig.setDtdEnabled(dtdEnabled);
                     xmlConfig.setExternalEntitiesEnabled(externalEntitiesEnabled);
                     xmlConfig.setMaxDepth(maxXMLDepth);
@@ -92,11 +92,11 @@ public class ConfigureXmlAnalyzer extends AbstractNativeFunction {
                     xmlConfig.setMaxChildrenPerElement(childrenPerElement);
 
                     //put into ConfigurationHolder
-                    ConfigurationHolder.addXmlConfig(xmlApiId, xmlConfig);
+                    ConfigurationHolder.addXmlConfig(xmlPolicyId, xmlConfig);
                     break;
 
                 case THREAT_PROTECTION_XML_POLICY_DELETE:
-                    ConfigurationHolder.removeXmlConfig(xmlApiId);
+                    ConfigurationHolder.removeXmlConfig(xmlPolicyId);
                     break;
 
                 default:

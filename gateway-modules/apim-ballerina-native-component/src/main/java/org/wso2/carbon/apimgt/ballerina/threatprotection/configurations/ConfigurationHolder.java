@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Holds the threat protection configuration objects for apis
+ * Holds the threat protection policies
  */
 public class ConfigurationHolder {
     public static final String GLOBAL_CONFIG_KEY = "GLOBAL";
@@ -17,27 +17,27 @@ public class ConfigurationHolder {
         xmlConfigMap = new ConcurrentHashMap<>();
     }
 
-    public static void addJsonConfig(String apiId, JSONConfig config) {
-        jsonConfigMap.put(apiId, config);
+    public static void addJsonConfig(String policyId, JSONConfig config) {
+        jsonConfigMap.put(policyId, config);
     }
 
-    public static void addXmlConfig(String apiId, XMLConfig config) {
-        xmlConfigMap.put(apiId, config);
+    public static void addXmlConfig(String policyId, XMLConfig config) {
+        xmlConfigMap.put(policyId, config);
     }
 
-    public static JSONConfig getJsonConfig(String apiId) {
-        return jsonConfigMap.get(apiId);
+    public static JSONConfig getJsonConfig(String policyId) {
+        return jsonConfigMap.get(policyId);
     }
 
-    public static XMLConfig getXmlConfig(String apiId) {
-        return xmlConfigMap.get(apiId);
+    public static XMLConfig getXmlConfig(String policyId) {
+        return xmlConfigMap.get(policyId);
     }
 
-    public static void removeJsonConfig(String apiId) {
-        jsonConfigMap.remove(apiId);
+    public static void removeJsonConfig(String policyId) {
+        jsonConfigMap.remove(policyId);
     }
 
-    public static void removeXmlConfig(String apiId) {
-        xmlConfigMap.remove(apiId);
+    public static void removeXmlConfig(String policyId) {
+        xmlConfigMap.remove(policyId);
     }
 }

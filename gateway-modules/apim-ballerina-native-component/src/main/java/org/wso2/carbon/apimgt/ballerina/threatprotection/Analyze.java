@@ -42,7 +42,7 @@ import org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.APIMThreatAnal
         args = { @Argument(name = "payloadType", type = TypeEnum.STRING),
                  @Argument(name = "payload", type = TypeEnum.STRING),
                  @Argument(name = "apiContext", type = TypeEnum.STRING),
-                 @Argument(name = "apiId", type = TypeEnum.STRING)},
+                 @Argument(name = "policyId", type = TypeEnum.STRING)},
         returnType = { @ReturnType(type = TypeEnum.BOOLEAN),
                        @ReturnType(type = TypeEnum.STRING)},
         isPublic = true
@@ -68,28 +68,28 @@ public class Analyze extends AbstractNativeFunction {
         String payloadType = getStringArgument(context, 0);
         String payload = getStringArgument(context, 1);
         String apiContext = getStringArgument(context, 2);
-        String apiId = getStringArgument(context, 3);
+        String policyId = getStringArgument(context, 3);
 
-        APIMThreatAnalyzer analyzer = AnalyzerHolder.getAnalyzer(payloadType, apiId);
+        APIMThreatAnalyzer analyzer = AnalyzerHolder.getAnalyzer(payloadType, policyId);
         if (analyzer == null) {
             return getBValues(new BBoolean(false), new BString("Unknown Payload Type"));
         }
 
         //skip analyzing if analyzer is disabled by configs
-        if (!analyzer.isEnabled()) {
-            return getBValues(new BBoolean(true), new BString(null));
-        }
+//        if (!analyzer.isEnabled()) {
+//            return getBValues(new BBoolean(true), new BString(null));
+//        }
         //add meaningful name
-        boolean ok = true;
+        boolean noThreatsDetected = true;
         String errMessage = null;
         try {
             analyzer.analyze(payload, apiContext);
         } catch (APIMThreatAnalyzerException e) {
-            ok = false;
+            noThreatsDetected = false;
             errMessage = e.getMessage();
         }
         //return analyzer to the pool
         AnalyzerHolder.returnObject(analyzer);
-        return getBValues(new BBoolean(ok), new BString(errMessage));
+        return getBValues(new BBoolean(noThreatsDetected), new BString(errMessage));
     }
 }

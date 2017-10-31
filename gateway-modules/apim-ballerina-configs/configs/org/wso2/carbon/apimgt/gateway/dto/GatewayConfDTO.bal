@@ -5,8 +5,6 @@ struct GatewayConfDTO {
     JWTInfoDTO jwtInfo;
     AnalyticsInfoDTO analyticsInfo;
     ThrottlingInfoDTO throttlingInfo;
-    JSONThreatProtectionInfoDTO jsonThreatProtectionInfo;
-    XMLThreatProtectionInfoDTO xmlThreatProtectionInfo;
 }
 
 struct KeyManagerInfoDTO {
@@ -44,8 +42,9 @@ struct CredentialsDTO {
 }
 
 struct XMLThreatProtectionInfoDTO {
-    boolean enabled;
-    string apiId;
+    string policyId;
+    string name;
+    string _type;
     boolean dtdEnabled;
     boolean externalEntitiesEnabled;
     int maxDepth;
@@ -57,8 +56,9 @@ struct XMLThreatProtectionInfoDTO {
 }
 
 struct JSONThreatProtectionInfoDTO {
-    boolean enabled;
-    string apiId;
+    string policyId;
+    string name;
+    string _type;
     int propertyCount;
     int stringLength;
     int arrayElementCount;

@@ -576,69 +576,46 @@ paths:
 ######################################################
 # The "Threat Protection" resource API
 ######################################################
-  /threat-protection/xml/{apiId}:
-    get:
-      summary: "Get an xml policy"
-      description: "xml policy"
-      parameters:
-        - $ref: '#/parameters/apiId'
-      responses:
-        200:
-          schema:
-            $ref: '#/definitions/ThreatProtectionXmlPolicy'
-          description: OK
-
+  /threat-protection/policy:
     post:
-      summary: "add an xml policy"
-      description: "add an xml policy"
+      summary: "add a threat protection policy"
+      description: "add a threat protection policy"
       parameters:
-        - $ref: '#/parameters/apiId'
-        - $ref: '#/parameters/threatProtectionXmlPolicy'
+        - $ref: '#/parameters/threatProtectionPolicy'
       responses:
         200:
           description: OK
 
-  /threat-protection/xml:
+  /threat-protection/policy/{threatProtectionPolicyId}:
     get:
-      summary: "Get xml policy list"
-      description: "xml policy list"
+      summary: "Get one threat protection policy"
+      description: "Get one threat protection policy"
       responses:
         200:
           schema:
-            $ref: '#/definitions/ThreatProtectionXmlPolicyList'
-          description: OK
-
-  /threat-protection/json/{apiId}:
-    get:
-      summary: "get"
-      description: "desc"
-      parameters:
-        - $ref: '#/parameters/apiId'
-      responses:
-        200:
-          schema:
-            $ref: '#/definitions/ThreatProtectionJsonPolicy'
+            $ref: '#/definitions/ThreatProtectionPolicy'
           description: OK
 
     post:
       summary: "post"
       description: "desc"
       parameters:
-        - $ref: '#/parameters/apiId'
-        - $ref: '#/parameters/threatProtectionJsonPolicy'
+        - $ref: '#/parameters/threatProtectionPolicyId'
+        - $ref: '#/parameters/threatProtectionPolicy'
       responses:
         200:
-          description: OK
+          description: Ok
 
-  /threat-protection/json:
-      get:
-        summary: "Get json policy list"
-        description: "json policy list"
-        responses:
-          200:
-            schema:
-              $ref: '#/definitions/ThreatProtectionJsonPolicyList'
-            description: OK
+
+  /threat-protection/policies:
+    get:
+      summary: "Get all threat protection policies"
+      description: "all"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/ThreatProtectionPolicyList'
+          description: OK
 
 ######################################################
 # Parameters - required by some of the APIs above
@@ -651,6 +628,14 @@ parameters:
     in: path
     description: |
       The UUID of an API
+    required: true
+    type: string
+
+  threatProtectionPolicyId:
+    name: ThreatProtectionPolicyId
+    in: path
+    description: |
+      The UUID of a Policy
     required: true
     type: string
 
@@ -729,25 +714,14 @@ parameters:
     type: string
 
 #Threat Protection JSON policy parameter
-  threatProtectionJsonPolicy:
-    name: threatProtectionJsonPolicy
+  threatProtectionPolicy:
+    name: threatProtectionPolicy
     in: body
     description: |
       Threat protection json policy request parameter
     required: true
     schema: {
-      $ref: '#/definitions/ThreatProtectionJsonPolicy'
-    }
-
-#Threat Protection XML Policy parameter
-  threatProtectionXmlPolicy:
-    name: threatProtectionXmlPolicy
-    in: body
-    description: |
-      Threat protection xml policy request parameter
-    required: true
-    schema: {
-      $ref: '#/definitions/ThreatProtectionXmlPolicy'
+      $ref: '#/definitions/ThreatProtectionPolicy'
     }
 
 ######################################################
@@ -994,11 +968,6 @@ definitions:
         $ref: '#/definitions/AnalyticsInfo'
       ThrottlingInfo:
         $ref: '#/definitions/ThrottlingInfo'
-      JsonThreatProtectionInfo:
-        $ref: '#/definitions/ThreatProtectionJsonPolicy'
-      XmlThreatProtectionInfo:
-        $ref: '#/definitions/ThreatProtectionXmlPolicy'
-
 
 #-----------------------------------------------------
 # The API List resource
@@ -1279,108 +1248,37 @@ definitions:
 #-----------------------------------------------------
 # The Threat Protection JSON Policy List resource
 #-----------------------------------------------------
-  ThreatProtectionJsonPolicyList:
-    title: "JSON Threat Protection Policy List"
+  ThreatProtectionPolicyList:
+    title: "Threat Protection Policy List"
     properties:
       list:
         type: array
         items:
-          $ref: '#/definitions/ThreatProtectionJsonPolicy'
+          $ref: '#/definitions/ThreatProtectionPolicy'
 
 #-----------------------------------------------------
-# The Threat Protection XML Policy List resource
+# The Threat Protection Policy resource
 #-----------------------------------------------------
-  ThreatProtectionXmlPolicyList:
-    title: "XML Threat Protection Policy List"
-    properties:
-      list:
-        type: array
-        items:
-          $ref: '#/definitions/ThreatProtectionXmlPolicy'
-
-#-----------------------------------------------------
-# The Threat Protection JSON Policy resource
-#-----------------------------------------------------
-  ThreatProtectionJsonPolicy:
-    title: "JSON Threat Protection Policy Schema"
+  ThreatProtectionPolicy:
+    title: "Threat Protection Policy Schema"
     required:
-      - enabled
-      - apiId
-      - maxFieldCount
-      - maxStringLength
-      - maxArrayElementCount
-      - maxFieldLength
-      - maxDepth
+      - name
+      - type
+      - policy
     properties:
-      enabled:
-        type: boolean
-        description: Enabled/Disabled status
-      apiId:
+      uuid:
         type: string
-        description: API ID
-      maxFieldCount:
-        type: integer
-        description: Maximum number of fields allowed on json document
-      maxStringLength:
-        type: integer
-        description: Maximum string length allowed
-      maxArrayElementCount:
-        type: integer
-        description: Maximum array elements allowed
-      maxFieldLength:
-        type: integer
-        description: Maximum field length allowed (in chars)
-      maxDepth:
-        type: integer
-        description: Maximum depth allowed
+        description: Policy ID
+      name:
+        type: string
+        description: Name of the policy
+      type:
+        type: string
+        description: Type of the policy
+      policy:
+        type: string
+        description: policy as a json string
 
-#-----------------------------------------------------
-# The Threat Protection XML Policy resource
-#-----------------------------------------------------
-  ThreatProtectionXmlPolicy:
-    title: XML Threat Protection Policy Schema
-    required:
-      - enabled
-      - apiId
-      - dtdEnabled
-      - externalEntitiesEnabled
-      - maxDepth
-      - maxElementCount
-      - maxAttributeCount
-      - maxAttributeLength
-      - entityExpansionLimit
-      - maxChildrenPerElement
-    properties:
-      enabled:
-        type: boolean
-        description: Enabled/Disabled status
-      apiId:
-        type: string
-        description: API ID
-      dtdEnabled:
-        type: boolean
-        description: is DTD Enabled
-      externalEntitiesEnabled:
-        type: boolean
-        description: Is external entities enabled
-      maxDepth:
-        type: integer
-        description: Max Depth
-      maxElementCount:
-        type: integer
-        description: Maximum elements
-      maxAttributeCount:
-        type: integer
-        description: Maximum attributes allowed
-      maxAttributeLength:
-        type: integer
-        description: Maximum length of an attribute (in chars)
-      entityExpansionLimit:
-        type: integer
-        description: Maximum number of entity expansions allowed
-      maxChildrenPerElement:
-        type: integer
-        description: Maximum children per element
 #-----------------------------------------------------
 # END-OF-FILE
 #-----------------------------------------------------

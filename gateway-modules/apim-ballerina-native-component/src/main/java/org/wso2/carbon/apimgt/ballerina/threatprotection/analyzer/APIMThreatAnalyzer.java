@@ -50,10 +50,4 @@ public interface APIMThreatAnalyzer {
      * @throws UnsupportedOperationException if called on a XMLAnalyzer instance
      */
     void configure(JSONConfig config);
-
-    /**
-     * Check whether payload analyzing is enabled by configs
-     * @return true if payload analyzing is enabled, flase otherwise
-     */
-    boolean isEnabled();
 }

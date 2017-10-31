@@ -74,14 +74,6 @@ public class APIMConfigurations {
     @Element(description = "Throttling Configurations")
     private ThrottlingConfigurations throttlingConfigurations = new ThrottlingConfigurations();
 
-    @Element(description = "XML Threat Protection Configurations")
-    private XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations
-            = new XMLThreatProtectionConfigurations();
-
-    @Element(description = "JSON Threat Protection Configurations")
-    private JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations
-            = new JSONThreatProtectionConfigurations();
-
     @Element(description = "comment moderator role")
     private String commentModeratorRole = "comment-moderator";
 
@@ -225,24 +217,6 @@ public class APIMConfigurations {
 
     public void setThrottlingConfigurations(ThrottlingConfigurations throttlingConfigurations) {
         this.throttlingConfigurations = throttlingConfigurations;
-    }
-
-    public XMLThreatProtectionConfigurations getXmlThreatProtectionConfigurations() {
-        return xmlThreatProtectionConfigurations;
-    }
-
-    public void setXmlThreatProtectionConfigurations(
-            XMLThreatProtectionConfigurations xmlThreatProtectionConfigurations) {
-        this.xmlThreatProtectionConfigurations = xmlThreatProtectionConfigurations;
-    }
-
-    public JSONThreatProtectionConfigurations getJsonThreatProtectionConfigurations() {
-        return jsonThreatProtectionConfigurations;
-    }
-
-    public void setJsonThreatProtectionConfigurations(
-            JSONThreatProtectionConfigurations jsonThreatProtectionConfigurations) {
-        this.jsonThreatProtectionConfigurations = jsonThreatProtectionConfigurations;
     }
 
     public String getCommentModeratorRole() {

@@ -41,7 +41,6 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
 
     private JsonFactory factory;
 
-    private boolean enabled = true;
     private int maxFieldCount = 0;
     private int maxStringLength = 0;
     private int maxArrayElementCount = 0;
@@ -56,17 +55,11 @@ public class JSONAnalyzer implements APIMThreatAnalyzer {
      * Create a JSONAnalyzer using default configuration values
      */
     public void configure(JSONConfig config) {
-        enabled = config.isEnabled();
         maxFieldCount = config.getMaxPropertyCount();
         maxStringLength = config.getMaxStringLength();
         maxArrayElementCount = config.getMaxArrayElementCount();
         maxFieldLength = config.getMaxKeyLength();
         maxJsonDepth = config.getMaxJsonDepth();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
     }
 
     @Override

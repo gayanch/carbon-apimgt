@@ -39,10 +39,8 @@ import org.wso2.carbon.apimgt.core.models.events.EndpointEvent;
 import org.wso2.carbon.apimgt.core.models.events.GatewayEvent;
 import org.wso2.carbon.apimgt.core.models.events.PolicyEvent;
 import org.wso2.carbon.apimgt.core.models.events.SubscriptionEvent;
-import org.wso2.carbon.apimgt.core.models.events.ThreatProtectionJsonEvent;
-import org.wso2.carbon.apimgt.core.models.events.ThreatProtectionXmlEvent;
-import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionJsonPolicy;
-import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionXmlPolicy;
+import org.wso2.carbon.apimgt.core.models.events.ThreatProtectionEvent;
+import org.wso2.carbon.apimgt.core.models.policy.ThreatProtectionPolicy;
 import org.wso2.carbon.apimgt.core.util.APIMgtConstants;
 import org.wso2.carbon.apimgt.core.util.APIUtils;
 import org.wso2.carbon.apimgt.core.util.BrokerUtil;
@@ -445,9 +443,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
      * {@inheritDoc}
      */
     @Override
-    public void addJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
-        ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
-                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_JSON_POLICY_ADD);
+    public void addThreatProtectionPolicy(ThreatProtectionPolicy policy) throws GatewayException {
+        ThreatProtectionEvent event = new ThreatProtectionEvent(
+                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_POLICY_ADD);
         event.setPolicy(policy);
         publishToThreatProtectionTopic(event);
     }
@@ -456,9 +454,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
      * {@inheritDoc}
      */
     @Override
-    public void deleteJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
-        ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
-                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_JSON_POLICY_DELETE);
+    public void deleteThreatProtectionPolicy(ThreatProtectionPolicy policy) throws GatewayException {
+        ThreatProtectionEvent event = new ThreatProtectionEvent(
+                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_POLICY_DELETE);
         event.setPolicy(policy);
         publishToThreatProtectionTopic(event);
     }
@@ -467,42 +465,9 @@ public class APIGatewayPublisherImpl implements APIGateway {
      * {@inheritDoc}
      */
     @Override
-    public void updateJsonThreatProtectionPolicy(ThreatProtectionJsonPolicy policy) throws GatewayException {
-        ThreatProtectionJsonEvent event = new ThreatProtectionJsonEvent(
-                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_JSON_POLICY_UPDATE);
-        event.setPolicy(policy);
-        publishToThreatProtectionTopic(event);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException {
-        ThreatProtectionXmlEvent event = new ThreatProtectionXmlEvent(
-                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_XML_POLICY_ADD);
-        event.setPolicy(policy);
-        publishToThreatProtectionTopic(event);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void deleteXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException {
-        ThreatProtectionXmlEvent event = new ThreatProtectionXmlEvent(
-                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_XML_POLICY_DELETE);
-        event.setPolicy(policy);
-        publishToThreatProtectionTopic(event);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateXmlThreatProtectionPolicy(ThreatProtectionXmlPolicy policy) throws GatewayException {
-        ThreatProtectionXmlEvent event = new ThreatProtectionXmlEvent(
-                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_XML_POLICY_UPDATE);
+    public void updateThreatProtectionPolicy(ThreatProtectionPolicy policy) throws GatewayException {
+        ThreatProtectionEvent event = new ThreatProtectionEvent(
+                APIMgtConstants.GatewayEventTypes.THREAT_PROTECTION_POLICY_UPDATE);
         event.setPolicy(policy);
         publishToThreatProtectionTopic(event);
     }

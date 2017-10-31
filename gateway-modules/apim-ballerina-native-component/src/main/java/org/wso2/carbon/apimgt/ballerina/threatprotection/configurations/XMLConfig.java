@@ -22,7 +22,7 @@ package org.wso2.carbon.apimgt.ballerina.threatprotection.configurations;
  * Configuration holding class for {@link org.wso2.carbon.apimgt.ballerina.threatprotection.analyzer.XMLAnalyzer}
  */
 public class XMLConfig {
-    private boolean enabled;
+    private String name;
     private boolean dtdEnabled;
     private boolean externalEntitiesEnabled;
     private int maxDepth;
@@ -32,12 +32,12 @@ public class XMLConfig {
     private int entityExpansionLimit;
     private int maxChildrenPerElement;
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getName() {
+        return name;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isDtdEnabled() {

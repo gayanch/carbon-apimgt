@@ -8,10 +8,10 @@ import ballerina.doc;
 @doc:Param { value: "payloadType: payload type (json/xml)" }
 @doc:Param { value: "payload: json or xml payload to analyze" }
 @doc:Param { value: "apiContext: api context" }
-@doc:Param { value: "Api ID" }
+@doc:Param { value: "policyId" }
 @doc:Return { value: "boolean: true of no threats detected, false otherwise" }
 @doc:Return { value: "string: error information" }
-native function analyze(string payloadType, string payload, string apiContext, string apiId) (boolean, string);
+native function analyze(string payloadType, string payload, string apiContext, string policyId) (boolean, string);
 
 @doc:Description { value: "Configures the analyzers" }
 @doc:Param { value: "jsonInfo: ballerina struct containing JSONAnalyzer configurations" }

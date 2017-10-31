@@ -63,7 +63,7 @@ public class Configure extends AbstractNativeFunction {
         //configure json analyzer
         BStruct jsonInfo = ((BStruct) getRefArgument(context, 0));
         if (jsonInfo != null) {
-            boolean enabled = jsonInfo.getBooleanField(0) != 0;
+            //boolean enabled = jsonInfo.getBooleanField(0) != 0;
             int propertyCount = (int) jsonInfo.getIntField(0);
             int stringLength = (int) jsonInfo.getIntField(1);
             int arrayElementCount = (int) jsonInfo.getIntField(2);
@@ -72,7 +72,7 @@ public class Configure extends AbstractNativeFunction {
             String jsonApiId = jsonInfo.getStringField(0);
 
             JSONConfig jsonConfig = new JSONConfig();
-            jsonConfig.setEnabled(enabled);
+            //jsonConfig.setEnabled(enabled);
             jsonConfig.setMaxPropertyCount(propertyCount);
             jsonConfig.setMaxStringLength(stringLength);
             jsonConfig.setMaxArrayElementCount(arrayElementCount);
@@ -85,7 +85,7 @@ public class Configure extends AbstractNativeFunction {
         //configure xml analyzer
         BStruct xmlInfo = ((BStruct) getRefArgument(context, 1));
         if (xmlInfo != null) {
-            boolean enabled = xmlInfo.getBooleanField(0) != 0;
+            //boolean enabled = xmlInfo.getBooleanField(0) != 0;
             boolean dtdEnabled = xmlInfo.getBooleanField(1) != 0;
             boolean externalEntitiesEnabled = xmlInfo.getBooleanField(2) != 0;
             int maxXMLDepth = (int) xmlInfo.getIntField(0);
@@ -97,7 +97,7 @@ public class Configure extends AbstractNativeFunction {
             String xmlApiId = xmlInfo.getStringField(0);
 
             XMLConfig xmlConfig = new XMLConfig();
-            xmlConfig.setEnabled(enabled);
+            //xmlConfig.setEnabled(enabled);
             xmlConfig.setDtdEnabled(dtdEnabled);
             xmlConfig.setExternalEntitiesEnabled(externalEntitiesEnabled);
             xmlConfig.setMaxDepth(maxXMLDepth);

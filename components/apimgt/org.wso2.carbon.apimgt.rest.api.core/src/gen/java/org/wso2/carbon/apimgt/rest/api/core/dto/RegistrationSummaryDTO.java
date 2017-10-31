@@ -8,8 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.wso2.carbon.apimgt.rest.api.core.dto.AnalyticsInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.JWTInfoDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.KeyManagerInfoDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionJsonPolicyDTO;
-import org.wso2.carbon.apimgt.rest.api.core.dto.ThreatProtectionXmlPolicyDTO;
 import org.wso2.carbon.apimgt.rest.api.core.dto.ThrottlingInfoDTO;
 import java.util.Objects;
 
@@ -28,12 +26,6 @@ public class RegistrationSummaryDTO   {
 
   @JsonProperty("ThrottlingInfo")
   private ThrottlingInfoDTO throttlingInfo = null;
-
-  @JsonProperty("JsonThreatProtectionInfo")
-  private ThreatProtectionJsonPolicyDTO jsonThreatProtectionInfo = null;
-
-  @JsonProperty("XmlThreatProtectionInfo")
-  private ThreatProtectionXmlPolicyDTO xmlThreatProtectionInfo = null;
 
   public RegistrationSummaryDTO keyManagerInfo(KeyManagerInfoDTO keyManagerInfo) {
     this.keyManagerInfo = keyManagerInfo;
@@ -107,42 +99,6 @@ public class RegistrationSummaryDTO   {
     this.throttlingInfo = throttlingInfo;
   }
 
-  public RegistrationSummaryDTO jsonThreatProtectionInfo(ThreatProtectionJsonPolicyDTO jsonThreatProtectionInfo) {
-    this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
-    return this;
-  }
-
-   /**
-   * Get jsonThreatProtectionInfo
-   * @return jsonThreatProtectionInfo
-  **/
-  @ApiModelProperty(value = "")
-  public ThreatProtectionJsonPolicyDTO getJsonThreatProtectionInfo() {
-    return jsonThreatProtectionInfo;
-  }
-
-  public void setJsonThreatProtectionInfo(ThreatProtectionJsonPolicyDTO jsonThreatProtectionInfo) {
-    this.jsonThreatProtectionInfo = jsonThreatProtectionInfo;
-  }
-
-  public RegistrationSummaryDTO xmlThreatProtectionInfo(ThreatProtectionXmlPolicyDTO xmlThreatProtectionInfo) {
-    this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
-    return this;
-  }
-
-   /**
-   * Get xmlThreatProtectionInfo
-   * @return xmlThreatProtectionInfo
-  **/
-  @ApiModelProperty(value = "")
-  public ThreatProtectionXmlPolicyDTO getXmlThreatProtectionInfo() {
-    return xmlThreatProtectionInfo;
-  }
-
-  public void setXmlThreatProtectionInfo(ThreatProtectionXmlPolicyDTO xmlThreatProtectionInfo) {
-    this.xmlThreatProtectionInfo = xmlThreatProtectionInfo;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -156,14 +112,12 @@ public class RegistrationSummaryDTO   {
     return Objects.equals(this.keyManagerInfo, registrationSummary.keyManagerInfo) &&
         Objects.equals(this.jwTInfo, registrationSummary.jwTInfo) &&
         Objects.equals(this.analyticsInfo, registrationSummary.analyticsInfo) &&
-        Objects.equals(this.throttlingInfo, registrationSummary.throttlingInfo) &&
-        Objects.equals(this.jsonThreatProtectionInfo, registrationSummary.jsonThreatProtectionInfo) &&
-        Objects.equals(this.xmlThreatProtectionInfo, registrationSummary.xmlThreatProtectionInfo);
+        Objects.equals(this.throttlingInfo, registrationSummary.throttlingInfo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(keyManagerInfo, jwTInfo, analyticsInfo, throttlingInfo, jsonThreatProtectionInfo, xmlThreatProtectionInfo);
+    return Objects.hash(keyManagerInfo, jwTInfo, analyticsInfo, throttlingInfo);
   }
 
   @Override
@@ -175,8 +129,6 @@ public class RegistrationSummaryDTO   {
     sb.append("    jwTInfo: ").append(toIndentedString(jwTInfo)).append("\n");
     sb.append("    analyticsInfo: ").append(toIndentedString(analyticsInfo)).append("\n");
     sb.append("    throttlingInfo: ").append(toIndentedString(throttlingInfo)).append("\n");
-    sb.append("    jsonThreatProtectionInfo: ").append(toIndentedString(jsonThreatProtectionInfo)).append("\n");
-    sb.append("    xmlThreatProtectionInfo: ").append(toIndentedString(xmlThreatProtectionInfo)).append("\n");
     sb.append("}");
     return sb.toString();
   }
