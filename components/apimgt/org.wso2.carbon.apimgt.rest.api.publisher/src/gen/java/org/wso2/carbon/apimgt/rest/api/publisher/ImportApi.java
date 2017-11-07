@@ -65,9 +65,9 @@ public class ImportApi implements Microservice  {
             @FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FileInfo fileDetail
 ,@ApiParam(value = "If defined, updates the existing provider of each API with the specified provider. This is to cater scenarios where the current API provider does not exist in the environment that the API is imported to. ") @QueryParam("provider") String provider
-, @Context Request request)
+ ,@Context Request request)
     throws NotFoundException {
-        return delegate.importApisPost(fileInputStream, fileDetail,provider, request);
+        return delegate.importApisPost(fileInputStream, fileDetail,provider,request);
     }
     @PUT
     @Path("/apis")
@@ -90,8 +90,8 @@ public class ImportApi implements Microservice  {
             @FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FileInfo fileDetail
 ,@ApiParam(value = "If defined, updates the existing provider of each API with the specified provider. This is to cater scenarios where the current API provider does not exist in the environment that the API is imported to. ") @QueryParam("provider") String provider
-, @Context Request request)
+ ,@Context Request request)
     throws NotFoundException {
-        return delegate.importApisPut(fileInputStream, fileDetail,provider, request);
+        return delegate.importApisPut(fileInputStream, fileDetail,provider,request);
     }
 }

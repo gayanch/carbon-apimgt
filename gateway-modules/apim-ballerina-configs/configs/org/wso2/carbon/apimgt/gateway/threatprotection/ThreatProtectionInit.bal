@@ -10,27 +10,6 @@ import org.wso2.carbon.apimgt.gateway.utils;
 import org.wso2.carbon.apimgt.ballerina.threatprotection;
 
 function initThreatProtection() (boolean) {
-    //dto:JSONThreatProtectionInfoDTO jsonThreatProtectionConf = holder:getJSONThreatProtectionConf();
-    //dto:XMLThreatProtectionInfoDTO xmlThreatProtectionConf = holder:getXMLThreatProtectionConf();
-    //
-    //threatprotection:configureJsonAnalyzer(jsonThreatProtectionConf, "THREAT_PROTECTION_JSON_POLICY_ADD");
-    //threatprotection:configureXmlAnalyzer(xmlThreatProtectionConf, "THREAT_PROTECTION_XML_POLICY_ADD");
-
-    //setting per-API policies
-    //try {
-    //    json jsonPolicyList = utils:getThreatProtectionJsonPolicies();
-    //    setPerApiJsonPolicies(jsonPolicyList);
-    //} catch (errors:Error error) {
-    //    system:println("Error occured while setting per-API JSON threat protection policies. " + error.msg);
-    //}
-    //
-    //try {
-    //    json xmlPolicyList = utils:getThreatProtectionXmlPolicies();
-    //    setPerApiXmlPolicies(xmlPolicyList);
-    //} catch (errors:Error error) {
-    //    system:println("Error occured while setting per-API XML threat protection policies. " +  error.msg);
-    //}
-
     try {
         json threatProtectionPolicies = utils:getThreatProtectionPolicies();
         storePolicies(threatProtectionPolicies);

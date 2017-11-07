@@ -1469,110 +1469,110 @@ public class APIStoreImplTestCase {
     }
 
     private APIStoreImpl getApiStoreImpl(ApiDAO apiDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, apiDAO, null, null, null, null, null, null, null, null);
+        return new APIStoreImpl(USER_NAME, null, null, apiDAO, null, null, null, null, null, null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(ApiDAO apiDAO, LabelDAO labelDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, apiDAO, null, null, null, null, labelDAO, null, null, null);
+        return new APIStoreImpl(USER_NAME, null, null, apiDAO, null, null, null, null, labelDAO, null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(IdentityProvider idp, KeyManager keyManager, ApiDAO apiDAO,
                                          APISubscriptionDAO apiSubscriptionDAO,
                                          GatewaySourceGenerator gatewaySourceGenerator, APIGateway apiGateway) {
         return new APIStoreImpl(USER_NAME, idp, keyManager, apiDAO, null, apiSubscriptionDAO, null,
-                null, null, null, gatewaySourceGenerator, apiGateway);
+                null, null, null, null, gatewaySourceGenerator, apiGateway);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, null, null, null, null, null, null);
+        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, null, null, null, null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO, PolicyDAO policyDAO, WorkflowDAO workflowDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, policyDAO, null, null, workflowDAO,
+        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, policyDAO, null, null, workflowDAO, null,
                 null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO, PolicyDAO policyDAO, WorkflowDAO workflowDAO,
                                          APIGateway apiGateway) {
-        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, policyDAO, null, null, workflowDAO,
+        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, policyDAO, null, null, workflowDAO, null,
                 null, apiGateway);
     }
 
     private APIStoreImpl getApiStoreImpl(ApiDAO apiDAO, ApplicationDAO applicationDAO,
                                          APISubscriptionDAO apiSubscriptionDAO, WorkflowDAO workflowDAO) {
         return new APIStoreImpl(USER_NAME, null, null, apiDAO, applicationDAO, apiSubscriptionDAO, null, null, null,
-                workflowDAO, null, null);
+                workflowDAO, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO, APISubscriptionDAO apiSubscriptionDAO,
                                          WorkflowDAO workflowDAO, APIGateway apiGateway) {
         return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, apiSubscriptionDAO, null, null, null,
-                workflowDAO, null, apiGateway);
+                workflowDAO, null, null, apiGateway);
     }
 
     private APIStoreImpl getApiStoreImpl(ApiDAO apiDAO, ApplicationDAO applicationDAO,
                                          APISubscriptionDAO apiSubscriptionDAO, WorkflowDAO workflowDAO,
                                          APIGateway apiGateway) {
         return new APIStoreImpl(USER_NAME, null, null, apiDAO, applicationDAO, apiSubscriptionDAO, null, null, null,
-                workflowDAO, null, apiGateway);
+                workflowDAO, null, null, apiGateway);
     }
 
     private APIStoreImpl getApiStoreImpl(ApiDAO apiDAO, GatewaySourceGenerator gatewaySourceGenerator,
                                          APIGateway apiGateway) {
-        return new APIStoreImpl(USER_NAME, null, null, apiDAO, null, null, null, null, null, null,
+        return new APIStoreImpl(USER_NAME, null, null, apiDAO, null, null, null, null, null, null, null,
                 gatewaySourceGenerator, apiGateway);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO, APISubscriptionDAO apiSubscriptionDAO,
                                          WorkflowDAO workflowDAO) {
         return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, apiSubscriptionDAO, null, null, null,
-                workflowDAO, null, null);
+                workflowDAO, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO, APISubscriptionDAO apiSubscriptionDAO) {
         return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, apiSubscriptionDAO, null, null, null,
-                null, null, null);
+                null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO, WorkflowDAO workflowDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, null, null, null, workflowDAO,
+        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, null, null, null, workflowDAO, null,
                 null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(TagDAO tagDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, null, null, null, null, tagDAO, null, null, null, null);
+        return new APIStoreImpl(USER_NAME, null, null, null, null, null, null, tagDAO, null, null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(PolicyDAO policyDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, null, null, null, policyDAO, null, null, null, null, null);
+        return new APIStoreImpl(USER_NAME, null, null, null, null, null, policyDAO, null, null, null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(LabelDAO labelDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, null, null, null, null, null, labelDAO, null, null, null);
+        return new APIStoreImpl(USER_NAME, null, null, null, null, null, null, null, labelDAO, null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(ApplicationDAO applicationDAO, PolicyDAO policyDAO) {
-        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, policyDAO, null, null, null,
+        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, policyDAO, null, null, null, null,
                 null, null);
     }
 
     private APIStoreImpl getApiStoreImpl() {
-        return new APIStoreImpl(USER_NAME, null, null, null, null, null, null, null, null, null, null, null);
+        return new APIStoreImpl(USER_NAME, null, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     private APIStoreImpl getApiStoreImpl(IdentityProvider identityProvider) {
-        return new APIStoreImpl(USER_NAME, identityProvider, null, null, null, null, null, null, null, null,
+        return new APIStoreImpl(USER_NAME, identityProvider, null, null, null, null, null, null, null, null, null,
                 null, null);
     }
 
     private APIStore getApiStoreImpl(ApplicationDAO applicationDAO, WorkflowDAO workflowDAO, APIGateway apiGateway) {
-        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, null, null, null, workflowDAO, null,
+        return new APIStoreImpl(USER_NAME, null, null, null, applicationDAO, null, null, null, null, workflowDAO, null, null,
                 apiGateway);
     }
 
     private APIStore getApiStoreImpl(ApiDAO apiDAO, ApplicationDAO applicationDAO, APISubscriptionDAO
             apiSubscriptionDAO, WorkflowDAO workflowDAO, APIGateway apiGateway, PolicyDAO policyDAO) {
         return new APIStoreImpl(USER_NAME, null, null, apiDAO, applicationDAO, apiSubscriptionDAO, policyDAO,
-                null, null, workflowDAO, null, apiGateway);
+                null, null, workflowDAO, null, null, apiGateway);
     }
 }

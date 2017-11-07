@@ -631,14 +631,6 @@ parameters:
     required: true
     type: string
 
-  threatProtectionPolicyId:
-    name: ThreatProtectionPolicyId
-    in: path
-    description: |
-      The UUID of a Policy
-    required: true
-    type: string
-
 # Endpoint Identifier
   endpointId:
     name: endpointId
@@ -713,7 +705,16 @@ parameters:
     required: false
     type: string
 
-#Threat Protection JSON policy parameter
+#Threat protection policy ID parameter
+  threatProtectionPolicyId:
+    name: ThreatProtectionPolicyId
+    in: path
+    description: |
+      The UUID of a Policy
+    required: true
+    type: string
+
+#Threat Protection policy parameter
   threatProtectionPolicy:
     name: threatProtectionPolicy
     in: body

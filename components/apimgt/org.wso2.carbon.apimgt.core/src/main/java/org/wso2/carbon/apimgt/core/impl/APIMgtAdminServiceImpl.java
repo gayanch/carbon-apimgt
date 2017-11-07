@@ -13,6 +13,7 @@ import org.wso2.carbon.apimgt.core.dao.ApiDAO;
 import org.wso2.carbon.apimgt.core.dao.ApplicationDAO;
 import org.wso2.carbon.apimgt.core.dao.LabelDAO;
 import org.wso2.carbon.apimgt.core.dao.PolicyDAO;
+import org.wso2.carbon.apimgt.core.dao.ThreatProtectionDAO;
 import org.wso2.carbon.apimgt.core.dao.WorkflowDAO;
 import org.wso2.carbon.apimgt.core.exception.APIConfigRetrievalException;
 import org.wso2.carbon.apimgt.core.exception.APIManagementException;
@@ -55,9 +56,11 @@ public class APIMgtAdminServiceImpl implements APIMgtAdminService {
     private APIMConfigurations apimConfiguration;
     private APIGateway apiGateway;
     private WorkflowDAO workflowDAO;
+    private ThreatProtectionDAO threatProtectionDAO;
 
     public APIMgtAdminServiceImpl(APISubscriptionDAO apiSubscriptionDAO, PolicyDAO policyDAO, ApiDAO apiDAO,
-            LabelDAO labelDAO, ApplicationDAO applicationDAO, APIGateway apiGateway, WorkflowDAO workflowDAO) {
+            LabelDAO labelDAO, ApplicationDAO applicationDAO, APIGateway apiGateway, WorkflowDAO workflowDAO,
+                                  ThreatProtectionDAO threatProtectionDAO) {
         this.apiSubscriptionDAO = apiSubscriptionDAO;
         this.policyDAO = policyDAO;
         this.apiDAO = apiDAO;
@@ -66,6 +69,7 @@ public class APIMgtAdminServiceImpl implements APIMgtAdminService {
         this.applicationDAO = applicationDAO;
         this.apiGateway = apiGateway;
         this.workflowDAO = workflowDAO;
+        this.threatProtectionDAO = threatProtectionDAO;
     }
 
     @Override

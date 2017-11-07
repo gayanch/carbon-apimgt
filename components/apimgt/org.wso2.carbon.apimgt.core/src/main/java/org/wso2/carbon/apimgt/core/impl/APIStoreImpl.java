@@ -47,6 +47,7 @@ import org.wso2.carbon.apimgt.core.dao.ApplicationDAO;
 import org.wso2.carbon.apimgt.core.dao.LabelDAO;
 import org.wso2.carbon.apimgt.core.dao.PolicyDAO;
 import org.wso2.carbon.apimgt.core.dao.TagDAO;
+import org.wso2.carbon.apimgt.core.dao.ThreatProtectionDAO;
 import org.wso2.carbon.apimgt.core.dao.WorkflowDAO;
 import org.wso2.carbon.apimgt.core.exception.APICommentException;
 import org.wso2.carbon.apimgt.core.exception.APIManagementException;
@@ -150,9 +151,11 @@ public class APIStoreImpl extends AbstractAPIManager implements APIStore, APIMOb
     public APIStoreImpl(String username, IdentityProvider idp, KeyManager keyManager, ApiDAO apiDAO,
                         ApplicationDAO applicationDAO, APISubscriptionDAO apiSubscriptionDAO, PolicyDAO policyDAO,
                         TagDAO tagDAO, LabelDAO labelDAO, WorkflowDAO workflowDAO,
+                        ThreatProtectionDAO threatProtectionDAO,
                         GatewaySourceGenerator gatewaySourceGenerator, APIGateway apiGateway) {
         super(username, idp, keyManager, apiDAO, applicationDAO, apiSubscriptionDAO, policyDAO,
-                new APILifeCycleManagerImpl(), labelDAO, workflowDAO, tagDAO, gatewaySourceGenerator, apiGateway);
+                new APILifeCycleManagerImpl(), labelDAO, workflowDAO, tagDAO, threatProtectionDAO,
+                gatewaySourceGenerator, apiGateway);
     }
 
     /**
