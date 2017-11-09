@@ -75,4 +75,8 @@ public interface ThreatProtectionDAO {
      */
     boolean isPolicyExists(String policyId) throws APIMgtDAOException;
 
+//    void addApiPolicyAssociation(String apiId, String policyId) throws APIMgtDAOException;
+//
+//    void deleteApiPolicyAssociation(String apiId, String policyId) throws APIMgtDAOException;
+
 }

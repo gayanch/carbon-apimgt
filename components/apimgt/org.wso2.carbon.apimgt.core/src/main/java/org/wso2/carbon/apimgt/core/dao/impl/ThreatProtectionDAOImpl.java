@@ -98,6 +98,30 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
         }
     }
 
+//    @Override
+//    public void addApiPolicyAssociation(String apiId, String policyId) throws APIMgtDAOException {
+//        try (Connection connection = DAOUtil.getConnection()) {
+//            addApiPolicyAssociation(apiId, policyId, connection);
+//        } catch (SQLException e) {
+//            String errorMsg = "Error adding threat protection policy (ID: " + policyId + ")" +
+//                    " for API (ID: " + apiId + ")";
+//            log.error(errorMsg, e);
+//            throw new APIMgtDAOException(errorMsg, e);
+//        }
+//    }
+//
+//    @Override
+//    public void deleteApiPolicyAssociation(String apiId, String policyId) throws APIMgtDAOException {
+//        try (Connection connection = DAOUtil.getConnection()) {
+//            deleteApiPolicyAssociation(apiId, policyId, connection);
+//        } catch (SQLException e) {
+//            String errorMsg = "Error deleting threat protection policy (ID: " + policyId + ")" +
+//                    " from API (ID: " + apiId + ")";
+//            log.error(errorMsg, e);
+//            throw new APIMgtDAOException(errorMsg, e);
+//        }
+//    }
+
     @Override
     public void updatePolicy(ThreatProtectionPolicy policy) throws APIMgtDAOException {
         try (Connection connection = DAOUtil.getConnection()) {
@@ -113,6 +137,24 @@ public class ThreatProtectionDAOImpl implements ThreatProtectionDAO {
     public void deletePolicy(String policyId) throws APIMgtDAOException {
         //to be implemented
     }
+
+//    private void addApiPolicyAssociation(String apiId, String policyId, Connection connection) throws SQLException {
+//        final String query = "INSERT INTO AM_THREAT_PROTECTION_ASSOCIATIONS VALUES (?,?)";
+//        try (PreparedStatement statement = connection.prepareStatement(query)) {
+//            statement.setString(1, apiId);
+//            statement.setString(2, policyId);
+//            statement.executeUpdate();
+//        }
+//    }
+//
+//    private void deleteApiPolicyAssociation(String apiId, String policyId, Connection connection) throws SQLException {
+//        final String query = "DELETE FROM AM_THREAT_PROTECTION_ASSOCIATIONS WHERE API_ID = ? AND POLICY_ID = ?";
+//        try (PreparedStatement statement = connection.prepareStatement(query)) {
+//            statement.setString(1, apiId);
+//            statement.setString(2, policyId);
+//            statement.executeUpdate();
+//        }
+//    }
 
     private List<ThreatProtectionPolicy> getPolicies(Connection connection) throws APIMgtDAOException {
         String sqlQuery = "SELECT `UUID`, `NAME`, `TYPE`, `POLICY` " +

@@ -723,6 +723,11 @@ public class ApiDAOImpl implements ApiDAO {
         addEndPointsForApi(connection, apiPrimaryKey, api.getEndpoint());
         addAPIDefinition(connection, apiPrimaryKey, api.getApiDefinition(), api.getCreatedBy());
         addAPIPermission(connection, api.getPermissionMap(), apiPrimaryKey);
+
+        if (api.getThreatProtectionPolicies() != null) {
+            addThreatProtectionPolicies(connection, apiPrimaryKey, api.getThreatProtectionPolicies());
+        }
+
         if (api.getApiPolicy() != null) {
             addApiPolicy(connection, api.getApiPolicy().getUuid(), apiPrimaryKey);
         }
@@ -761,6 +766,11 @@ public class ApiDAOImpl implements ApiDAO {
         addUrlMappings(connection, api.getUriTemplates().values(), apiPrimaryKey);
         addAPIDefinition(connection, apiPrimaryKey, api.getApiDefinition(), api.getCreatedBy());
         addAPIPermission(connection, api.getPermissionMap(), apiPrimaryKey);
+        addThreatProtectionPolicies(connection, apiPrimaryKey, api.getThreatProtectionPolicies());
+
+        if (api.getThreatProtectionPolicies() != null) {
+            addThreatProtectionPolicies(connection, apiPrimaryKey, api.getThreatProtectionPolicies());
+        }
     }
 
     /**
@@ -821,6 +831,11 @@ public class ApiDAOImpl implements ApiDAO {
 
                 deleteTransports(connection, apiID);
                 addTransports(connection, apiID, substituteAPI.getTransport());
+
+                deleteThreatProtectionPolicies(connection, apiID);
+                if (substituteAPI.getThreatProtectionPolicies() != null) {
+                    addThreatProtectionPolicies(connection, apiID, substituteAPI.getThreatProtectionPolicies());
+                }
 
                 deleteTagsMapping(connection, apiID); // Delete current tag mappings if they exist
                 addTagsMapping(connection, apiID, substituteAPI.getTags());
@@ -906,6 +921,7 @@ public class ApiDAOImpl implements ApiDAO {
         deleteEndPointsForOperation(connection, apiID);
         deleteUrlMappings(connection, apiID);
         deleteEndPointsForApi(connection, apiID);
+        deleteThreatProtectionPolicies(connection, apiID);
         statement.setString(1, apiID);
         statement.execute();
     }
@@ -2030,7 +2046,8 @@ public class ApiDAOImpl implements ApiDAO {
                         ("COPIED_FROM_API")).
                         workflowStatus(rs.getString("LC_WORKFLOW_STATUS")).
                         securityScheme(rs.getInt("SECURITY_SCHEME")).
-                        apiPolicy(getApiPolicyByAPIId(connection, apiPrimaryKey)).build();
+                        apiPolicy(getApiPolicyByAPIId(connection, apiPrimaryKey)).
+                        threatProtectionPolicies(getThreatProtectionPolicies(connection, apiPrimaryKey)).build();
             }
         }
 
@@ -2082,7 +2099,8 @@ public class ApiDAOImpl implements ApiDAO {
                         lastUpdatedTime(rs.getTimestamp("LAST_UPDATED_TIME").toLocalDateTime()).
                         uriTemplates(getUriTemplates(connection, apiPrimaryKey)).
                         copiedFromApiId(rs.getString("COPIED_FROM_API")).
-                        workflowStatus(rs.getString("LC_WORKFLOW_STATUS")).build();
+                        workflowStatus(rs.getString("LC_WORKFLOW_STATUS")).
+                        threatProtectionPolicies(getThreatProtectionPolicies(connection, apiPrimaryKey)).build();
             }
         }
 
@@ -2279,6 +2297,19 @@ public class ApiDAOImpl implements ApiDAO {
         }
     }
 
+    private void addThreatProtectionPolicies(Connection connection, String apiId, Set<String> policies)
+            throws SQLException {
+        final String query = "INSERT INTO AM_THREAT_PROTECTION_ASSOCIATIONS (API_ID, POLICY_ID) VALUES(?,?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            for (String policy: policies) {
+                statement.setString(1, apiId);
+                statement.setString(2, policy);
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        }
+    }
+
 
     private void deleteAPIPermission(Connection connection, String apiID) throws SQLException {
         final String query = "DELETE FROM AM_API_GROUP_PERMISSION WHERE API_ID = ?";
@@ -2362,6 +2393,14 @@ public class ApiDAOImpl implements ApiDAO {
         final String query = "DELETE FROM AM_API_TRANSPORTS WHERE API_ID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, apiID);
+            statement.execute();
+        }
+    }
+
+    private void deleteThreatProtectionPolicies(Connection connection, String apiId) throws SQLException {
+        final String query = "DELETE FROM AM_THREAT_PROTECTION_ASSOCIATIONS WHERE API_ID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, apiId);
             statement.execute();
         }
     }
@@ -3134,6 +3173,23 @@ public class ApiDAOImpl implements ApiDAO {
         }
 
         return transports;
+    }
+
+    private Set<String> getThreatProtectionPolicies(Connection connection, String apiId) throws SQLException {
+        Set<String> policies = new HashSet<>();
+        final String query = "SELECT POLICY_ID FROM AM_THREAT_PROTECTION_ASSOCIATIONS WHERE API_ID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, apiId);
+            statement.execute();
+
+            try (ResultSet rs = statement.getResultSet()) {
+                while (rs.next()) {
+                    policies.add(rs.getString("POLICY_ID"));
+                }
+            }
+        }
+
+        return policies;
     }
 
     private static boolean isApiTypesExist(Connection connection) throws SQLException {
