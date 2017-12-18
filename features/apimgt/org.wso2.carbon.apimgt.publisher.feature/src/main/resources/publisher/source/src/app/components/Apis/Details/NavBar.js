@@ -119,7 +119,7 @@ class NavBar extends Component {
                     <ListItemIcon>
                         <VerifiedUser />
                     </ListItemIcon>
-                    <Link name="security" to={"/apis/" + api_uuid + "/security"}><ListItemText primary="security" /></Link>
+                    <Link name="security" to={"/apis/" + api_uuid + "/security"}><ListItemText primary="threatprotection" /></Link>
                 </ListItem>
             </div>
         )
