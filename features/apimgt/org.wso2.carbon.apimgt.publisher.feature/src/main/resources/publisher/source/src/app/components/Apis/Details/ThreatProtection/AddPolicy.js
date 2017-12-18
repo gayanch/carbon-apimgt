@@ -97,7 +97,7 @@ class AddPolicy extends Component {
                         <IconButton color="contrast" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link to={"/apis/" + this.props.match.params.api_uuid + "/security"}>
+                        <Link to={"/apis/" + this.props.match.params.api_uuid + "/threat-protection"}>
                             <Button color="contrast">Go Back</Button>
                         </Link>
                     </Toolbar>
@@ -112,7 +112,7 @@ class AddPolicy extends Component {
                         </Grid>
                         <br/>
                         <br/>
-                        <Paper elevation ={20}>
+                        <Paper>
                             <Grid item xs={6} className="grid-item">
                                 <InputLabel htmlFor="selectedPolicy">Policy</InputLabel>
                                 &nbsp;&nbsp;
@@ -142,7 +142,7 @@ class AddPolicy extends Component {
                                         () => this.handlePolicyAdd()}>
                                         Add
                                     </Button>
-                                    <Link to={"/apis/" + this.props.match.params.api_uuid + "/security"}>
+                                    <Link to={"/apis/" + this.props.match.params.api_uuid + "/threat-protection"}>
                                         <Button raised>Cancel</Button>
                                     </Link>
                                 </div>

@@ -33,24 +33,22 @@ import Checkbox from 'material-ui/Checkbox';
 
 import API from '../../../data/api'
 import Message from '../../Shared/Message'
-import XMLPolicyFields from '../Shared/XMLPolicyFields'
+import JSONPolicyFields from '../Shared/JSONPolicyFields'
 
-class CreateXMLThreatProtectionPolicy extends Component {
+class CreateJSONThreatProtectionPolicy extends Component {
     state = {
         policy: {
             name: '',
+            type: 'JSON',
             policy: {
-                dtdEnabled: false,
-                externalEntitiesEnabled: false,
-                maxDepth: '',
-                maxElementCount: '',
-                maxAttributeCount: '',
-                maxAttributeLength: '',
-                entityExpansionLimit: '',
-                maxChildrenPerElement: ''
-            },
-            type: "XML"
-        }
+                maxFieldCount: '',
+                maxStringLength: '',
+                maxArrayElementCount: '',
+                maxFieldLength: '',
+                maxDepth: ''
+            }
+        },
+        isGlobalPolicy: false
     };
 
     componentDidMount() {
@@ -62,7 +60,7 @@ class CreateXMLThreatProtectionPolicy extends Component {
         if (name == "name") {
             policy.name = value;
         } else {
-            policy.policy[name] = value;
+            policy.policy[name] = parseInt(value);
         }
         this.setState({policy: policy});
     }
@@ -72,12 +70,13 @@ class CreateXMLThreatProtectionPolicy extends Component {
 
         var policy = this.state.policy;
         if (isGlobalPolicy) {
-            policy.uuid = "GLOBAL-XML";
+            policy.uuid = "GLOBAL-JSON";
         } else {
             delete policy.uuid;
         }
         this.setState({policy: policy});
         this.setState({isGlobalPolicy: !this.state.isGlobalPolicy});
+
     }
 
     handlePolicyCreate() {
@@ -105,7 +104,7 @@ class CreateXMLThreatProtectionPolicy extends Component {
                         <IconButton color="contrast" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link to={"/security/xml_threat_protection"}>
+                        <Link to={"/threat-protection/json"}>
                             <Button color="contrast">Go Back</Button>
                         </Link>
                     </Toolbar>
@@ -118,7 +117,7 @@ class CreateXMLThreatProtectionPolicy extends Component {
                                 Create Threat Protection Policy
                             </Typography>
                         </Grid>
-                        <XMLPolicyFields policy={this.state.policy} handleChangeChild={this.handleChangeChild.bind(this)} />
+                        <JSONPolicyFields policy={this.state.policy} handleChangeChild={this.handleChangeChild.bind(this)} />
                         <span><Checkbox label="Global Policy" checked={this.state.isGlobalPolicy} onChange={this.toggleGlobalPolicy.bind(this)}/> Global Policy</span>
                         <Paper elevation ={20}>
                             <Grid item xs={6} className="grid-item">
@@ -128,7 +127,7 @@ class CreateXMLThreatProtectionPolicy extends Component {
                                         () => this.handlePolicyCreate()}>
                                         Create
                                     </Button>
-                                    <Link to={"/security/xml_threat_protection"}>
+                                    <Link to={"/threat-protection/json"}>
                                         <Button raised>Cancel</Button>
                                     </Link>
                                 </div>
@@ -141,4 +140,4 @@ class CreateXMLThreatProtectionPolicy extends Component {
     }
 }
 
-export default CreateXMLThreatProtectionPolicy
+export default CreateJSONThreatProtectionPolicy

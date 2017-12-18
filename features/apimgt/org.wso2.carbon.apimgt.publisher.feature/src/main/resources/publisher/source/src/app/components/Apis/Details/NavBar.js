@@ -115,11 +115,11 @@ class NavBar extends Component {
                     </ListItemIcon>
                     <Link name="subscriptions" to={"/apis/" + api_uuid + "/subscriptions"}><ListItemText primary="subscriptions" /></Link>
                 </ListItem>
-                <ListItem className={showActiveTab("security")}>
+                <ListItem className={showActiveTab("threatprotection")}>
                     <ListItemIcon>
                         <VerifiedUser />
                     </ListItemIcon>
-                    <Link name="security" to={"/apis/" + api_uuid + "/security"}><ListItemText primary="threatprotection" /></Link>
+                    <Link name="threatprotection" to={"/apis/" + api_uuid + "/threat-protection"}><ListItemText primary="threatprotection" /></Link>
                 </ListItem>
             </div>
         )

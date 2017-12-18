@@ -32,22 +32,22 @@ import Paper from 'material-ui/Paper';
 
 import API from '../../../data/api'
 import Message from '../../Shared/Message'
-import XMLPolicyFields from '../Shared/XMLPolicyFields'
+import JSONPolicyFields from '../Shared/JSONPolicyFields'
 
-class EditXMLThreatProtectionPolicy extends Component {
+class EditJSONThreatProtectionPolicy extends Component {
     state = {
-        policy: null
+      policy: null
     };
 
     componentDidMount() {
         var api = new API();
         const promised_policy = api.getThreatProtectionPolicy(this.props.match.params.policy_uuid);
         promised_policy.then(
-            response => {
-                var policy = response.obj;
-                policy.policy = JSON.parse(policy.policy);
-                this.setState({policy: policy});
-            }
+          response => {
+              var policy = response.obj;
+              policy.policy = JSON.parse(policy.policy);
+              this.setState({policy: policy});
+          }
         );
     }
 
@@ -56,7 +56,7 @@ class EditXMLThreatProtectionPolicy extends Component {
         if (name == "name") {
             policy.name = value;
         } else {
-            policy.policy[name] = value;
+            policy.policy[name] = parseInt(value);
         }
         this.setState({policy: policy});
     }
@@ -86,7 +86,7 @@ class EditXMLThreatProtectionPolicy extends Component {
                         <IconButton color="contrast" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link to={"/security/xml_threat_protection"}>
+                        <Link to={"/threat-protection/json"}>
                             <Button color="contrast">Go Back</Button>
                         </Link>
                     </Toolbar>
@@ -99,7 +99,7 @@ class EditXMLThreatProtectionPolicy extends Component {
                                 Edit Threat Protection Policy
                             </Typography>
                         </Grid>
-                        <XMLPolicyFields policy={this.state.policy} handleChangeChild={this.handleChangeChild.bind(this)} />
+                        <JSONPolicyFields policy={this.state.policy} handleChangeChild={this.handleChangeChild.bind(this)} />
                         <Paper elevation ={20}>
                             <Grid item xs={6} className="grid-item">
                                 <Divider />
@@ -108,7 +108,7 @@ class EditXMLThreatProtectionPolicy extends Component {
                                         () => this.handlePolicyUpdate()}>
                                         Update
                                     </Button>
-                                    <Link to={"/security/xml_threat_protection"}>
+                                    <Link to={"/threat-protection/json"}>
                                         <Button raised>Cancel</Button>
                                     </Link>
                                 </div>
@@ -121,4 +121,4 @@ class EditXMLThreatProtectionPolicy extends Component {
     }
 }
 
-export default EditXMLThreatProtectionPolicy
+export default EditJSONThreatProtectionPolicy

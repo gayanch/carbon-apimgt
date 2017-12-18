@@ -69,6 +69,7 @@ export default class JSONThreatProtectionPolicies extends Component {
             }
         ).catch(
             error => {
+                console.log(error);
                 this.msg.error(messages.retrieveError);
             }
         );
@@ -84,7 +85,6 @@ export default class JSONThreatProtectionPolicies extends Component {
         ).catch(
             error => {
                 this.msg.error(messages.failure);
-                console.log(error);
             }
         );
     }
@@ -103,7 +103,7 @@ export default class JSONThreatProtectionPolicies extends Component {
                         <IconButton color="contrast" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link to={"/security/json_threat_protection/create/"}>
+                        <Link to={"/threat-protection/json/create/"}>
                             <Button color="contrast">Add Policy</Button>
                         </Link>
                     </Toolbar>
@@ -116,7 +116,7 @@ export default class JSONThreatProtectionPolicies extends Component {
                                 JSON Threat Protection Policies
                             </Typography>
                             <Typography type="caption" gutterBottom align="left" className="page-title-help">
-                                Discription goes here.
+                                Description goes here.
                             </Typography>
 
                             <Divider />
@@ -155,7 +155,7 @@ export default class JSONThreatProtectionPolicies extends Component {
                                                 <TableCell>{n.policy.maxDepth}</TableCell>
                                                 <TableCell>
                                       <span>
-                                         <Link to={"/security/json_threat_protection/" + n.uuid}>
+                                         <Link to={"/threat-protection/json/" + n.uuid}>
                                               <Button color="primary">Edit</Button>
                                          </Link>
                                          <Button color="accent"

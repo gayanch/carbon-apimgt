@@ -31,18 +31,18 @@ import CreateXMLThreatProtectionPolicy from './Details/CreateXMLThreatProtection
 
 import {PageNotFound} from '../Base/Errors'
 
-const Security = () => {
+const ThreatProtection = () => {
     return (
         <Switch>
-            <Route path={"/security/json_threat_protection/create"} component={CreateJSONThreatProtectionPolicy}/>
-            <Route path={"/security/json_threat_protection/:policy_uuid/"} component={EditJSONThreatProtectionPolicy}/>
-            <Route path={"/security/json_threat_protection"} component={JSONThreatProtectionPolicies} />
-            <Route path={"/security/xml_threat_protection/create"} component={CreateXMLThreatProtectionPolicy} />
-            <Route path={"/security/xml_threat_protection/:policy_uuid/"} component={EditXMLThreatProtectionPolicy} />
-            <Route path={"/security/xml_threat_protection"} component={XMLThreatProtectionPolicies} />
+            <Route path={"/threat-protection/json/create"} component={CreateJSONThreatProtectionPolicy}/>
+            <Route path={"/threat-protection/json/:policy_uuid/"} component={EditJSONThreatProtectionPolicy}/>
+            <Route path={"/threat-protection/json"} component={JSONThreatProtectionPolicies} />
+            <Route path={"/threat-protection/xml/create"} component={CreateXMLThreatProtectionPolicy} />
+            <Route path={"/threat-protection/xml/:policy_uuid/"} component={EditXMLThreatProtectionPolicy} />
+            <Route path={"/threat-protection/xml"} component={XMLThreatProtectionPolicies} />
             <Route component={PageNotFound}/>
         </Switch>
     );
 };
 
-export default Security
+export default ThreatProtection

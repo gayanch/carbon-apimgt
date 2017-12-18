@@ -26,14 +26,14 @@ import {PageNotFound} from '../../../Base/Errors'
 import SecurityOverview from './SecurityOverview';
 import AddPolicy from './AddPolicy';
 
-const Security = () => {
+const ThreatProtection = () => {
     return (
         <Switch>
-            <Route path={"/apis/:api_uuid/security/add-policy"} component={AddPolicy}/>
-            <Route path={"/apis/:api_uuid/security"} component={SecurityOverview}/>
+            <Route path={"/apis/:api_uuid/threat-protection/add-policy"} component={AddPolicy}/>
+            <Route path={"/apis/:api_uuid/threat-protection"} component={SecurityOverview}/>
             <Route component={PageNotFound}/>
         </Switch>
     );
 };
 
-export default Security
+export default ThreatProtection

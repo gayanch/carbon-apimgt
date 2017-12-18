@@ -87,14 +87,14 @@ class NavBar extends Component {
                 </MenuItem>
                 <Divider inset={true} style={{margin: '5px'}}/>
 
-                <MenuItem style={{marginLeft: '-8px', marginTop: '10px'}} onClick={this.toggleSection}><b>SECURITY</b></MenuItem>
-                {((this.state.expandedSection).includes("SECURITY")) ?
+                <MenuItem style={{marginLeft: '-8px', marginTop: '10px'}} onClick={this.toggleSection}><b>THREAT PROTECTION</b></MenuItem>
+                {((this.state.expandedSection).includes("THREAT PROTECTION")) ?
                     (<div>
                         <MenuItem>
-                            <Link name="json_threat_protection" to="/security/json_threat_protection">JSON Threat Protection Policies</Link>
+                            <Link name="json_threat_protection" to="/threat-protection/json">JSON Threat Protection Policies</Link>
                         </MenuItem>
                         <MenuItem>
-                            <Link name="xml_threat_protection" to="/security/xml_threat_protection">XML Threat Protection Policies</Link>
+                            <Link name="xml_threat_protection" to="/threat-protection/xml">XML Threat Protection Policies</Link>
                         </MenuItem>
                     </div>) : <div/>
                 }

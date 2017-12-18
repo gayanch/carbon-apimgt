@@ -97,7 +97,7 @@ export default class XMLThreatProtectionPolicies extends Component {
                         <IconButton color="contrast" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link to={"/security/xml_threat_protection/create/"}>
+                        <Link to={"/threat-protection/xml/create/"}>
                              <Button color="contrast">Add Policy</Button>
                         </Link>
                     </Toolbar>
@@ -155,7 +155,7 @@ export default class XMLThreatProtectionPolicies extends Component {
                                       <TableCell><div>{n.policy.maxChildrenPerElement}</div></TableCell>
                                       <TableCell>
                                           <span>
-                                             <Link to={"/security/xml_threat_protection/" + n.uuid}>
+                                             <Link to={"/threat-protection/xml/" + n.uuid}>
                                                   <Button color="primary">Edit</Button>
                                              </Link>
                                              <Button color="accent"

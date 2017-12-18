@@ -98,7 +98,7 @@ class Security extends Component {
                 <Grid item xs={12}>
                     <AppBar position="static" >
                         <Toolbar style={{minHeight:'30px'}}>
-                            <Link to={"/apis/:api_uuid/security/add-policy".replace(":api_uuid",
+                            <Link to={"/apis/:api_uuid/threat-protection/add-policy".replace(":api_uuid",
                                 this.props.match.params.api_uuid)}>
                                 <Button color="contrast">Add Policy</Button>
                             </Link>

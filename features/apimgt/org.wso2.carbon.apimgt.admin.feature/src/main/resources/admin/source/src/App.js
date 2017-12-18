@@ -27,7 +27,7 @@ import 'antd/dist/antd.css'
 import './App.css'
 
 import ThrottlingPolicies from './app/components/ThrottlingPolicies'
-import Security from './app/components/Security'
+import ThreatProtection from './app/components/ThreatProtection'
 /**
  * Render protected application paths
  */
@@ -46,7 +46,7 @@ class Protected extends Component {
                         <Redirect exact from="/" to="/policies"/>
                         <Route path={"/policies"} component={ThrottlingPolicies} />
                         <Route path={"/tasks"} component={Tasks} />
-                        <Route path={"/security"} component={Security} />
+                        <Route path={"/threat-protection"} component={ThreatProtection} />
                         <Route component={PageNotFound}/>
                     </Switch>
                 </Base>

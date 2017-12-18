@@ -29,30 +29,26 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
-import Checkbox from 'material-ui/Checkbox';
 
 import API from '../../../data/api'
 import Message from '../../Shared/Message'
-import JSONPolicyFields from '../Shared/JSONPolicyFields'
+import XMLPolicyFields from '../Shared/XMLPolicyFields'
 
-class CreateJSONThreatProtectionPolicy extends Component {
+class EditXMLThreatProtectionPolicy extends Component {
     state = {
-        policy: {
-            name: '',
-            type: 'JSON',
-            policy: {
-                maxFieldCount: '',
-                maxStringLength: '',
-                maxArrayElementCount: '',
-                maxFieldLength: '',
-                maxDepth: ''
-            }
-        },
-        isGlobalPolicy: false
+        policy: null
     };
 
     componentDidMount() {
-
+        var api = new API();
+        const promised_policy = api.getThreatProtectionPolicy(this.props.match.params.policy_uuid);
+        promised_policy.then(
+            response => {
+                var policy = response.obj;
+                policy.policy = JSON.parse(policy.policy);
+                this.setState({policy: policy});
+            }
+        );
     }
 
     handleChangeChild(name, value) {
@@ -60,26 +56,12 @@ class CreateJSONThreatProtectionPolicy extends Component {
         if (name == "name") {
             policy.name = value;
         } else {
-            policy.policy[name] = parseInt(value);
+            policy.policy[name] = value;
         }
         this.setState({policy: policy});
     }
 
-    toggleGlobalPolicy(event) {
-        var isGlobalPolicy = !this.state.isGlobalPolicy;
-
-        var policy = this.state.policy;
-        if (isGlobalPolicy) {
-            policy.uuid = "GLOBAL-JSON";
-        } else {
-            delete policy.uuid;
-        }
-        this.setState({policy: policy});
-        this.setState({isGlobalPolicy: !this.state.isGlobalPolicy});
-
-    }
-
-    handlePolicyCreate() {
+    handlePolicyUpdate(name, value) {
         var api = new API();
         var policy = this.state.policy;
         policy.policy = JSON.stringify(policy.policy);
@@ -87,9 +69,9 @@ class CreateJSONThreatProtectionPolicy extends Component {
         promised_policy.then(
             response => {
                 if (response.status == 200) {
-                    this.msg.info("Threat protection policy created successfully.");
+                    this.msg.info("Threat protection policy updated successfully.");
                 } else {
-                    this.msg.error("Failed to create threat protection policy.");
+                    this.msg.error("Failed to update threat protection policy.");
                     console.log(response.statusText);
                 }
             }
@@ -104,7 +86,7 @@ class CreateJSONThreatProtectionPolicy extends Component {
                         <IconButton color="contrast" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link to={"/security/json_threat_protection"}>
+                        <Link to={"/threat-protection/xml"}>
                             <Button color="contrast">Go Back</Button>
                         </Link>
                     </Toolbar>
@@ -114,20 +96,19 @@ class CreateJSONThreatProtectionPolicy extends Component {
                     <Grid container className="root" direction="column">
                         <Grid item xs={12} className="grid-item">
                             <Typography className="page-title" type="display1" gutterBottom>
-                                Create Threat Protection Policy
+                                Edit Threat Protection Policy
                             </Typography>
                         </Grid>
-                        <JSONPolicyFields policy={this.state.policy} handleChangeChild={this.handleChangeChild.bind(this)} />
-                        <span><Checkbox label="Global Policy" checked={this.state.isGlobalPolicy} onChange={this.toggleGlobalPolicy.bind(this)}/> Global Policy</span>
+                        <XMLPolicyFields policy={this.state.policy} handleChangeChild={this.handleChangeChild.bind(this)} />
                         <Paper elevation ={20}>
                             <Grid item xs={6} className="grid-item">
                                 <Divider />
                                 <div >
                                     <Button raised color="primary" onClick = {
-                                        () => this.handlePolicyCreate()}>
-                                        Create
+                                        () => this.handlePolicyUpdate()}>
+                                        Update
                                     </Button>
-                                    <Link to={"/security/json_threat_protection"}>
+                                    <Link to={"/threat-protection/xml"}>
                                         <Button raised>Cancel</Button>
                                     </Link>
                                 </div>
@@ -140,4 +121,4 @@ class CreateJSONThreatProtectionPolicy extends Component {
     }
 }
 
-export default CreateJSONThreatProtectionPolicy
+export default EditXMLThreatProtectionPolicy
