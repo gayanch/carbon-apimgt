@@ -21,6 +21,7 @@ import {Link} from 'react-router-dom'
 
 import Api from '../../../../data/api'
 import Message from '../../../Shared/Message'
+import AlertDialog from './AlertDialog'
 
 import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
@@ -38,7 +39,9 @@ class Security extends Component {
             api: {
                 name: ''
             },
-            policies: []
+            policies: [],
+            viewPolicyDialog: false,
+            selectedPolicy: null
         };
         this.updateData = this.updateData.bind(this);
     }
@@ -87,6 +90,19 @@ class Security extends Component {
         });
     }
 
+    viewPolicy(id) {
+        let api = new Api();
+        let promisedPolicy = api.getThreatProtectionPolicy(id);
+        promisedPolicy.then(response => {
+            this.setState({selectedPolicy: response.obj});
+            this.toggleViewPolicy();
+        });
+    }
+
+    toggleViewPolicy() {
+        this.setState({viewPolicyDialog: !this.state.viewPolicyDialog})
+    }
+
     render() {
         let data = [];
         if (this.state.policies) {
@@ -106,6 +122,12 @@ class Security extends Component {
                     </AppBar>
                 </Grid>
                 <Message ref={a => this.msg = a}/>
+                <AlertDialog
+                    data={this.state.selectedPolicy}
+                    visible={this.state.viewPolicyDialog}
+                    title="View Policy"
+                    onClose={this.toggleViewPolicy.bind(this)}
+                />
                 <Grid item xs={12}>
                     <Paper>
                         <Typography className="page-title" type="display2">
@@ -134,7 +156,11 @@ class Security extends Component {
                                         <TableRow key={n.uuid}>
                                             <TableCell>{n.name + (n.uuid=="GLOBAL-JSON"? " (GLOBAL)": "")}</TableCell>
                                             <TableCell>{n.type}</TableCell>
-                                            <TableCell>{n.policy}</TableCell>
+                                            <TableCell>
+                                                <Button color="accent" onClick={() => this.viewPolicy(n.uuid)}>
+                                                    View
+                                                </Button>
+                                            </TableCell>
                                             <TableCell>
                                               <span>
                                                  <Button color="accent"

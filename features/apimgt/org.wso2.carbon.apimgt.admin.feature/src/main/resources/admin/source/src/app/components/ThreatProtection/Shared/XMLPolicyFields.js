@@ -57,6 +57,7 @@ class XMLPolicyFields extends Component {
                             defaultValue={this.props.policy.name}
                             className="text-field-half"
                             onChange={this.handleChange("name")}
+                            helperText="An unique name for the policy"
                         />
                     </Grid>
                     <br />
@@ -67,6 +68,7 @@ class XMLPolicyFields extends Component {
                             value={this.props.policy.policy.dtdEnabled.toString()}
                             onChange={this.handleChange("dtdEnabled")}
                             input={<Input name="dtdEnabled" id="dtdEnabled" />}
+                            title="Whether Document Type Definitions(DTD) allowed in XML Payloads"
                         >
                             <MenuItem value={"true"}>true</MenuItem>
                             <MenuItem value={"false"}>false</MenuItem>
@@ -80,6 +82,7 @@ class XMLPolicyFields extends Component {
                             value={this.props.policy.policy.externalEntitiesEnabled.toString()}
                             onChange={this.handleChange("externalEntitiesEnabled")}
                             input={<Input name="externalEntitiesEnabled" id="externalEntitiesEnabled" />}
+                            title="Whether External Entities allowed in XML Payloads"
                         >
                             <MenuItem value={"true"}>true</MenuItem>
                             <MenuItem value={"false"}>false</MenuItem>
@@ -89,66 +92,66 @@ class XMLPolicyFields extends Component {
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxDepth"
-                            required
                             label="Max Depth"
                             defaultValue={this.props.policy.policy.maxDepth.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxDepth")}
+                            helperText="Maximum allowed depth for an XML payload"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxElementCount"
-                            required
                             label="Max Element Count"
                             defaultValue={this.props.policy.policy.maxElementCount.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxElementCount")}
+                            helperText="Maximum number elements allowed in an XML payload"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxAttributeCount"
-                            required
                             label="Max Attribute Count"
                             defaultValue={this.props.policy.policy.maxAttributeCount.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxAttributeCount")}
+                            helperText="Maximum number of attributes allowed in an XML payload"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxAttributeLength"
-                            required
                             label="Max Attribute Length"
                             defaultValue={this.props.policy.policy.maxAttributeLength.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxAttributeLength")}
+                            helperText="Maximum length(in characters) allowed for an attribute in an XML payload"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="entityExpansionLimit"
-                            required
                             label="Entity Expansion Limit"
                             defaultValue={this.props.policy.policy.entityExpansionLimit.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("entityExpansionLimit")}
+                            helperText="Maximum number of entity expansions allowed for an XML payload"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxChildrenPerElement"
-                            required
                             label="Max Children Per Element"
                             defaultValue={this.props.policy.policy.maxChildrenPerElement.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxChildrenPerElement")}
+                            helperText="Maximum number of children allowed for an XML payload"
                         />
                     </Grid>
                     <br/>

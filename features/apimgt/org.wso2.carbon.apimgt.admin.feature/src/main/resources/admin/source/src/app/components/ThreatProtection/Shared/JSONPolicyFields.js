@@ -35,66 +35,66 @@ class JSONPolicyFields extends Component {
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="name"
-                            required
                             label="Policy Name"
                             defaultValue={this.props.policy.name}
                             className="text-field-half"
                             onChange={this.handleChange("name")}
+                            helperText="An unique name for the policy"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxFieldCount"
-                            required
                             label="Max Field Count"
                             defaultValue={this.props.policy.policy.maxFieldCount.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxFieldCount")}
-                        />
-                    </Grid>
-                    <br />
-                    <Grid item xs={6} className="grid-item">
-                        <TextField
-                            id="maxStringLength"
-                            required
-                            label="Max String Length"
-                            defaultValue={this.props.policy.policy.maxStringLength.toString()}
-                            className="text-field-half"
-                            onChange={this.handleChange("maxStringLength")}
-                        />
-                    </Grid>
-                    <br />
-                    <Grid item xs={6} className="grid-item">
-                        <TextField
-                            id="maxArrayElementCount"
-                            required
-                            label="Max Array Element Count"
-                            defaultValue={this.props.policy.policy.maxArrayElementCount.toString()}
-                            className="text-field-half"
-                            onChange={this.handleChange("maxArrayElementCount")}
+                            helperText="Maximum number of fields(keys) allowed in a JSON payload"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxFieldLength"
-                            required
                             label="Max Field Length"
                             defaultValue={this.props.policy.policy.maxFieldLength.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxFieldLength")}
+                            helperText="Maximum length of a field(key) in a JSON payload"
+                        />
+                    </Grid>
+                    <br />
+                    <Grid item xs={6} className="grid-item">
+                        <TextField
+                            id="maxStringLength"
+                            label="Max String Length"
+                            defaultValue={this.props.policy.policy.maxStringLength.toString()}
+                            className="text-field-half"
+                            onChange={this.handleChange("maxStringLength")}
+                            helperText="Maximum length of string values in a JSON payload"
+                        />
+                    </Grid>
+                    <br />
+                    <Grid item xs={6} className="grid-item">
+                        <TextField
+                            id="maxArrayElementCount"
+                            label="Max Array Element Count"
+                            defaultValue={this.props.policy.policy.maxArrayElementCount.toString()}
+                            className="text-field-half"
+                            onChange={this.handleChange("maxArrayElementCount")}
+                            helperText="Maximum number of elements allowed on an array"
                         />
                     </Grid>
                     <br />
                     <Grid item xs={6} className="grid-item">
                         <TextField
                             id="maxDepth"
-                            required
                             label="Max Depth"
                             defaultValue={this.props.policy.policy.maxDepth.toString()}
                             className="text-field-half"
                             onChange={this.handleChange("maxDepth")}
+                            helperText="Maximum allowed depth for a JSON payload"
                         />
                     </Grid>
                     <br />

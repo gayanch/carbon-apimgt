@@ -764,10 +764,8 @@ class API {
      * @param policyId Threat protection policy id
      */
     deleteThreatProtectionPolicyFromApi(apiId, policyId) {
-        console.log(apiId);
         let promisedDelete = this.client.then(
             (client) => {
-                console.log(client.apis);
                 return client.apis["API (Individual)"].
                 delete_apis__apiId__threat_protection_policies({apiId: apiId, policyId: policyId});
             }

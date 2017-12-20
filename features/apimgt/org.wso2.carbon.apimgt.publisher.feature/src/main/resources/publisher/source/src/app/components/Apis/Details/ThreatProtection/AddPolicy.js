@@ -35,10 +35,12 @@ import { MenuItem } from 'material-ui/Menu';
 
 import API from '../../../../data/api'
 import Message from '../../../Shared/Message'
+import AlertDialog from './AlertDialog'
 
 class AddPolicy extends Component {
     state = {
         selectedPolicy : {uuid: '', name: 'Select', policy: '', type: ''},
+        viewPolicyDialog: false,
         policies: []
     };
 
@@ -89,6 +91,10 @@ class AddPolicy extends Component {
         });
     }
 
+    toggleViewPolicy() {
+        this.setState({viewPolicyDialog: !this.state.viewPolicyDialog})
+    }
+
     render() {
         return (
             <div>
@@ -103,6 +109,12 @@ class AddPolicy extends Component {
                     </Toolbar>
                 </AppBar>
                 <Message ref={a => this.msg = a}/>
+                <AlertDialog
+                    data={this.state.selectedPolicy}
+                    visible={this.state.viewPolicyDialog}
+                    onClose={this.toggleViewPolicy.bind(this)}
+                    title="View Policy"
+                />
                 <Paper>
                     <Grid container className="root" direction="column">
                         <Grid item xs={12} className="grid-item">
@@ -113,7 +125,7 @@ class AddPolicy extends Component {
                         <br/>
                         <br/>
                         <Paper>
-                            <Grid item xs={6} className="grid-item">
+                            <Grid item xs={12} className="grid-item">
                                 <InputLabel htmlFor="selectedPolicy">Policy</InputLabel>
                                 &nbsp;&nbsp;
                                 <Select
@@ -130,18 +142,20 @@ class AddPolicy extends Component {
                             </Grid>
                             <br/>
                             <br/>
-                            <Grid item xs={6} className="grid-item">
-                                <p>Policy Type: {this.state.selectedPolicy.type}</p>
-                                <p>{this.state.selectedPolicy.policy}</p>
-                            </Grid>
                             <br/>
-                            <Grid item xs={6} className="grid-item">
+                            <Grid item xs={12} className="grid-item">
                                 <Divider />
                                 <div >
                                     <Button raised color="primary" onClick = {
                                         () => this.handlePolicyAdd()}>
                                         Add
                                     </Button>
+                                    &nbsp;
+                                    <Button raised onClick={() => this.toggleViewPolicy()}
+                                            disabled={this.state.selectedPolicy.uuid === ''}>
+                                        View Selected Policy
+                                    </Button>
+                                    &nbsp;
                                     <Link to={"/apis/" + this.props.match.params.api_uuid + "/threat-protection"}>
                                         <Button raised>Cancel</Button>
                                     </Link>

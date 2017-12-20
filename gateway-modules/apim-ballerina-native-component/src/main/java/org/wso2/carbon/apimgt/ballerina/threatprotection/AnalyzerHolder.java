@@ -65,7 +65,7 @@ public class AnalyzerHolder {
      * Borrows an object from pools (xml or json) for threat analysis
      *
      * @param contentType Content-Type of the payload
-     * @param policyId ID of the API
+     * @param policyId ID of the threat protection policy
      * @return Instance of APIMThreatAnalyzer based on content type
      */
     public static APIMThreatAnalyzer getAnalyzer(String contentType, String policyId) {

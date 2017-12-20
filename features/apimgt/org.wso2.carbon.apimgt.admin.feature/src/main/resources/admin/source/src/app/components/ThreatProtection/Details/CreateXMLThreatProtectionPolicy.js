@@ -83,7 +83,21 @@ class CreateXMLThreatProtectionPolicy extends Component {
     handlePolicyCreate() {
         var api = new API();
         var policy = this.state.policy;
-        policy.policy = JSON.stringify(policy.policy);
+
+        var policyValues = policy.policy;
+        var sanitizedValues = {};
+
+        //handle unspecified values by user
+        Object.keys(policyValues).forEach(key => {
+            let value = policyValues[key];
+            if (typeof value === 'number' || typeof value === 'boolean') {
+                sanitizedValues[key] = value;
+            } else {
+                sanitizedValues[key] = 999999;
+            }
+        });
+
+        policy.policy = JSON.stringify(sanitizedValues);
         const promised_policy = api.addThreatProtectionPolicy(policy);
         promised_policy.then(
             response => {

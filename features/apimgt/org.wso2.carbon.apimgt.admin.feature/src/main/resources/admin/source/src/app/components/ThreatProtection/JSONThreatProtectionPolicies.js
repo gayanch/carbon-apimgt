@@ -40,12 +40,6 @@ const messages = {
     retrieveError: 'Error while retrieving threat protection policies'
 };
 
-const styles = theme => ({
-    globalPolicy: {
-        backgroundColor: 'blue',
-    },
-});
-
 export default class JSONThreatProtectionPolicies extends Component {
     constructor(props) {
         super(props);
@@ -84,6 +78,7 @@ export default class JSONThreatProtectionPolicies extends Component {
             }
         ).catch(
             error => {
+                console.log(error);
                 this.msg.error(messages.failure);
             }
         );
