@@ -31,11 +31,11 @@ function analyzePayload(message m, string apiContext, string policyId) (boolean,
         return true, m;
     }
     string payload = messages:getStringPayload(m);
-    boolean ok;
+    boolean noThreatsFound;
     string errMessage;
-    ok, errMessage = threatprotection:analyze(contentType, payload, apiContext, policyId);
+    noThreatsFound, errMessage = threatprotection:analyze(contentType, payload, apiContext, policyId);
 
-    if (ok) {
+    if (noThreatsFound) {
         return true, m;
     }
 

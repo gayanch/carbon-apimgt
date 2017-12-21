@@ -75,16 +75,16 @@ public class Analyze extends AbstractNativeFunction {
             return getBValues(new BBoolean(true), new BString("Could not create threat protection analyzer"));
         }
 
-        boolean noThreatsDetected = true;
+        boolean threatsDetected = false;
         String errMessage = null;
         try {
             analyzer.analyze(payload, apiContext);
         } catch (APIMThreatAnalyzerException e) {
-            noThreatsDetected = false;
+            threatsDetected = true;
             errMessage = e.getMessage();
         }
 
         AnalyzerHolder.returnObject(analyzer);
-        return getBValues(new BBoolean(noThreatsDetected), new BString(errMessage));
+        return getBValues(new BBoolean(!threatsDetected), new BString(errMessage));
     }
 }
